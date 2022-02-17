@@ -11,6 +11,12 @@
 			}
 		},
 		{
+			"path": "pages/order/index",
+			"style": {
+				"navigationBarTitleText": "工单"
+			}
+		},
+		{
 			"path": "pages/index/index",
 			"style": {
 				"navigationBarTitleText": "导航"

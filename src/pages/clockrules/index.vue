@@ -1,7 +1,10 @@
 <template>
-	<view class="app-container">
+	<view class="container">
 		<u-navbar @leftClick="leftClick" class="container-navbar" title="考勤规则" bgColor="rgba(0,0,0,0)">
 		</u-navbar>
+
+	<view class="app-container">
+	
 		<ui-card class="container-header flex-flex">
 			<u-avatar text="北" fontSize="14px" randomBgColor />
 			<view class="flex-column">
@@ -17,6 +20,7 @@
 			</u-collapse>
 		</ui-card>
 	</view>
+		</view>
 </template>
 
 <script>
@@ -59,7 +63,6 @@
 	}
 
 	.app-container {
-		top: 0px;
 		height: auto;
 		.container-header {
 			.flex-column {

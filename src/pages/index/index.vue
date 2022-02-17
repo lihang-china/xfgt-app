@@ -1,10 +1,6 @@
 <template>
 	<view class="app-container">
 		<component :is="activeName"></component>
-		<!-- 	<home-page v-if="activeIndex == 0" />
-		<clocked v-if="activeIndex == 1" />
-		<clander v-if="activeIndex == 2" />
-		<user-edit v-if="activeIndex == 3" /> -->
 		<u-tabbar :value="activeIndex" @change="changeBar" :fixed="true" :border="false" :placeholder="false"
 			inactiveColor="" :safeAreaInsetBottom="true">
 			<u-tabbar-item :text="item.title" :icon="item.icon" v-for="(item,index) in itemList" :key="index">
@@ -49,7 +45,7 @@
 						value: "userEdit"
 					}
 				],
-				activeIndex: 1,
+				activeIndex: 0,
 			}
 		},
 		created() {

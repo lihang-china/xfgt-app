@@ -6,12 +6,6 @@ export const navList = [{
 		color: ''
 	},
 	{
-		title: '请假',
-		icon: 'grid-fill',
-		value: '20',
-		color: ''
-	},
-	{
 		title: '排班',
 		icon: 'calendar-fill',
 		value: '20',
@@ -23,6 +17,49 @@ export const navList = [{
 		value: '20',
 		color: '',
 		url: '../maintenance/index'
+	},
+	{
+		title: '报单',
+		icon: 'coupon-fill',
+		value: '20',
+		color: ''
+	},
+	{
+		title: '工单',
+		icon: 'list-dot',
+		value: '20',
+		color: '',
+		url:'../order/index'
+	},
+	{
+		title: '告警中心',
+		icon: 'error-circle-fill',
+		value: '20',
+		color: '',
+	},
+	{
+		title: '设备档案',
+		icon: 'grid-fill',
+		value: '20',
+		color: ''
+	},
+	{
+		title: '文档管理',
+		icon: 'file-text-fill',
+		value: '20',
+		color: ''
+	},
+	{
+		title: '知识库',
+		icon: 'calendar-fill',
+		value: '20',
+		color: ''
+	},
+	{
+		title: '消息管理',
+		icon: 'calendar-fill',
+		value: '20',
+		color: ''
 	},
 ];
 export const gridList = [{

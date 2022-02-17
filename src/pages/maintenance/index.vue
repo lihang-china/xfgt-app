@@ -1,7 +1,8 @@
 <template>
+	<view class="container">
+	<u-navbar class="app-navbar" :autoBack="true">
+	</u-navbar>	
 	<view class="app-container">
-		<u-navbar class="app-navbar" :autoBack="true">
-		</u-navbar>
 		<view class="container-component">
 			<order-page v-if="isShow" />
 			<view v-else class="u-loading-icon flex-center">
@@ -14,10 +15,11 @@
 			</u-tabbar-item>
 		</u-tabbar>
 	</view>
+		</view>
 </template>
 
 <script>
-	import orderPage from '../order/index.vue'
+	import orderPage from './detail/index.vue'
 	export default {
 		components: {
 			orderPage
@@ -28,11 +30,6 @@
 				itemList: [{
 						title: '保养',
 						icon: 'home',
-						value: 'repair'
-					},
-					{
-						title: '维修',
-						icon: 'map',
 						value: 'maintain'
 					},
 					{
@@ -59,8 +56,10 @@
 </script>
 
 <style lang="scss" scoped>
+.container{
+	width: 100%;
+}
 	.app-container {
-		top: 0px;
 		display: flex;
 		flex-direction: column;
 	}

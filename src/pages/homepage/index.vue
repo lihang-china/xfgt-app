@@ -1,5 +1,5 @@
 <template>
-	<view class="homepage-container ">
+	<view class="homepage-container">
 		<ui-card class="clendarBg">
 			<view class="clendarBg-top">
 				<view class="clendarBg-left flex-column">
@@ -28,15 +28,23 @@
 		<ui-card :title="'今日排班信息'">
 			<view class="center-bottom ">
 				<view class="bottom-icon">
-					<u-tag :text="wordData.info ? wordData.info :'休息' " shape="circle" size="mini"></u-tag>
-					<text>{{wordData.data ? wordData.data.startDate :''}} —— {{wordData.data ? wordData.data.startDate :'今日暂无排班信息'}}</text>
+					<u-tag :text="wordData.info ? wordData.info :'休息' " shape="circle"></u-tag>
+					<text>{{wordData.data ? wordData.data.startDate + '——' :''}}
+						</text><text>{{wordData.data ? wordData.data.startDate :'今日暂无排班信息'}}</text>
 				</view>
 				<view>
 					<u-icon color="rgb(60, 156, 255)" size="28px" name="clock-fill"></u-icon>
 				</view>
 			</view>
 			<view class="bottom-notice">
-				<u-notice-bar v-show="wordData.data" color="#0068f8" bgColor="#0068f801" :text=" wordData.data ?  wordData.data.desc : '空'" speed="80">
+				<u-notice-bar v-show="wordData.data" color="#0068f8" bgColor="#0068f801"
+					:text=" wordData.data ?  wordData.data.desc : '空'" speed="80">
+				</u-notice-bar>
+			</view>
+		</ui-card>
+		<ui-card :title="'消息通知'">
+			<view>
+				<u-notice-bar icon="chat" bgColor="#0068f801" :text="'Test text App Commit lihang verson datea'">
 				</u-notice-bar>
 			</view>
 		</ui-card>
@@ -152,7 +160,11 @@
 				width: 100%;
 				display: flex;
 				align-items: center;
+				flex-wrap: nowrap;
 				color: #fff;
+				uni-text{
+				    display:inline-table;
+				}
 			}
 
 			uni-text {
