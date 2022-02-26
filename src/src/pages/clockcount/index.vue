@@ -1,42 +1,44 @@
 <template>
-	<view class="app-container">
+	<view class="container">
 		<u-navbar class="container-navbar" @leftClick="leftClick" title="统计" bgColor="rgba(0,0,0,0)">
 		</u-navbar>
-		<view class="container">
-			<ui-card class="container-header">
-				<view class="flex-between">
+		<view class="app-container">
+			<view class="container">
+				<ui-card class="container-header">
 					<view class="flex-between">
-						<u-avatar text="北" fontSize="18" randomBgColor></u-avatar>
-						<view class="flex-column">
-							<text>{{username}}</text>
-							<text>考勤规则:{{rule}}</text>
-						</view>
-					</view>
-					<view @click="show = true">
-						<u-icon @click="" labelPos="left" :label="this.$moment(date).format('YYYY.MM')" size="18"
-							name="arrow-right"></u-icon>
-					</view>
-				</view>
-			</ui-card>
-			<ui-card class="container-center">
-				<uni-collapse accordion>
-					<uni-collapse-item :show-arrow="true" title-border="none" :border="false"
-						:disabled="item.value == 0" v-for="(item,index) in itemList" :key="index">
-						<template v-slot:title>
-							<view class="flex-between">
-								<text>{{item.title}}</text>
-								<text :style="item.value == 0 ?'color:rgb(200,200,200)' : 'color:'+ item.color"
-									class="u-page__item__title__slot-title">{{item.value}}{{item.type}}</text>
+						<view class="flex-between">
+							<u-avatar text="北" fontSize="18" randomBgColor></u-avatar>
+							<view class="flex-column">
+								<text>{{username}}</text>
+								<text>考勤规则:{{rule}}</text>
 							</view>
-						</template>
-						<view class="">
-							<col-item :itemIndex="index" />
 						</view>
-					</uni-collapse-item>
-				</uni-collapse>
-			</ui-card>
-			<u-datetime-picker @close="show = false" :closeOnClickOverlay="true" @cancel="show = false" :show="show"
-				v-model="date" mode="date"></u-datetime-picker>
+						<view @click="show = true">
+							<u-icon @click="" labelPos="left" :label="this.$moment(date).format('YYYY.MM')" size="18"
+								name="arrow-right"></u-icon>
+						</view>
+					</view>
+				</ui-card>
+				<ui-card class="container-center">
+					<uni-collapse accordion>
+						<uni-collapse-item :show-arrow="true" title-border="none" :border="false"
+							:disabled="item.value == 0" v-for="(item,index) in itemList" :key="index">
+							<template v-slot:title>
+								<view class="flex-between">
+									<text>{{item.title}}</text>
+									<text :style="item.value == 0 ?'color:rgb(200,200,200)' : 'color:'+ item.color"
+										class="u-page__item__title__slot-title">{{item.value}}{{item.type}}</text>
+								</view>
+							</template>
+							<view>
+								<col-item :itemIndex="index" />
+							</view>
+						</uni-collapse-item>
+					</uni-collapse>
+				</ui-card>
+				<u-datetime-picker @close="show = false" :closeOnClickOverlay="true" @cancel="show = false" :show="show"
+					v-model="date" mode="date"></u-datetime-picker>
+			</view>
 		</view>
 	</view>
 </template>
@@ -79,9 +81,7 @@
 
 <style lang="scss" scoped>
 	.app-container {
-		top: 0px;
 		height: 100%;
-
 		.container {
 			max-height: 100%;
 			overflow: scroll;
@@ -103,6 +103,7 @@
 
 			uni-text {
 				font-size: 11px;
+
 				&:nth-child(2) {
 					font-size: 9px;
 					margin-top: 2px;

@@ -1,10 +1,11 @@
 <template>
-	<view class="app-container">
-		<component :is="activeName"></component>
-		<!-- 	<home-page v-if="activeIndex == 0" />
-		<clocked v-if="activeIndex == 1" />
-		<clander v-if="activeIndex == 2" />
-		<user-edit v-if="activeIndex == 3" /> -->
+	<view class="container">
+		<view class="container-header">
+
+		</view>
+		<view class="app-container">
+			<component :is="activeName"></component>
+		</view>
 		<u-tabbar :value="activeIndex" @change="changeBar" :fixed="true" :border="false" :placeholder="false"
 			inactiveColor="" :safeAreaInsetBottom="true">
 			<u-tabbar-item :text="item.title" :icon="item.icon" v-for="(item,index) in itemList" :key="index">
@@ -27,7 +28,7 @@
 		},
 		data() {
 			return {
-				activeName:undefined,
+				activeName: undefined,
 				itemList: [{
 						title: '首页',
 						icon: 'home',
@@ -49,7 +50,7 @@
 						value: "userEdit"
 					}
 				],
-				activeIndex: 1,
+				activeIndex: 0,
 			}
 		},
 		created() {
@@ -65,6 +66,14 @@
 </script>
 
 <style lang="scss" scoped>
+	.container-header {
+		height: 25px;
+	}
+
+	.app-container {
+		max-height: calc(88%);
+	}
+
 	::v-deep .u-tabbar {
 		.u-tabbar__content__item-wrapper {
 			border: none !important;

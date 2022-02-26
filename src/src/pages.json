@@ -10,6 +10,55 @@
 				"navigationBarTitleText": "登录"
 			}
 		},
+		
+		{
+			"path": "pages/file/index",
+			"style": {
+				"navigationBarTitleText": "文档管理"
+			}
+		},
+		{
+			"path": "pages/knowledgebase/detail",
+			"style": {
+				"navigationBarTitleText": "文件详情"
+			}
+		},
+		{
+			"path": "pages/knowledgebase/index",
+			"style": {
+				"navigationBarTitleText": "知识库管理"
+			}
+		},
+		{
+			"path": "pages/devicefiles/deviceDetail",
+			"style": {
+				"navigationBarTitleText": "设备详情"
+			}
+		},
+		{
+			"path": "pages/devicefiles/index",
+			"style": {
+				"navigationBarTitleText": "设备档案"
+			}
+		},
+		{
+			"path": "pages/order/addOrder",
+			"style": {
+				"navigationBarTitleText": "添加工单"
+			}
+		},
+		{
+			"path": "pages/alarm/index",
+			"style": {
+				"navigationBarTitleText": "告警中心"
+			}
+		},
+		{
+			"path": "pages/order/index",
+			"style": {
+				"navigationBarTitleText": "工单"
+			}
+		},
 		{
 			"path": "pages/index/index",
 			"style": {

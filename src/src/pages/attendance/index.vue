@@ -14,13 +14,17 @@
 			</view>
 		</view>
 		<u-popup :show="show" :round="10" mode="center" @close="show = false">
+		<view class="disabled-dialog">
+		</view>
 			<ui-card>
 				<view class="popup-dialog">
+					
 					<view class="dialog-header">
 						<text>{{date}}</text>
 						<u-icon color="color: rgb(72,72,72);" name="list-dot" size="22"></u-icon>
 					</view>
-					<u-form size="mini">
+					
+					<u-form size="mini" >
 						<u-form-item borderBottom>
 							<u-input v-model="fromData.title" placeholderStyle="fontSize:12px;" placeholder="标题"
 								border="none" suffixIcon="info-circle-fill"
@@ -30,7 +34,7 @@
 						<u-form-item borderBottom>
 							<u-grid col="3">
 								<u-grid-item>
-									<u-input v-model="fromData.startDate"
+									<u-input  v-model="fromData.startDate"
 										prefixIconStyle="color:rgb(162, 224, 232);margin-right:2px;" prefixIcon="clock"
 										placeholderStyle="fontSize:12px;" @focus="handelTimePick()" placeholder="开始时间"
 										border="none">
@@ -150,7 +154,6 @@
 			},
 			changeInfo(e) {
 				this.fromData = {}
-				console.log(e, '11111111111')
 				this.date = this.$moment(e.fulldate).format("MM月DD日")
 				if (Object.keys(e.extraInfo).length > 0) {
 					this.show = true
@@ -233,7 +236,13 @@
 			width: 210px;
 			height: 230px;
 		}
-
+.disabled-dialog{
+	background-color: rgba(0,0,0,0);
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	z-index: 999;
+}
 		.popup-dialog {
 			padding: 15px 8px 15px 8px;
 			width: 190px;
@@ -323,7 +332,7 @@
 			height: 100%;
 
 			.uni-calendar-item__weeks-box-circle {
-				background-color: rgb(119, 0, 255);
+				background-color: rgb(82, 146, 253);
 				width: 4px !important;
 				height: 4px !important;
 			}

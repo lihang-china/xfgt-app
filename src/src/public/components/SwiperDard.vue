@@ -53,10 +53,10 @@
 			}
 		},
 		watch: {
-			listIndex(val) {
+			open() {
 				//切换到执行滑块
-				this.current = val 
-				this.cardIndex = val 
+				this.current = this.listIndex 
+				this.cardIndex = this.listIndex  
 				// this.$emit('cardData', this.info[this.cardIndex])
 			}
 		},

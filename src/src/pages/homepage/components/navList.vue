@@ -43,6 +43,9 @@
 
 <style lang="scss" scoped>
 	.nav-list {
+		.u-grid-item{
+			margin-bottom: 12px;
+		}
 		.grid-text {
 			font-size: 8px;
 		}
