@@ -12,7 +12,9 @@
 			</u-sticky>
 			<u-sticky zIndex="99" customNavHeight="0" :offset-top="0">
 				<view class="container-nav flex-between">
-					<view class="">
+					<view class="flex-flex repair">
+						<u-icon @click="handleImg" color="rgb(180, 180, 180)" :name="ascImg" size="22"></u-icon>
+						<text>报修</text>
 					</view>
 					<view class="flex-flex add" @click="handleAdd">
 						<u-icon color="rgb(60, 156, 255)" name="plus-circle" :size="iconSize"></u-icon><text>添加</text>
@@ -42,6 +44,7 @@
 		},
 		data() {
 			return {
+				ascImg: require('../../images/sm.png'),
 				initData: cardEdit[this.$store.state.pageName],
 				navList: navList,
 				iconSize: '22',
@@ -53,6 +56,15 @@
 			this.$store.state.pageName = 'repair'
 		},
 		methods: {
+			handleImg() {
+				//uni扫码功能
+				uni.scanCode({
+					success: function(res) {
+						console.log('条码类型：' + res.scanType);
+						console.log('条码内容：' + res.result);
+					}
+				});
+			},
 			getData(data) {
 				let arr = []
 				data.forEach(e => {
@@ -67,8 +79,8 @@
 				this.open = true
 			},
 			handleAdd() {
-				uni.chooseImage().then(res => {
-					console.log(res, 'asdasds')
+				uni.navigateTo({
+					url: './addOrder'
 				})
 			}
 		}
@@ -76,20 +88,21 @@
 </script>
 
 <style lang="scss" scoped>
-	
 	.app-container {
 		top: 45px;
 		display: flex;
 		flex-direction: column;
 		flex-grow: 1;
 		overflow: scroll;
+		height: calc(100% - 55px);
 
 		.search-sticky {
 			margin: -30px 0 0px 0;
+			width: 140px;
+			margin-left: calc(50% - 70px);
 
 			.u-search {
 				padding-left: calc(50% - 70px);
-				width: 140px;
 				margin-left: 10px;
 			}
 		}
@@ -108,12 +121,17 @@
 		}
 
 		.container-nav {
-			width: calc(100% + 16px);
+			width: 100%;
 			margin-left: -8px;
 			background-color: rgb(243, 244, 245);
-			// padding: 0 5px 0 0;
-			padding: 5px 0;
+			padding: 5px 8px;
 			margin-bottom: -20px;
+
+			.repair {
+				uni-text {
+					margin-left: 3px;
+				}
+			}
 
 			.u-badge {
 				color: #fff;
@@ -136,8 +154,6 @@
 			}
 
 			.add {
-				margin-right: 8px;
-
 				uni-text {
 					margin: 0;
 					margin-left: 3px;

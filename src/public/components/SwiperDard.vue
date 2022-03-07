@@ -3,7 +3,7 @@
 	<u-popup class="container" :round="10" :show="open" @close="handleClose" mode="center">
 		<uni-swiper-dot :info="itemList" field="content" mode="round">
 			<swiper :current="current" ref="swiper" class="swiper-box" @change="change">
-				<swiper-item v-for="(item,index) in itemList" :key="index">
+				<swiper-item v-for="(item,index) in list" :key="index">
 					<view class="container-card" :class="cardIndex == index ? 'container-card' :'scale'">
 						<!-- 不使用具名插槽uView插件会报错 -->
 						<slot name="cards" :data="item">
@@ -25,9 +25,9 @@
 		//listIndex为卡片默认打开索引
 		//open组件是否打卡
 		props: {
-			itemList:{
-				type:Array,
-				default:()=>{},
+			itemList: {
+				type: Array,
+				default: () => {},
 			},
 			listIndex: {
 				type: Number,
@@ -43,6 +43,7 @@
 		},
 		data() {
 			return {
+				list: [],
 				cardIndex: 0,
 				current: 0,
 				mode: 'round',
@@ -53,14 +54,33 @@
 			}
 		},
 		watch: {
-			listIndex(val) {
+			open() {
 				//切换到执行滑块
-				this.current = val 
-				this.cardIndex = val 
+				this.current = this.listIndex
+				this.cardIndex = this.listIndex
+				this.initData()
 				// this.$emit('cardData', this.info[this.cardIndex])
 			}
 		},
 		methods: {
+			initData() {
+				//防止长列表影响性能，数据默认为前后五个
+				let arr = []
+				let max = this.listIndex + 5
+				for (let i = this.listIndex; i <= max; i++) {
+					if (this.itemList[i] !== undefined) {
+						arr.push(this.itemList[i])
+					}
+					i + 1
+				}
+				for (let j = this.listIndex; j > 0; j--) {
+					if (this.itemList[j]) {
+						arr.unshift(this.itemList[j])
+					}
+					j - 1
+				}
+				this.list = arr
+			},
 			change(data) {
 				this.cardIndex = data.detail.current
 				// this.$emit('cardData', this.info[data.detail.current])

@@ -42,6 +42,9 @@
 				isShow: true,
 			}
 		},
+		created(){
+			this.$store.state.pageName = 'maintain'
+		},
 		methods: {
 			changeBar(index) {
 				this.isShow = false
@@ -59,9 +62,9 @@
 .container{
 	width: 100%;
 }
+
 	.app-container {
-		display: flex;
-		flex-direction: column;
+	max-height: calc(88%);
 	}
 
 	.u-loading-icon {

@@ -65,6 +65,7 @@
 				}],
 			}
 		},
+		
 		methods: {
 			hadnleChange(row) {
 				this.type = row.type
@@ -101,7 +102,6 @@
 					padding-left: 2px;
 					border-right: 1px solid rgb(200, 200, 200);
 				}
-
 			}
 
 			uni-image {

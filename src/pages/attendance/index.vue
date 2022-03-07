@@ -1,30 +1,28 @@
 <template>
-	<view class="container">
+	<view class="tabbar">
 		<uni-calendar :showMonth="false" :selected="selectData" ref="calendar" @change="changeInfo" />
-		<view class="container-bottom">
+		<view class="container-bottom flex-column">
 			<view class="bottom-top">
 				<text>{{date}}</text>
 			</view>
 			<view v-if="Object.keys(fromData).length" class="bottom-center">
-				<text>{{fromData.desc}}</text>
+				<u-icon size="24" name="file-text" color="rgb(200,200,200)" />
+				<text>点击新建日志</text>
 			</view>
 			<view v-else class="bottom-center">
-				<!-- <image @click="show = true" class="center-icon" src="../../images/smicon.png" mode=""></image> -->
-				<text>暂无备注</text>
+				<text>今日暂无排班信息</text>
 			</view>
 		</view>
 		<u-popup :show="show" :round="10" mode="center" @close="show = false">
-		<view class="disabled-dialog">
-		</view>
+			<view class="disabled-dialog">
+			</view>
 			<ui-card>
 				<view class="popup-dialog">
-					
 					<view class="dialog-header">
 						<text>{{date}}</text>
 						<u-icon color="color: rgb(72,72,72);" name="list-dot" size="22"></u-icon>
 					</view>
-					
-					<u-form size="mini" >
+					<u-form size="mini">
 						<u-form-item borderBottom>
 							<u-input v-model="fromData.title" placeholderStyle="fontSize:12px;" placeholder="标题"
 								border="none" suffixIcon="info-circle-fill"
@@ -34,7 +32,7 @@
 						<u-form-item borderBottom>
 							<u-grid col="3">
 								<u-grid-item>
-									<u-input  v-model="fromData.startDate"
+									<u-input v-model="fromData.startDate"
 										prefixIconStyle="color:rgb(162, 224, 232);margin-right:2px;" prefixIcon="clock"
 										placeholderStyle="fontSize:12px;" @focus="handelTimePick()" placeholder="开始时间"
 										border="none">
@@ -64,21 +62,11 @@
 								placeholderStyle="fontSize:12px;" placeholder="请输入备注" border="none">
 							</u-input>
 						</u-form-item>
-						<!-- 		<u-form-item borderBottom>
-										<view class="tag-group">
-											<view class="u-page__tag-item" v-for="(item, index) in checkboxs"
-												:key="index">
-												<u-tag size="mini" :text="`班组${index + 1}`" :plain="!item.checked"
-													type="primary" :name="index" @click="checkboxClick">
-												</u-tag>
-											</view>
-										</view>
-									</u-form-item> -->
 					</u-form>
 				</view>
 			</ui-card>
 		</u-popup>
-		<!-- <u-icon  @click="handelView" class="circle-button" color="rgb(162, 224, 232);" name="plus" size="24px"></u-icon> -->
+		<ui-tabbar />
 	</view>
 </template>
 
@@ -97,32 +85,9 @@
 		},
 		data() {
 			return {
-				info: [{
-
-				}],
+				info: [{}],
 				current: 0,
 				mode: 'round',
-				checkboxs: [{
-						checked: true
-					},
-					{
-						checked: false
-					},
-					{
-						checked: false
-					},
-					{
-						checked: false
-					},
-					{
-						checked: false
-					}, {
-						checked: false
-					},
-					{
-						checked: false
-					},
-				],
 				date: this.$moment(new Date()).format('MM月DD日'),
 				fromData: {},
 				pickerisSHow: false,
@@ -130,7 +95,6 @@
 				selectData: selectData
 			}
 		},
-
 		created() {
 			this.initData()
 		},
@@ -140,11 +104,7 @@
 					if (e.date == this.$moment(new Date).format('YYYY-MM-DD')) {
 						this.fromData = e.data
 					}
-
 				})
-			},
-			checkboxClick(name) {
-				this.checkboxs[name].checked = !this.checkboxs[name].checked
 			},
 			handelView() {
 				this.show = true
@@ -167,13 +127,10 @@
 </script>
 
 <style lang="scss" scoped>
-	// @import url("//unpkg.com/element-ui@2.15.7/lib/theme-chalk/index.css");
-	.container {
-		width: 100%;
-		height: calc(100% - 20px);
+	.tabbar {
 		display: flex;
+		max-height: 100%;
 		flex-direction: column;
-		margin-bottom: 20px;
 
 		::v-deep .uni-swiper__warp {
 			overflow: visible !important;
@@ -195,36 +152,29 @@
 		.container-bottom {
 			height: 100%;
 			padding: 4px 8px;
-			width: calc(100% - 16px);
 			border-top: 0.5pt solid rgb(221, 221, 221);
+			flex-grow: 1;
 
 			uni-text {
 				font-size: 10px;
 			}
 
 			.bottom-center {
+				height: 100%;
 				.center-icon {
 					width: 30px;
 					height: 30px;
 				}
 
-				height: 90%;
-				min-height: 80px;
 				display: flex;
 				flex-direction: column;
 				justify-content: center;
 				align-items: center;
-
 				uni-text {
 					font-size: 9px;
 					color: rgb(177, 177, 177);
 				}
 			}
-		}
-
-		.ui-card {
-			padding: 0 0 10px 0;
-			width: 100%;
 		}
 
 		::v-deep .u-popup__content {
@@ -236,17 +186,17 @@
 			width: 210px;
 			height: 230px;
 		}
-.disabled-dialog{
-	background-color: rgba(0,0,0,0);
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	z-index: 999;
-}
-		.popup-dialog {
-			padding: 15px 8px 15px 8px;
-			width: 190px;
 
+		.disabled-dialog {
+			background-color: rgba(0, 0, 0, 0);
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			z-index: 999;
+		}
+
+		.popup-dialog {
+			width: 180px;
 			.dialog-header {
 				margin-bottom: 10px;
 
@@ -296,7 +246,6 @@
 		}
 
 		::v-deep .uni-calendar__content {
-			padding: 0 5px;
 			background-color: rgba(255, 255, 255, 0);
 
 			.uni-calendar-item--checked {
@@ -355,8 +304,10 @@
 					display: flex;
 
 				}
-				margin:4px;
+
+				margin:2px;
 				height: 30px;
+
 				* {
 					height: 100%;
 				}

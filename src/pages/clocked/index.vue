@@ -1,5 +1,5 @@
 <template>
-	<view class="clocked">
+	<view class="tabbar">
 		<view class="clocked-title">
 			<text class="ui-title">浙江源创</text>
 			<view class="title-top">
@@ -83,6 +83,7 @@
 				<clock-map :xyTude="xyTude" v-show="mapShow" />
 			</view>
 		</u-popup>
+		<ui-tabbar />
 	</view>
 </template>
 
@@ -122,16 +123,12 @@
 				cloedTime: new Date(),
 				cloedValue: "上班",
 				show: false,
-				touchData: {}
-
+				touchData: {},
 			}
 		},
-		beforeDestroy() {
-			//销毁计时器
-			clearInterval(this.timer);
-		},
-		created() {
 
+		onHide() {
+			clearInterval(this.timer);
 		},
 		mounted() {
 			this.getDistance()
@@ -195,14 +192,10 @@
 				}, 3000)
 			},
 			handelCount() {
-				uni.navigateTo({
-					url: '../clockcount/index'
-				});
+				this.$url('/pages/clockcount/index')
 			},
 			handelRule() {
-				uni.navigateTo({
-					url: '../clockrules/index'
-				});
+				this.$url('/pages/clockrules/index')
 			},
 			handelClocked() {
 				if (this.isClock == true) {
@@ -222,7 +215,8 @@
 </script>
 
 <style lang="scss" scoped>
-	.clocked {
+
+	.tabbar {
 		.clock-map {
 			margin: 8px;
 			width: calc(100% - 16px);
@@ -233,14 +227,12 @@
 				margin: 0 auto;
 				margin-top: 5px;
 				margin-bottom: 5px;
-				border-radius: 2px;
-				background-color: rgb(160, 160, 160);
-				width: 15px;
-				height: 3px;
+				border-radius: 4px;
+				background-color: rgb(180, 180, 180);
+				width: 20px;
+				height: 5px;
 			}
 		}
-
-
 
 		.ui-title {
 			font-size: 12px;
@@ -250,9 +242,6 @@
 			width: 24px;
 			height: 24px;
 		}
-
-		width:100%;
-		margin-bottom: 30px;
 
 		.clocked-bottom {
 			width: 100%;
@@ -443,7 +432,6 @@
 				background : linear-gradient(35deg, rgba(0, 104, 248, 0.7), rgb(0, 104, 248));
 			}
 
-			overflow: hidden;
 		}
 	}
 </style>

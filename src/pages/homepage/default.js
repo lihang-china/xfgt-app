@@ -1,28 +1,23 @@
 // *****  App组件默认配置文件  ******
-export const navList = [{
-		title: '考勤打卡',
-		icon: 'map-fill',
-		value: '20',
-		color: ''
-	},
-	{
-		title: '排班',
-		icon: 'calendar-fill',
-		value: '20',
-		color: ''
-	},
+export const navList = [
+	// {
+	// 	title: '考勤打卡',
+	// 	icon: 'map-fill',
+	// 	value: '20',
+	// 	color: ''
+	// },
+	// {
+	// 	title: '排班',
+	// 	icon: 'calendar-fill',
+	// 	value: '20',
+	// 	color: ''
+	// },
 	{
 		title: '设备运维',
 		icon: 'coupon-fill',
 		value: '20',
 		color: '',
 		url: '../maintenance/index'
-	},
-	{
-		title: '报单',
-		icon: 'coupon-fill',
-		value: '20',
-		color: ''
 	},
 	{
 		title: '工单',
@@ -36,31 +31,30 @@ export const navList = [{
 		icon: 'error-circle-fill',
 		value: '20',
 		color: '',
+		url:'../alarm/index'
 	},
 	{
 		title: '设备档案',
 		icon: 'grid-fill',
 		value: '20',
-		color: ''
+		color: '',
+		url:'../devicefiles/index'
 	},
 	{
 		title: '文档管理',
 		icon: 'file-text-fill',
 		value: '20',
-		color: ''
+		color: '',
+		url:'/pages/file/index'
+		
 	},
 	{
 		title: '知识库',
 		icon: 'calendar-fill',
 		value: '20',
-		color: ''
-	},
-	{
-		title: '消息管理',
-		icon: 'calendar-fill',
-		value: '20',
-		color: ''
-	},
+		color: '',
+		url:'/pages/knowledgebase/index'
+	}
 ];
 export const gridList = [{
 		title: '已打卡',

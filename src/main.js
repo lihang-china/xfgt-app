@@ -8,7 +8,13 @@ import {
 	uniIcons
 } from '@dcloudio/uni-ui'
 import uiCard from './public/components/Card.vue'
+import  $lazyList from './public/js/base.js'
+Vue.use($lazyList)
+import  $url from './router/index.js'
+import uiTabbar from './pages/tabbar/tabbar.vue'
+Vue.use($url)
 Vue.component('uiCard',uiCard)
+Vue.component('uiTabbar',uiTabbar)
 Vue.prototype.$moment = moment
 // 定义全局时间戳过滤器
 Vue.filter('formatDate', function(value) {

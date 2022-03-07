@@ -1,5 +1,5 @@
 <template>
-	<view class="homepage-container">
+	<view class="tabbar">
 		<ui-card class="clendarBg">
 			<view class="clendarBg-top">
 				<view class="clendarBg-left flex-column">
@@ -14,7 +14,7 @@
 			</view>
 			<view class="clendarBg-bottom">
 				<u-grid col="4">
-					<u-grid-item v-for="(item,index) in gridList" :key="index">
+					<u-grid-item @click="handleGrid(item)" v-for="(item,index) in gridList" :key="index">
 						<u-icon color="#fff" size="20px" :name="item.icon"></u-icon>
 						<text>{{item.title}}
 						</text>
@@ -30,7 +30,7 @@
 				<view class="bottom-icon">
 					<u-tag :text="wordData.info ? wordData.info :'休息' " shape="circle"></u-tag>
 					<text>{{wordData.data ? wordData.data.startDate + '——' :''}}
-						</text><text>{{wordData.data ? wordData.data.startDate :'今日暂无排班信息'}}</text>
+					</text><text>{{wordData.data ? wordData.data.startDate :'今日暂无排班信息'}}</text>
 				</view>
 				<view>
 					<u-icon color="rgb(60, 156, 255)" size="28px" name="clock-fill"></u-icon>
@@ -44,14 +44,22 @@
 		</ui-card>
 		<ui-card :title="'消息通知'">
 			<view>
-				<u-notice-bar icon="chat" bgColor="#0068f801" :text="'Test text App Commit lihang verson datea'">
+				<u-notice-bar icon="chat" bgColor="#0068f801" :text="msgList[0].title+'...'">
 				</u-notice-bar>
+			</view>
+			<view class="flex-flex bottom-message">
+				<text @click="handleMsg" class=" ui-text-btn">更多</text>
+				<u-icon color="rgb(0, 143, 253)" name="arrow-right-double"></u-icon>
 			</view>
 		</ui-card>
 		<nav-card :navList="navList" :gridList="gridList" :title="'我的'" />
+<ui-tabbar />
 	</view>
 </template>
 <script>
+	import {
+		msgList
+	} from '../message/default.js'
 	import navCard from './components/navList.vue'
 	import {
 		selectData
@@ -67,6 +75,7 @@
 		},
 		data() {
 			return {
+				msgList: msgList,
 				selectData: selectData,
 				wordData: {},
 				date: new Date(),
@@ -74,15 +83,22 @@
 				gridList: gridList
 			}
 		},
-		onShow() {
-			setInterval(() => {
-				this.date = new Date()
-			}, 1000)
-		},
+
 		created() {
+			uni.hideTabBar()
 			this.getWorkData()
 		},
 		methods: {
+			handleMsg() {
+				uni.navigateTo({
+					url: '/pages/message/index'
+				})
+			},
+			handleGrid() {
+				uni.navigateTo({
+					url: '/pages/clockcount/index'
+				})
+			},
 			getWorkData() {
 				this.selectData.forEach(e => {
 					if (e.date == this.$moment(new Date).format('YYYY-MM-DD')) {
@@ -95,9 +111,10 @@
 </script>
 
 <style lang="scss" scoped>
-	.homepage-container {
-		width: 100%;
-		margin-bottom: 20px;
+	.tabbar{
+		.bottom-message {
+			justify-content: flex-end;
+		}
 
 		.clendarBg {
 			uni-text {
@@ -162,8 +179,9 @@
 				align-items: center;
 				flex-wrap: nowrap;
 				color: #fff;
-				uni-text{
-				    display:inline-table;
+
+				uni-text {
+					display: inline-table;
 				}
 			}
 
@@ -171,8 +189,6 @@
 				font-size: 10px;
 				margin-left: 10px;
 			}
-
-
 		}
 	}
 </style>

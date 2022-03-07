@@ -51,7 +51,9 @@
 				deep: true
 			}
 		},
-
+		created() {
+			this.resetLocation()
+		},
 		methods: {
 			resetLocation() {
 				this.covers = [{

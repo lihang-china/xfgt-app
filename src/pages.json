@@ -5,15 +5,9 @@
 	"pages": [
 		//pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
-			"path": "pages/login/index",
+			"path": "pages/homepage/index",
 			"style": {
-				"navigationBarTitleText": "登录"
-			}
-		},
-		{
-			"path": "pages/order/index",
-			"style": {
-				"navigationBarTitleText": "工单"
+				"navigationBarTitleText": "首页"
 			}
 		},
 		{
@@ -22,6 +16,74 @@
 				"navigationBarTitleText": "导航"
 			}
 		},
+		
+		{
+			"path": "pages/login/index",
+			"style": {
+				"navigationBarTitleText": "登录"
+			}
+		},
+		{
+			"path": "pages/register/index",
+			"style": {
+				"navigationBarTitleText": "注册"
+			}
+		},
+		{
+			"path": "pages/message/index",
+			"style": {
+				"navigationBarTitleText": "消息管理"
+			}
+		},
+		{
+			"path": "pages/file/index",
+			"style": {
+				"navigationBarTitleText": "文档管理"
+			}
+		},
+		{
+			"path": "pages/knowledgebase/detail",
+			"style": {
+				"navigationBarTitleText": "文件详情"
+			}
+		},
+		{
+			"path": "pages/knowledgebase/index",
+			"style": {
+				"navigationBarTitleText": "知识库管理"
+			}
+		},
+		{
+			"path": "pages/devicefiles/deviceDetail",
+			"style": {
+				"navigationBarTitleText": "设备详情"
+			}
+		},
+		{
+			"path": "pages/devicefiles/index",
+			"style": {
+				"navigationBarTitleText": "设备档案"
+			}
+		},
+		{
+			"path": "pages/order/addOrder",
+			"style": {
+				"navigationBarTitleText": "添加工单"
+			}
+		},
+		{
+			"path": "pages/alarm/index",
+			"style": {
+				"navigationBarTitleText": "告警中心"
+			}
+		},
+		{
+			"path": "pages/order/index",
+			"style": {
+				"navigationBarTitleText": "工单"
+			}
+		},
+		
 		{
 			"path": "pages/clockrules/index",
 			"style": {
@@ -33,7 +95,7 @@
 			"style": {
 				"navigationBarTitleText": "地图"
 			}
-		}, 
+		},
 		{
 			"path": "pages/clockcount/index",
 			"style": {
@@ -51,8 +113,31 @@
 			"style": {
 				"navigationBarTitleText": "工单"
 			}
+		},
+		{
+			"path": "pages/homepage/index",
+			"style": {
+				"navigationBarTitleText": "首页"
+			}
+		},
+		{
+			"path": "pages/clocked/index",
+			"style": {
+				"navigationBarTitleText": "打卡"
+			}
+		},
+		{
+			"path": "pages/attendance/index",
+			"style": {
+				"navigationBarTitleText": "排班"
+			}
+		},
+		{
+			"path": "pages/useredit/index",
+			"style": {
+				"navigationBarTitleText": "个人"
+			}
 		}
-
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
@@ -60,6 +145,36 @@
 		"navigationBarBackgroundColor": "#F8F8F8",
 		"backgroundColor": "#F8F8F8",
 		"navigationStyle": "custom"
+	},
+	"tabBar": {
+		"backgroundColor":"rgba(241,242,243,0)",
+		"height":"60px",
+		"selectedColor": "#006eff",
+		"list": [{
+				"pagePath": "pages/homepage/index",
+				"iconPath": "/static/image/all.png",
+				"selectedIconPath": "/static/image/all@2x.png",
+				 "text": "首页"
+			},
+			{
+				"pagePath": "pages/clocked/index",
+				"iconPath": "/static/image/clock.png",
+				"selectedIconPath": "/static/image/clock@2x.png",
+				 "text": "打卡"
+			},
+			{
+				"pagePath": "pages/attendance/index",
+				"iconPath": "static/image/calendar.png",
+				"selectedIconPath": "/static/image/calendar@2x.png",
+				 "text": "排班"
+			},
+			{
+				"pagePath": "pages/useredit/index",
+				"iconPath": "/static/image/user.png",
+				"selectedIconPath": "/static/image/user@2x.png",
+				 "text": "个人"
+			}
+		]
 	},
 	"condition": {
 		//模式配置，仅开发期间生效
