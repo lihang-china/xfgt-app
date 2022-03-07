@@ -3,8 +3,9 @@
 		<ui-card class="container-header  flex-center">
 			<view class="header-avatar flex-column">
 				<u-upload :maxCount="1" @afterRead="afterRead" :deletable="false" :fileList="fileList" name="1">
-					<image :src="userInfo.avatar" mode="widthFix"><u-icon size="24px" class="image-icon" color="#ffffff" name="share-square"></u-icon></image>
+					<image :src="imgSrc" mode="widthFix"></image>
 				</u-upload>
+				<u-icon size="24px" class="image-icon" color="#ffffff" name="share-square"></u-icon>
 			</view>
 		</ui-card>
 		<u-cell-group>
@@ -47,6 +48,7 @@
 		},
 		data() {
 			return {
+				imgSrc: undefined,
 				fileList: [],
 				outShow: false,
 				cellValue: undefined,
@@ -56,7 +58,21 @@
 				clockPath: '浙江源创智能'
 			}
 		},
+		onLoad() {
+			this.imgSrc = userInfo.avatar
+		},
 		methods: {
+			deletePic(event) {
+				this.fileList.splice(event.index, 1)
+			},
+			async afterRead(event) {
+				this.imgSrc = event.file.url
+				// this.fileList.push({
+				// 	...event.file,
+				// 	// status: 'uploading',
+				// 	// message: '上传中'
+				// })
+			},
 			handleOut() {
 				uni.removeStorage({
 					key: 'token'
@@ -81,12 +97,14 @@
 				border-radius: 5px;
 				border: 0 !important;
 			}
+
 			.u-cell {
 				margin: 4px 0;
 				padding: 3px 0;
 				background-color: #fff;
 			}
 		}
+
 		.container-header {
 			background-color: rgb(0, 104, 248);
 			height: 100px;
@@ -95,24 +113,31 @@
 			background-size: 65%;
 			background-position: 5% 0%;
 			margin-bottom: 12px;
+
 			.header-avatar {
 				align-items: center;
-					position: relative;
+				position: relative;
+
 				uni-image {
 					width: 55px;
 					height: 55px;
+					max-width: 55px;
+					max-height: 55px;
 					border-radius: 50%;
 					box-shadow: 0px 0px 6px 3px rgba(229, 229, 229, 0.5);
-					border: 1px solid rgba(150,150,150,0.5);
+					border: 1px solid rgba(150, 150, 150, 0.5);
 				}
-				.image-icon{
+
+				.image-icon {
 					position: absolute;
 					bottom: 4px;
 					right: 0;
-					z-index: 99999999;
+					z-index: 999999999999;
 				}
+
 				.u-button {
 					margin-top: 6px;
+
 					uni-text {
 						margin-right: 2px;
 						font-size: 9px !important;
@@ -121,11 +146,14 @@
 					}
 				}
 			}
+
 			.ui-text-btn {
 				margin-left: 10px;
 			}
+
 			.flex-column {
 				margin-left: 8px;
+
 				uni-text {
 					&:nth-child(1) {
 						font-weight: bold;
@@ -133,10 +161,12 @@
 						color: rgb(42, 42, 42);
 					}
 				}
+
 				.flex-flex {
 					.u-icon {
 						margin-left: 3px;
 					}
+
 					uni-text {
 						padding: 0;
 						font-size: 9px;

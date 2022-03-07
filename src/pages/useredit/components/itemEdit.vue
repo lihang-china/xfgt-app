@@ -67,24 +67,8 @@
 				radiovalue: '',
 			}
 		},
-		mounted() {
-			this.fileList.push({
-				url: this.formData.avatar
-				// status: 'uploading',
-				// message: '上传中'
-			})
-		},
 		methods: {
-			deletePic(event) {
-				this.fileList.splice(event.index, 1)
-			},
-			async afterRead(event) {
-				this.fileList.push({
-					...event.file,
-					// status: 'uploading',
-					// message: '上传中'
-				})
-			},
+			
 			handleClose() {
 				this.$emit('popupStatus', false)
 			}

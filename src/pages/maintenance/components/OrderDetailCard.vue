@@ -1,6 +1,6 @@
 <template>
 	<view class="">
-		<swiper-card :open="open" v-bind="$attrs" v-on="$listeners" :listIndex="listIndex" :listNum="3"
+		<swiper-card :open="open" v-bind="$attrs" v-on="$listeners" :listIndex="listIndex" 
 			:itemList="orderList">
 			<!-- 爷孙组件传参方式 v-bind="$attrs" v-on="$listeners" 绑定、监听子组件-->
 			<template v-slot:cards="{data}">
