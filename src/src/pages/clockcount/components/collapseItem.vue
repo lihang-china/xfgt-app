@@ -84,13 +84,13 @@
 		}
 	}
 	.container {
-		* {
+		uni-text {
 			font-size: 10px;
 		}
      
 		.flex-between {
 			padding: 5px 10px;
-          *{
+          uni-text{
 			  color: rgb(180,180,180);
 		  }
 			.flex-column {

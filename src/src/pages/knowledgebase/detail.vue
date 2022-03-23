@@ -1,10 +1,11 @@
 <template>
 	<view class="container flex-column">
-		<u-navbar title="文档详情" :autoBack="true">
+		<u-navbar :title="title" :autoBack="true">
 		</u-navbar>
 		<ui-card class="app-container">
-			<u-form>
-				<u-form-item labelWidth="50" :borderBottom="formBorder" :label="item.title + '：'" v-for="(item,index) in itemData"
+			<u-form
+			 :labelStyle="{color:'rgb(150, 150, 150)'}">
+				<u-form-item labelWidth="50" :borderBottom="formBorder" :label="item.title" v-for="(item,index) in itemData"
 					:key="index">
 					<view v-if=" item.value == 'tag'" class="flex-flex">
 						<view v-if="fileData[item.value]"  class="flex-flex">
@@ -48,6 +49,7 @@
 	export default {
 		data() {
 			return {
+				title:'文档详情',
 				formBorder: false,
 				time: Number(new Date()),
 				show: false,
@@ -79,9 +81,10 @@
 				this.fileData.tag = undefined
 			},
 			initData() {
+				this.title = '文档详情' 
 				getCurrentPages().pop().options.title ? this.fileData = this.fileList.filter(e => {
 					return e.title == getCurrentPages().pop().options.title
-				})[0] : this.formBorder = true
+				})[0]:( this.formBorder = true ,this.title = '新建文档')
 			}
 		}
 	}

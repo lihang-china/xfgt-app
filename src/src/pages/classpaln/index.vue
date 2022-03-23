@@ -55,7 +55,6 @@
 			<text>取消</text>
 			<text>保存</text>
 		</view>
-	
 	</view>
 </template>
 <script>
@@ -152,81 +151,5 @@
 
 
 <style scoped lang="scss">
-	.app-container {
-		background-color: #fff;
-		margin-bottom: 50px;
-		height: calc(100% - 70px);
-		border-radius: 0 0 35px 35px;
-
-		::v-deep .uni-swiper__warp {
-			overflow: visible !important;
-		}
-
-		::v-deep uni-swiper .uni-swiper-wrapper {
-			overflow: visible !important;
-		}
-
-		::v-deep uni-swiper-item {
-			padding: 3px !important;
-			width: calc(100% - 6px) !important;
-		}
-
-		::v-deep .uni-swiper__dots-box {
-			display: none;
-		}
-
-		.container-addplan {
-			border: none;
-			margin-right: 0;
-			margin-top: 8px;
-			border-radius: 8px;
-			width: 30px;
-			min-width: 30px;
-			font-size: 8px;
-		}
-
-		.tag-addpaln {
-			width: 42pt;
-			height: 21pt;
-			min-width: 30pt;
-			margin: 0;
-			margin-left: 5px;
-			border: 1px dashed rgb(180, 180, 180);
-			color: rgb(180, 180, 180);
-		}
-
-		.bottom-fiexd {
-			left: 0;
-			position: fixed;
-			bottom: 0;
-			width: 100%;
-
-			uni-text {
-				padding: 8px 30px;
-				color: rgb(32, 32, 32);
-				font-weight: 650;
-				font-size: 11px;
-			}
-
-		}
-	}
-
-	::v-deep .tag-group {
-		max-height: 50px;
-		overflow: scroll;
-		display: flex;
-		flex-wrap: wrap;
-	}
-
-	.u-form-item {
-		.u-page__tag-item {
-			::v-deep .u-tag {
-				margin: 5px 0 5px 5px;
-
-				.u-tag__text {
-					white-space: nowrap;
-				}
-			}
-		}
-	}
+@import  "./style/default.scss";
 </style>

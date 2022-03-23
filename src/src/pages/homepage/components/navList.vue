@@ -32,9 +32,7 @@
 		methods: {
 			handleBtn(row) {
 				if (row.url) {
-					uni.navigateTo({
-						url: row.url
-					})
+					this.$url(row.url)
 				}
 			}
 		}

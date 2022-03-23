@@ -1,62 +1,67 @@
 <template>
-	<view class="tabbar">
-		<ui-card class="clendarBg">
-			<view class="clendarBg-top">
-				<view class="clendarBg-left flex-column">
-					<text>
-						{{ date | formatDate}}
-					</text>
-					<text>{{ date | formatDay }}</text>
-				</view>
-				<view class="clendarBg-right">
-					<u-icon color="#fff" size="76px" name="account-fill"></u-icon>
-				</view>
-			</view>
-			<view class="clendarBg-bottom">
-				<u-grid col="4">
-					<u-grid-item @click="handleGrid(item)" v-for="(item,index) in gridList" :key="index">
-						<u-icon color="#fff" size="20px" :name="item.icon"></u-icon>
-						<text>{{item.title}}
+	<view class="container">
+		<view class="tabbar">
+			<ui-card class="clendarBg">
+				<view class="clendarBg-top">
+					<view class="clendarBg-left flex-column">
+						<text>
+							{{ date | formatDate}}
 						</text>
-						<u-badge :bgColor="item.color" :absolute="true" :offset="[10,2]" :type="item.type" max="99"
-							:value="item.value">
-						</u-badge>
-					</u-grid-item>
-				</u-grid>
-			</view>
-		</ui-card>
-		<ui-card :title="'今日排班信息'">
-			<view class="center-bottom ">
-				<view class="bottom-icon">
-					<u-tag :text="wordData.info ? wordData.info :'休息' " shape="circle"></u-tag>
-					<text>{{wordData.data ? wordData.data.startDate + '——' :''}}
-					</text><text>{{wordData.data ? wordData.data.startDate :'今日暂无排班信息'}}</text>
+						<text>{{ date | formatDay }}</text>
+					</view>
+					<view class="clendarBg-right">
+						<u-icon color="#fff" size="76px" name="account-fill"></u-icon>
+					</view>
 				</view>
+				<view class="clendarBg-bottom">
+					<u-grid col="4">
+						<u-grid-item @click="handleGrid(item)" v-for="(item,index) in gridList" :key="index">
+							<u-icon color="#fff" size="20px" :name="item.icon"></u-icon>
+							<text>{{item.title}}
+							</text>
+							<u-badge :bgColor="item.color" :absolute="true" :offset="[10,2]" :type="item.type" max="99"
+								:value="item.value">
+							</u-badge>
+						</u-grid-item>
+					</u-grid>
+				</view>
+			</ui-card>
+			<ui-card :title="'今日排班信息'">
+				<view class="center-bottom ">
+					<view class="bottom-icon">
+						<u-tag :text="wordData.info ? wordData.info :'休息' " shape="circle"></u-tag>
+						<text>{{wordData.data ? wordData.data.startDate + '——' :''}}
+						</text><text>{{wordData.data ? wordData.data.startDate :'今日暂无排班信息'}}</text>
+					</view>
+					<view>
+						<u-icon color="rgb(60, 156, 255)" size="28px" name="clock-fill"></u-icon>
+					</view>
+				</view>
+				<view class="bottom-notice">
+					<u-notice-bar v-show="wordData.data" color="#0068f8" bgColor="#0068f801"
+						:text=" wordData.data ?  wordData.data.desc : '空'" speed="80">
+					</u-notice-bar>
+				</view>
+			</ui-card>
+			<ui-card :title="'消息通知'">
 				<view>
-					<u-icon color="rgb(60, 156, 255)" size="28px" name="clock-fill"></u-icon>
+					<u-notice-bar icon="chat" bgColor="#0068f801" :text="msgList[0].title+'...'">
+					</u-notice-bar>
 				</view>
-			</view>
-			<view class="bottom-notice">
-				<u-notice-bar v-show="wordData.data" color="#0068f8" bgColor="#0068f801"
-					:text=" wordData.data ?  wordData.data.desc : '空'" speed="80">
-				</u-notice-bar>
-			</view>
-		</ui-card>
-		<ui-card :title="'消息通知'">
-			<view>
-				<u-notice-bar icon="chat" bgColor="#0068f801" :text="msgList[0].title+'...'">
-				</u-notice-bar>
-			</view>
-			<view class="flex-flex bottom-message">
-				<text @click="handleMsg" class=" ui-text-btn">更多</text>
-				<u-icon color="rgb(0, 143, 253)" name="arrow-right-double"></u-icon>
-			</view>
-		</ui-card>
-		<nav-card :navList="navList" :gridList="gridList" :title="'我的'" />
-<ui-tabbar />
+				<view class="flex-flex bottom-message">
+					<text @click="handleMsg" class=" ui-text-btn">更多</text>
+					<u-icon color="rgb(0, 143, 253)" name="arrow-right-double"></u-icon>
+				</view>
+			</ui-card>
+			<nav-card :navList="navList" :gridList="gridList" :title="'我的'" />
+		</view>
+		<update />
+		<ui-tabbar />
 	</view>
+
 </template>
 <script>
+	import update from '../update/index.vue'
 	import {
 		msgList
 	} from '../message/default.js'
@@ -71,7 +76,8 @@
 	} from './default.js'
 	export default {
 		components: {
-			navCard
+			navCard,
+			update
 		},
 		data() {
 			return {
@@ -83,21 +89,18 @@
 				gridList: gridList
 			}
 		},
-
-		created() {
+		onShow(){
 			uni.hideTabBar()
+		},
+		onLoad() {
 			this.getWorkData()
 		},
 		methods: {
 			handleMsg() {
-				uni.navigateTo({
-					url: '/pages/message/index'
-				})
+				this.$url('/pages/message/index')
 			},
 			handleGrid() {
-				uni.navigateTo({
-					url: '/pages/clockcount/index'
-				})
+				this.$url('/pages/clockcount/index')
 			},
 			getWorkData() {
 				this.selectData.forEach(e => {
@@ -111,7 +114,7 @@
 </script>
 
 <style lang="scss" scoped>
-	.tabbar{
+	.container {
 		.bottom-message {
 			justify-content: flex-end;
 		}

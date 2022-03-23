@@ -11,11 +11,35 @@
 			}
 		},
 		{
-			"path": "pages/index/index",
+			"path": "pages/attendance/index",
 			"style": {
-				"navigationBarTitleText": "导航"
+				"navigationBarTitleText": "排班"
 			}
 		},
+		{
+			"path": "pages/update/index",
+			"style": {
+				"navigationBarTitleText": "更新"
+			}
+		},
+		{
+			"path": "pages/clocked/index",
+			"style": {
+				"navigationBarTitleText": "打卡"
+			}
+		},
+		{
+			"path": "pages/useredit/index",
+			"style": {
+				"navigationBarTitleText": "个人"
+			}
+		},
+		// {
+		// 	"path": "pages/index/index",
+		// 	"style": {
+		// 		"navigationBarTitleText": "导航"
+		// 	}
+		// },
 		
 		{
 			"path": "pages/login/index",
@@ -113,31 +137,8 @@
 			"style": {
 				"navigationBarTitleText": "工单"
 			}
-		},
-		{
-			"path": "pages/homepage/index",
-			"style": {
-				"navigationBarTitleText": "首页"
-			}
-		},
-		{
-			"path": "pages/clocked/index",
-			"style": {
-				"navigationBarTitleText": "打卡"
-			}
-		},
-		{
-			"path": "pages/attendance/index",
-			"style": {
-				"navigationBarTitleText": "排班"
-			}
-		},
-		{
-			"path": "pages/useredit/index",
-			"style": {
-				"navigationBarTitleText": "个人"
-			}
 		}
+		
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
@@ -147,32 +148,18 @@
 		"navigationStyle": "custom"
 	},
 	"tabBar": {
-		"backgroundColor":"rgba(241,242,243,0)",
-		"height":"60px",
-		"selectedColor": "#006eff",
+		"height":"55px",
 		"list": [{
-				"pagePath": "pages/homepage/index",
-				"iconPath": "/static/image/all.png",
-				"selectedIconPath": "/static/image/all@2x.png",
-				 "text": "首页"
+				"pagePath": "pages/homepage/index"
 			},
 			{
-				"pagePath": "pages/clocked/index",
-				"iconPath": "/static/image/clock.png",
-				"selectedIconPath": "/static/image/clock@2x.png",
-				 "text": "打卡"
+				"pagePath": "pages/clocked/index"
 			},
 			{
-				"pagePath": "pages/attendance/index",
-				"iconPath": "static/image/calendar.png",
-				"selectedIconPath": "/static/image/calendar@2x.png",
-				 "text": "排班"
+				"pagePath": "pages/attendance/index"
 			},
 			{
-				"pagePath": "pages/useredit/index",
-				"iconPath": "/static/image/user.png",
-				"selectedIconPath": "/static/image/user@2x.png",
-				 "text": "个人"
+				"pagePath": "pages/useredit/index"
 			}
 		]
 	},

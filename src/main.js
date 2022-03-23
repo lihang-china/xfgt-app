@@ -9,13 +9,15 @@ import {
 } from '@dcloudio/uni-ui'
 import uiCard from './public/components/Card.vue'
 import  $lazyList from './public/js/base.js'
-Vue.use($lazyList)
-import  $url from './router/index.js'
+import  { $url } from './router/index.js'
 import uiTabbar from './pages/tabbar/tabbar.vue'
-Vue.use($url)
+import setting from '../setting.js'
+Vue.use($lazyList)
+Vue.prototype.$url = $url
 Vue.component('uiCard',uiCard)
 Vue.component('uiTabbar',uiTabbar)
 Vue.prototype.$moment = moment
+Vue.prototype.$APP_SET = setting
 // 定义全局时间戳过滤器
 Vue.filter('formatDate', function(value) {
 	return moment(value).format('YYYY年MM月DD日')

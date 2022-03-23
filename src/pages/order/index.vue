@@ -79,9 +79,7 @@
 				this.open = true
 			},
 			handleAdd() {
-				uni.navigateTo({
-					url: './addOrder'
-				})
+				this.$url('./addOrder')
 			}
 		}
 	}

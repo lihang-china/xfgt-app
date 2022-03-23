@@ -1,25 +1,32 @@
 <template>
-	<view class="tabbar flex-column">
-		<ui-card class="container-header  flex-center">
-			<view class="header-avatar flex-column">
-				<u-upload :maxCount="1" @afterRead="afterRead" :deletable="false" :fileList="fileList" name="1">
-					<image :src="imgSrc" mode="widthFix"></image>
-				</u-upload>
-				<u-icon size="24px" class="image-icon" color="#ffffff" name="share-square"></u-icon>
-			</view>
-		</ui-card>
-		<u-cell-group>
-			<u-cell iconStyle="font-size:24px;color:rgb(0, 132, 255);" :title="clockPath" icon="bookmark-fill"
-				:border="false" arrow-direction="left"></u-cell>
-			<u-cell @click="handleClick(item.value)" iconStyle="font-size:24px;color:rgb(0, 132, 255);" :border="false"
-				v-for="(item,index)  in itemList" :key="index" :icon="item.icon" :title="item.title"
-				:value="userInfo[item.value] | sex" :isLink="true" arrow-direction="left"></u-cell>
-			<u-cell class="flex-center" @click="outShow = true" titleStyle="color:red;"
-				iconStyle="font-size:24px;color:rgb(0, 132, 255);" title="退出登录" :border="false" arrow-direction="left">
-			</u-cell>
-		</u-cell-group>
+	<view class="container">
+		<view class="tabbar flex-column">
+			<ui-card class="container-header  flex-center">
+				<view class="header-avatar flex-column">
+					<u-upload :maxCount="1" @afterRead="afterRead" :deletable="false" :fileList="fileList" name="1">
+						<image :src="imgSrc" mode="widthFix"></image>
+					</u-upload>
+					<u-icon size="24px" class="image-icon" color="#ffffff" name="share-square"></u-icon>
+				</view>
+			</ui-card>
+			<u-cell-group>
+				<u-cell iconStyle="font-size:24px;color:rgb(0, 132, 255);" :title="clockPath" icon="bookmark-fill"
+					:border="false" arrow-direction="left"></u-cell>
+				<u-cell @click="handleClick(item.value)" iconStyle="font-size:24px;color:rgb(0, 132, 255);"
+					:border="false" v-for="(item,index)  in itemList" :key="index" :icon="item.icon" :title="item.title"
+					:value="userInfo[item.value] | sex" :isLink="true" arrow-direction="left"></u-cell>
+				</u-cell>
+				<u-cell icon="level" iconStyle="font-size:24px;color:rgb(0, 132, 255);" :isLink="true" title="关于我们"
+					:border="false" arrow-direction="left" :value="$APP_SET.version">
+				</u-cell>
+				<u-cell class="flex-center" @click="outShow = true" titleStyle="color:red;"
+					iconStyle="font-size:24px;color:rgb(0, 132, 255);" title="退出登录" :border="false"
+					arrow-direction="left">
+				</u-cell>
+			</u-cell-group>
+		</view>
 		<item-edit :formData="userInfo" :isShow="show" @popupStatus="handleClose" :cellValue="cellValue" />
-		<u-modal width="200" showCancelButton :show="outShow" content='是否退出登录?' @confirm="handleOut()"
+		<u-modal  width="250" showCancelButton :show="outShow" content='是否退出登录?' @confirm="handleOut()"
 			@cancel="outShow = false"></u-modal>
 		<ui-tabbar />
 	</view>
@@ -78,6 +85,7 @@
 					key: 'token'
 				})
 				this.$url('/pages/login/index')
+				this.outShow = false
 			},
 			handleClose(val) {
 				this.show = val
@@ -93,7 +101,7 @@
 <style lang="scss" scoped>
 	.tabbar {
 		::v-deep .u-cell-group {
-			* {
+			uni-view {
 				border-radius: 5px;
 				border: 0 !important;
 			}

@@ -3,7 +3,7 @@
 		<image class="login-banner" :src="require('../../images/loginBg.jpg')" mode=""></image>
 		<view class="login-from">
 			<h2>
-				信丰
+				{{this.$APP_SET.title}}
 			</h2>
 			<u-form ref="uForm" :rules="rules" :model="form">
 				<u-form-item prop="username" borderBottom>
@@ -27,14 +27,18 @@
 					</view>
 				</u-form-item>
 				<u-form-item>
-					<u-button type="primary" shape="circle" @click="handelLogin()">登录</u-button>
+					<u-button type="primary" shape="circle" @click="handelLogin()">登录 / 注册</u-button>
 				</u-form-item>
+				<!-- 		<u-form-item>
+				<u-button shape="circle" @click="handleReg">注册</u-button> 
+				</u-form-item> -->
 				<u-form-item>
-					<u-button shape="circle" @click="handleReg">注册</u-button>
+					<text class="login-desc">未注册用户会自动注册，注册成功自动登录</text>
 				</u-form-item>
 			</u-form>
 		</view>
 		<u-modal @confirm="show = false" width="250" :show="show" :title="title" :content="content"></u-modal>
+		<text class="login-version">Version {{this.$APP_SET.version}}</text>
 	</view>
 </template>
 <script>
@@ -71,12 +75,12 @@
 				}
 			}
 		},
-		created() {
-this.initForm()
+		onLoad() {
+			this.initForm()
 		},
 		methods: {
-			handleReg(){
-				
+			handleReg() {
+				this.$url('/pages/register/index')
 			},
 			initForm() {
 				this.form = {
@@ -86,10 +90,10 @@ this.initForm()
 					this.radiovalue[0] = true
 				}
 			},
-			getLogin() {
+			async getLogin() {
 				if (this.form.username == 'admin' && this.form.password == 'admin') {
 					setToken('test').then(() => {
-							let data = JSON.parse(JSON.stringify(this.form))
+						let data = JSON.parse(JSON.stringify(this.form))
 						if (!this.radiovalue[0]) {
 							data.password = undefined
 						}
@@ -97,12 +101,10 @@ this.initForm()
 							key: 'user_info',
 							data: {
 								...data
-							},
-							success: function() {
-								console.log('success');
 							}
 						});
-						 this.$url('/pages/homepage/index', 1)
+						this.$url('/pages/homepage/index', 1)
+
 					})
 				} else {
 					this.show = true
@@ -124,6 +126,16 @@ this.initForm()
 		overflow: hidden;
 		height: 100%;
 		width: 100%;
+		min-height: 350px;
+position: relative;
+		.login-version {
+			width: 100%;
+			text-align: center;
+			font-size: 9px !important;
+			color: rgb(180, 180, 180);
+			bottom: 6px;
+			position: absolute;
+		}
 
 		h2 {
 			margin-top: 30%;
@@ -162,6 +174,12 @@ this.initForm()
 		width: 80%;
 		position: absolute;
 		top: 35%;
+
+		.login-desc {
+			letter-spacing: 2px;
+			font-size: 8px;
+			color: rgba(250, 250, 250, 0.8);
+		}
 
 		.u-form-item {
 			margin-top: 5px;

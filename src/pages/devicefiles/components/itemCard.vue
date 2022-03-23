@@ -56,10 +56,7 @@
 		},
 		methods: {
 			handleView() {
-				console.log('asdasd')
-				uni.navigateTo({
-					url: '/pages/devicefiles/deviceDetail?code=' + this.cardData.equCode
-				})
+				this.$url('/pages/devicefiles/deviceDetail?code=' + this.cardData.equCode)
 			}
 		}
 	}

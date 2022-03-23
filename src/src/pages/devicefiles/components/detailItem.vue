@@ -11,7 +11,7 @@
 			<u-collapse :border="false">
 				<u-collapse-item :border="false" title="保养记录" name="Docs guide">
 					<view class="item-scroll">
-						<view class="flex-column collapse-item" v-for="(data,index) in mcontentList" :key="index">
+						<view class="flex-column collapse-item" v-for="(data,idx) in mcontentList" :key="idx">
 							<view class="flex-between" v-for="(item,index) in mcontentItem" :key="index">
 								<text v-if="item.value !== 'createTime'">{{item.title}}：</text><text
 									v-if="item.value !== 'status'"
@@ -25,7 +25,7 @@
 				<u-collapse-item title="维修记录" name="Variety components">
 					<view class="item-scroll">
 						<view class="flex-column collapse-item" v-for="(data,index) in mcontentList" :key="index">
-							<view class="flex-between" v-for="(item,index) in mcontentItem" :key="index">
+							<view class="flex-between" v-for="(item,idx) in mcontentItem" :key="idx">
 								<text v-if="item.value !== 'createTime'">{{item.title}}：</text><text
 									v-if="item.value !== 'status'"
 									:class="[item.value == 'createTime' ? 'font-black' :'']">{{data[item.value]}}</text>

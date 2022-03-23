@@ -16,8 +16,13 @@
 				<u-icon size="22" :name="require('../../images/freshen.png')"></u-icon>
 			</view>
 			<view class="container-scroll">
-				<alarm-card @cardIndex="getCardIndex" :cardData="item" v-for="(item,index) in alarmData" :key="index"
-					:listIndex="index" />
+				<uni-list>
+					<uni-list-item  v-for="(item,index) in alarmData" :key="index">
+						<alarm-card slot="body" @cardIndex="getCardIndex" :cardData="item"
+							:listIndex="index" />
+					</uni-list-item>
+				</uni-list>
+				
 			</view>
 		</view>
 		<swiper-card @popupState="handleClose" :open="open" :listIndex="listIndex" :listNum="3" :itemList="alarmData">
@@ -30,6 +35,10 @@
 </template>
 
 <script>
+	import {
+		uniList,
+		uniListItem,
+	} from '@dcloudio/uni-ui'
 	import SwiperCard from '@/public/components/SwiperDard.vue'
 	import alarmCard from './components/alarmCard.vue'
 	import {
@@ -41,6 +50,8 @@
 		components: {
 			SwiperCard,
 			alarmCard,
+			uniList,
+			uniListItem,
 		},
 		data() {
 			return {

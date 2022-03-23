@@ -31,9 +31,7 @@
 		},
 		methods: {
 			handleView(val) {
-				uni.navigateTo({
-					url: '/pages/knowledgebase/detail?title=' + val
-				})
+				this.$url('/pages/knowledgebase/detail?title=' + val)
 			}
 		}
 	}

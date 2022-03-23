@@ -5,12 +5,60 @@
 	"pages": [
 		//pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
+			"path": "pages/homepage/index",
+			"style": {
+				"navigationBarTitleText": "首页"
+			}
+		},
+		{
+			"path": "pages/attendance/index",
+			"style": {
+				"navigationBarTitleText": "排班"
+			}
+		},
+		{
+			"path": "pages/update/index",
+			"style": {
+				"navigationBarTitleText": "更新"
+			}
+		},
+		{
+			"path": "pages/clocked/index",
+			"style": {
+				"navigationBarTitleText": "打卡"
+			}
+		},
+		{
+			"path": "pages/useredit/index",
+			"style": {
+				"navigationBarTitleText": "个人"
+			}
+		},
+		// {
+		// 	"path": "pages/index/index",
+		// 	"style": {
+		// 		"navigationBarTitleText": "导航"
+		// 	}
+		// },
+		
+		{
 			"path": "pages/login/index",
 			"style": {
 				"navigationBarTitleText": "登录"
 			}
 		},
-		
+		{
+			"path": "pages/register/index",
+			"style": {
+				"navigationBarTitleText": "注册"
+			}
+		},
+		{
+			"path": "pages/message/index",
+			"style": {
+				"navigationBarTitleText": "消息管理"
+			}
+		},
 		{
 			"path": "pages/file/index",
 			"style": {
@@ -59,12 +107,7 @@
 				"navigationBarTitleText": "工单"
 			}
 		},
-		{
-			"path": "pages/index/index",
-			"style": {
-				"navigationBarTitleText": "导航"
-			}
-		},
+		
 		{
 			"path": "pages/clockrules/index",
 			"style": {
@@ -76,7 +119,7 @@
 			"style": {
 				"navigationBarTitleText": "地图"
 			}
-		}, 
+		},
 		{
 			"path": "pages/clockcount/index",
 			"style": {
@@ -95,7 +138,7 @@
 				"navigationBarTitleText": "工单"
 			}
 		}
-
+		
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
@@ -103,6 +146,22 @@
 		"navigationBarBackgroundColor": "#F8F8F8",
 		"backgroundColor": "#F8F8F8",
 		"navigationStyle": "custom"
+	},
+	"tabBar": {
+		"height":"55px",
+		"list": [{
+				"pagePath": "pages/homepage/index"
+			},
+			{
+				"pagePath": "pages/clocked/index"
+			},
+			{
+				"pagePath": "pages/attendance/index"
+			},
+			{
+				"pagePath": "pages/useredit/index"
+			}
+		]
 	},
 	"condition": {
 		//模式配置，仅开发期间生效

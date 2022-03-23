@@ -54,13 +54,7 @@ export const navList = [
 		value: '20',
 		color: '',
 		url:'/pages/knowledgebase/index'
-	},
-	{
-		title: '消息管理',
-		icon: 'calendar-fill',
-		value: '20',
-		color: ''
-	},
+	}
 ];
 export const gridList = [{
 		title: '已打卡',

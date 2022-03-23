@@ -1,6 +1,9 @@
 <template>
-	<view class="app-container">
-		<view class="container-from">
+	<view class="container">
+		<u-navbar title="添加工单" @rightClick="rightClick" :autoBack="true">
+		</u-navbar>
+
+		<view class="app-container">
 			<u-form size="mini">
 				<u-form-item :borderBottom="index == formList.length -1 ? false : true" v-for="(item,index) in formList"
 					:key="index">
@@ -17,8 +20,8 @@
 						</u-input>
 					</view>
 					<view class="form-upload flex-column" v-if="item.type == 'upload'">
-						<u-upload :previewImage="true" :fileList="fileList1" @afterRead="afterRead" @delete="deletePic"
-							name="1" multiple :maxCount="3"></u-upload>
+						<u-upload :previewImage="true" :fileList="fileList" @afterRead="afterRead" @delete="deletePic"
+							name="1" :maxCount="3"></u-upload>
 						<text>点击上传图片（最多可上传三张图片)</text>
 					</view>
 				</u-form-item>
@@ -48,7 +51,7 @@
 				timeValue: Number(new Date()),
 				timeShow: false,
 				formData: {},
-				fileList1: [],
+				fileList: [],
 				formList: formList,
 				show: false,
 				pickerData: pickerData
@@ -107,58 +110,24 @@
 			},
 			// 删除图片
 			deletePic(event) {
-				this[`fileList${event.name}`].splice(event.index, 1)
+				this.fileList.splice(event.index, 1)
 			},
-			// 新增图片
 			async afterRead(event) {
-				// 当设置 mutiple 为 true 时, file 为数组格式，否则为对象格式
-				let lists = [].concat(event.file)
-				let fileListLen = this[`fileList${event.name}`].length
-				lists.map((item) => {
-					this[`fileList${event.name}`].push({
-						...item,
-						status: 'uploading',
-						message: '上传中'
-					})
+				this.fileList.push({
+					...event.file,
+					// status: 'uploading',
+					// message: '上传中'
 				})
-				for (let i = 0; i < lists.length; i++) {
-					const result = await this.uploadFilePromise(lists[i].url)
-					let item = this[`fileList${event.name}`][fileListLen]
-					this[`fileList${event.name}`].splice(fileListLen, 1, Object.assign(item, {
-						status: 'success',
-						message: '',
-						url: result
-					}))
-					fileListLen++
-				}
 			},
-			uploadFilePromise(url) {
-				console.log(url)
-				// return new Promise((resolve, reject) => {
-				// 	let a = uni.uploadFile({
-				// 		url: 'http://192.168.2.21:7001/upload', // 仅为示例，非真实的接口地址
-				// 		filePath: url,
-				// 		name: 'file',
-				// 		formData: {
-				// 			user: 'test'
-				// 		},
-				// 		success: (res) => {
-				// 			setTimeout(() => {
-				// 				resolve(res.data.data)
-				// 			}, 1000)
-				// 		}
-				// 	});
-				// })
-			}
 		}
 	}
 </script>
 <style scoped lang="scss">
 	.app-container {
 		background-color: #fff;
-		margin-bottom: 50px;
-		height: calc(100% - 70px);
-		border-radius: 0 0 35px 35px;
+		border-radius: 0 0 26px 26px;
+		max-height: 100%;
+
 		.form-input {
 			width: 100%;
 		}
@@ -180,46 +149,18 @@
 			display: none;
 		}
 
-		.container-addplan {
-			border: none;
-			margin-right: 0;
-			margin-top: 8px;
-			border-radius: 8px;
-			width: 30px;
-			min-width: 30px;
-		}
-
-		.tag-addpaln {
-			width: 42pt;
-			height: 21pt;
-			min-width: 30pt;
-			margin: 0;
-			margin-left: 5px;
-			border: 1px dashed rgb(180, 180, 180);
-			color: rgb(180, 180, 180);
-		}
-
-		.bottom-fiexd {
-			left: 0;
-			position: fixed;
-			bottom: 0;
-			width: 100%;
-
-			uni-text {
-				padding: 8px 30px;
-				color: rgb(42, 42, 42);
-				font-size: 12px;
-				font-weight: bold;
-			}
-
-		}
 	}
 
-	::v-deep .tag-group {
-		max-height: 50px;
-		overflow: scroll;
-		display: flex;
-		flex-wrap: wrap;
+	.bottom-fiexd {
+		width: 100%;
+
+		uni-text {
+			padding: 8px 30px;
+			color: rgb(42, 42, 42);
+			font-size: 12px;
+			font-weight: bold;
+		}
+
 	}
 
 	.u-form-item {
@@ -230,7 +171,7 @@
 		.form-upload {
 			width: 100%;
 			align-items: center;
-			padding: 20px;
+			padding: 8px;
 
 			uni-text {
 				color: rgb(200, 200, 200);

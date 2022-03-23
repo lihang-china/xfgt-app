@@ -11,46 +11,70 @@
 			</view>
 		</u-sticky>
 		<view class="app-container">
-			<file-item v-for="(item,index) in fileList" :fileData="item" :key="index" />
+			<uni-list>
+				<uni-list-item v-for="(item,index) in data.list" :key="index">
+					<file-item :fileData="item" slot='body' />
+				</uni-list-item>
+			</uni-list>
 		</view>
-		<u-datetime-picker @cancel="show = false" @confirm="handleDate" :show="show" v-model="searchDate" mode="date">
+		<u-datetime-picker @change="dateChange" @cancel="show = false" @confirm="handleDate" :show="show" v-model="searchDate" mode="date">
 		</u-datetime-picker>
 	</view>
 </template>
 
 <script>
 	import {
+		uniList,
+		uniListItem,
+	} from '@dcloudio/uni-ui'
+	import {
 		fileList
 	} from './default.js'
 	import fileItem from './components/fileList.vue'
 	export default {
 		components: {
-			fileItem
+			fileItem,
+			uniList,
+			uniListItem,
 		},
+
 		data() {
 			return {
+				data: {
+					list: []
+				},
 				searchVal: undefined,
 				dataList: fileList,
-				fileList: fileList,
 				show: false,
 				searchDate: Number(new Date())
 			}
 		},
+		mounted() {
+			this.$lazyList(this.data, this.dataList, 10)
+		},
 		methods: {
+			dateChange(val){
+				this.searchDate = val.value
+			},
 			handleDate() {
-				this.fileList = this.dataList.filter(e => {
-					return this.$moment(this.searchDate).format('YYYY-MM-DD') ? e.careateTime == this.$moment(this
-						.searchDate).format('YYYY-MM-DD') : e
+				let arr = this.dataList.filter(e => {
+					console.log(e.careateTime , this.$moment(this.searchDate).format('YYYY-MM-DD') )
+					return  e.careateTime == this.$moment(this.searchDate).format('YYYY-MM-DD') 
 				})
 				this.show = false
+				console.log(arr)
+				this.$lazyList(this.data, arr, 20)
+
 			},
-			handleReload(){
-				this.fileList = this.dataList
+			handleReload() {
+				this.searchVal = undefined
+				this.$lazyList(this.data, this.dataList, 20)
 			},
 			handleSearch() {
-				this.fileList = this.dataList.filter(e => {
+				let arr = this.dataList.filter(e => {
 					return this.searchVal ? e.type == this.searchVal : e
 				})
+				this.$lazyList(this.data, arr, 20)
 			}
 		}
 	}

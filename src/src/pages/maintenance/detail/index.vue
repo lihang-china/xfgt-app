@@ -65,6 +65,7 @@
 				}],
 			}
 		},
+		
 		methods: {
 			hadnleChange(row) {
 				this.type = row.type

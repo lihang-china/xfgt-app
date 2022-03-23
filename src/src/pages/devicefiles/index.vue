@@ -7,20 +7,30 @@
 		</view>
 		<view class="app-container">
 			<view class="card-list">
-				<card-item :cardData="item" v-for="(item,index) in deviceList" :key="index" />
+				<uni-list>
+					<uni-list-item v-for="(item,index) in deviceList" :key="index">
+						<card-item :cardData="item" slot="body"/>
+					</uni-list-item>
+				</uni-list>
 			</view>
 		</view>
 	</view>
 </template>
 
 <script>
+	import {
+		uniList,
+		uniListItem,
+	} from '@dcloudio/uni-ui'
 	import cardItem from './components/itemCard.vue'
 	import {
 		deviceList
 	} from './default.js'
 	export default {
 		components: {
-			cardItem
+			cardItem,
+			uniList,
+			uniListItem,
 		},
 		data() {
 			return {
@@ -37,7 +47,9 @@
 </script>
 
 <style lang="scss" scoped>
+
 	.container {
+		
 		.header-search {
 			padding: 0 12px;
 		}

@@ -2,32 +2,51 @@
     "name" : "XFGT",
     "appid" : "__UNI__624DD6C",
     "description" : "",
-    "versionName" : "1.0.0",
-    "versionCode" : "100",
+    "versionName" : "0.5.6",
+    "versionCode" : 102,
     "transformPx" : false,
     "h5" : {
-        "publicPath" : "./",
         "sdkConfigs" : {
             "maps" : {
                 "qqmap" : {
-                    "key" : "M7HBZ-HAOCP-UVTDD-LCHJO-5X6QV-ZNBEO"
+                    "key" : "WV2BZ-U733D-PGS4B-P7AIK-Z265J-OXBLP"
                 }
             }
         },
+        "devServer" : {
+            "proxy" : {
+                "/dev-api" : {
+                    "target" : "http://8.136.204.163:8017",
+                    "changeOrigin" : true,
+                    "secure" : false,
+                    "pathRewrite" : {
+                        "^/dev-api" : "/"
+                    }
+                }
+            }
+        },
+        "publicPath" : "./",
         "optimization" : {
             "treeShaking" : {
                 "enable" : true
             }
+        },
+        "router" : {
+            "base" : "./",
+            "mode" : "history"
         }
     },
     "app-plus" : {
         /* 5+App特有相关 */
         "usingComponents" : true,
         "splashscreen" : {
-            "alwaysShowBeforeRender" : true,
+            "alwaysShowBeforeRender" : false,
             "waiting" : true,
-            "autoclose" : true,
+            "autoclose" : false,
             "delay" : 0
+        },
+        "compatible" : {
+            "ignoreVersion" : true //true表示忽略版本检查提示框，HBuilderX1.9.0及以上版本支持  
         },
         "modules" : {
             /* 模块配置 */
@@ -44,13 +63,17 @@
                     "<uses-feature android:name=\"android.hardware.camera.autofocus\"/>",
                     "<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\"/>",
                     "<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\"/>",
+                    "<uses-permission android:name=\"android.permission.ACCESS_LOCATION_EXTRA_COMMANDS\"/>",
                     "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\"/>",
                     "<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\"/>",
+                    "<uses-permission android:name=\"android.permission.BLUETOOTH\"/>",
+                    "<uses-permission android:name=\"android.permission.BLUETOOTH_ADMIN\"/>",
                     "<uses-permission android:name=\"android.permission.CALL_PHONE\"/>",
                     "<uses-permission android:name=\"android.permission.CAMERA\"/>",
                     "<uses-permission android:name=\"android.permission.CHANGE_NETWORK_STATE\"/>",
                     "<uses-permission android:name=\"android.permission.CHANGE_WIFI_STATE\"/>",
                     "<uses-permission android:name=\"android.permission.FLASHLIGHT\"/>",
+                    "<uses-permission android:name=\"android.permission.INTERNET\"/>",
                     "<uses-permission android:name=\"android.permission.MODIFY_AUDIO_SETTINGS\"/>",
                     "<uses-permission android:name=\"android.permission.MOUNT_UNMOUNT_FILESYSTEMS\"/>",
                     "<uses-permission android:name=\"android.permission.READ_LOGS\"/>",
@@ -58,6 +81,7 @@
                     "<uses-permission android:name=\"android.permission.RECORD_AUDIO\"/>",
                     "<uses-permission android:name=\"android.permission.VIBRATE\"/>",
                     "<uses-permission android:name=\"android.permission.WAKE_LOCK\"/>",
+                    "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\"/>",
                     "<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>"
                 ]
             },
@@ -114,11 +138,24 @@
     /* 快应用特有相关 */
     "mp-weixin" : {
         /* 微信小程序特有相关 */
-        "appid" : "",
+        "appid" : "__UNI__624DD6C",
         "setting" : {
-            "urlCheck" : false
+            "urlCheck" : true,
+            "es6" : true
         },
-        "usingComponents" : true
+        "sdkConfigs" : {
+            "maps" : {
+                "qqmap" : {
+                    "key" : "M7HBZ-HAOCP-UVTDD-LCHJO-5X6QV-ZNBEO"
+                }
+            }
+        },
+        "usingComponents" : true,
+        "permission" : {
+            "scope.userLocation" : {
+                "desc" : "用户打卡"
+            }
+        }
     },
     "mp-alipay" : {
         "usingComponents" : true

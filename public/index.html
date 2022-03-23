@@ -4,11 +4,13 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no"> 
 		<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
 		<script src="./node_modules/amfe-flexible/index.js"></script>
 		<title>
 			<%= htmlWebpackPlugin.options.title %>
 		</title>
+		    <script src="https://webapi.amap.com/maps?v=2.0&key=6eb1f85e4933d171af7d8b99fa42f385"></script>
 		<script>
 			document.addEventListener('DOMContentLoaded', function() {
 				document.documentElement.style.fontSize = document.documentElement.clientWidth / 20 + 'px'

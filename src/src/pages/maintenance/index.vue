@@ -42,6 +42,9 @@
 				isShow: true,
 			}
 		},
+		created(){
+			this.$store.state.pageName = 'maintain'
+		},
 		methods: {
 			changeBar(index) {
 				this.isShow = false

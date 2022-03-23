@@ -87,7 +87,7 @@
 			overflow: scroll;
 		}
 
-		* {
+		uni-text {
 			font-size: 11px;
 			color: rgb(45, 45, 45);
 		}

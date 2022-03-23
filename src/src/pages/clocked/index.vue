@@ -1,68 +1,71 @@
 <template>
-	<view class="clocked">
-		<view class="clocked-title">
-			<text class="ui-title">浙江源创</text>
-			<view class="title-top">
-				<text>{{this.$moment(date).format('HH:mm:ss')}} </text>
-				<view class="top-left">
-					<text>{{this.$moment(new Date()).format('MM月DD日')}} </text>
-					<text>{{ date | formatDay }}</text>
-				</view>
-			</view>
-			<view class="title-btngroup">
-				<u-button @click="handelCount()" iconColor="rgb(149, 149, 149)" icon="map" shape="circle" text="考勤记录"
-					class="custom-style flex-center">
-				</u-button>
-				<u-button @click="handelRule()" iconColor="rgb(149, 149, 149)" icon="order" text="规则"
-					class="custom-style flex-center" shape="circle">
-				</u-button>
-			</view>
-		</view>
-		<ui-card class="clocked-header">
-			<view class="flex-between">
-				<u-avatar text="北" fontSize="16" randomBgColor></u-avatar>
-				<view class="flex-column">
-					<text>Test User</text>
-					<text class="clocked-tips" @click="routerMap()">{{clockTips}}: {{clockPath}}</text>
-				</view>
-			</view>
-		</ui-card>
-		<ui-card class="clocked-center">
-			<ui-card class="clocked-card">
-				<view class="card-left">
-					<text>上班08:30：</text>
-					<view class="card-time">
-						<text>08:30 {{upClock ? '已打卡' : '未打卡'}}</text>
-						<u-icon :color="upClock?'rgb(0, 238, 55)':'rgb(226, 226, 226)'"
-							:name="upClock ? 'checkmark-circle-fill' : 'close-circle-fill'">
-						</u-icon>
+	<view class="container">
+		<view class="tabbar">
+			<view class="clocked-title">
+				<text class="ui-title">浙江源创</text>
+				<view class="title-top">
+					<text>{{this.$moment(date).format('HH:mm:ss')}} </text>
+					<view class="top-left">
+						<text>{{this.$moment(new Date()).format('MM月DD日')}} </text>
+						<text>{{ date | formatDay }}</text>
 					</view>
-
-					<text>下班17:00：</text>
-					<view class="card-time">
-						<text>17:00 {{downClock ? '已打卡' : '未打卡'}}</text>
-						<u-icon :color="downClock?'rgb(0, 238, 55)':'rgb(226, 226, 226)'"
-							:name="downClock ? 'checkmark-circle-fill' : 'close-circle-fill'">
-						</u-icon>
+				</view>
+				<view class="title-btngroup">
+					<u-button @click="handelCount()" iconColor="rgb(149, 149, 149)" icon="map" shape="circle"
+						text="考勤记录" class="custom-style flex-center">
+					</u-button>
+					<u-button @click="handelRule()" iconColor="rgb(149, 149, 149)" icon="order" text="规则"
+						class="custom-style flex-center" shape="circle">
+					</u-button>
+				</view>
+			</view>
+			<ui-card class="clocked-header">
+				<view class="flex-between">
+					<u-avatar text="北" fontSize="16" randomBgColor></u-avatar>
+					<view class="flex-column">
+						<text>Test User</text>
+						<text class="clocked-tips" @click="routerMap()">{{clockTips}}: {{clockPath}}</text>
 					</view>
-					<text></text>
 				</view>
-				<view class="card-right">
-					<image src="../../images/people.png" mode=""></image>
-				</view>
-				<button class="card-button" :class="[isClock ? '' :'visible-button']" @click="handelClocked()">
-					{{upClock ? '下班' : '上班'}}打卡
-				</button>
 			</ui-card>
-		</ui-card>
-		<!-- 	<view class="clocked-bottom">
-			<view class="bottom-card ui-card" v-for="(item,index) in btnGroup" :key="index">
-				<image class="card-image" :src="require('../../images/' + item.icon) " mode=""></image>
-				<text>{{item.title}}</text>
-				<text>{{item.value}}</text>
-			</view>
-		</view> -->
-		<u-popup :round="10" :closeOnClickOverlay="false" :closeable="true" :duration="350" :show="show"
+			<ui-card class="clocked-center">
+				<ui-card class="clocked-card">
+					<view class="card-left">
+						<text>上班{{clockStart}}：</text>
+						<view class="card-time">
+							<text>{{clockStartvalue}} {{upClock ? '已打卡' : '未打卡'}}</text>
+							<u-icon :color="upClock?'rgb(0, 238, 55)':'rgb(226, 226, 226)'"
+								:name="upClock ? 'checkmark-circle-fill' : 'close-circle-fill'">
+							</u-icon>
+						</view>
+						<text>下班{{clockEnd}}：</text>
+						<view class="card-time">
+							<text>{{clockEndvalue}} {{downClock ? '已打卡' : '未打卡'}}</text>
+							<u-icon :color="downClock?'rgb(0, 238, 55)':'rgb(226, 226, 226)'"
+								:name="downClock ? 'checkmark-circle-fill' : 'close-circle-fill'">
+							</u-icon>
+						</view>
+						<text></text>
+					</view>
+					<view class="card-right">
+						<image src="../../images/people.png" mode=""></image>
+					</view>
+					<button class="card-button" :class="[isClock ? '' :'visible-button']" @click="handelClocked()">
+						{{upClock ? '下班' : '上班'}}打卡
+					</button>
+				</ui-card>
+			</ui-card>
+
+			<!-- 	<view class="clocked-bottom">
+				<view class="bottom-card ui-card" v-for="(item,index) in btnGroup" :key="index">
+					<image class="card-image" :src="require('../../images/' + item.icon) " mode=""></image>
+					<text>{{item.title}}</text>
+					<text>{{item.value}}</text>
+				</view>
+			</view> -->
+		</view>
+		<ui-tabbar />
+		<u-popup  :round="10" :closeOnClickOverlay="false" :closeable="true" :duration="350" :show="show"
 			@close="show = false" mode="center">
 			<ui-card class="dialog">
 				<view class="dialog-header flex-center">
@@ -84,9 +87,15 @@
 			</view>
 		</u-popup>
 	</view>
+
 </template>
 
 <script>
+	import wx from 'jweixin-module/lib/index.js';
+	import AMapLoader from '@amap/amap-jsapi-loader';
+	import {
+		clockPath
+	} from './default.js'
 	import clockMap from './components/map.vue'
 	export default {
 		components: {
@@ -94,15 +103,21 @@
 		},
 		data() {
 			return {
+				map: undefined,
+				clockStartvalue: undefined,
+				clockEndvalue: undefined,
+				clockStart: clockPath.clockStart,
+				clockEnd: clockPath.clockEnd,
+				radius: clockPath.radius,
 				xyTude: [],
 				upClock: false,
 				downClock: false,
 				isClock: false,
 				mapShow: false,
-				clockPath: '中控科技园',
+				clockPath: clockPath.path,
 				clockTips: '超出打卡范围',
-				latitude: 30.1806,
-				longitude: 120.139,
+				latitude: clockPath.latitude,
+				longitude: clockPath.longitude,
 				timer: undefined,
 				// btnGroup: [{
 				// 	icon: 'bmicon1.png',
@@ -122,19 +137,17 @@
 				cloedTime: new Date(),
 				cloedValue: "上班",
 				show: false,
-				touchData: {}
-
+				touchData: {},
 			}
 		},
-		beforeDestroy() {
-			//销毁计时器
+		onHide() {
 			clearInterval(this.timer);
 		},
-		created() {
-
-		},
 		mounted() {
-			this.getDistance()
+			this.initMap()
+		},
+		onShow() {
+			// this.getLocation()
 			//打卡页面定时刷新用户位置信息
 			this.initTimer()
 			setInterval(() => {
@@ -142,6 +155,30 @@
 			}, 1000)
 		},
 		methods: {
+			initMap() {
+
+				AMap.plugin('AMap.Geolocation', function() {
+					var geolocation = new AMap.Geolocation({
+						// 是否使用高精度定位，默认：true
+						enableHighAccuracy: true,
+						// 设置定位超时时间，默认：无穷大
+						timeout: 10000,
+						// 定位按钮的停靠位置的偏移量
+						offset: [10, 20],
+						//  定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+						zoomToAccuracy: true,
+						//  定位按钮的排放位置,  RB表示右下
+						position: 'RB'
+					})
+
+					geolocation.getCurrentPosition(function(status, result) {
+						if (status == 'complete') {
+							this.xyTude = [result.position.lat, result.position.lng]
+						} else {}
+					});
+
+				})
+			},
 			touchStar(e) {
 				this.touchData = e.changedTouches[0]
 			},
@@ -159,59 +196,64 @@
 			},
 			getDistance() {
 				//地理围栏算法,判断用户位置是否在范围内
+				// let x = 30.1804
+				// let y = 120.1395
 				let radLat1 = this.Rad(Number(this.latitude))
-				let radLat2 = this.Rad(Number(30.1804))
+				let radLat2 = this.Rad(Number(this.xyTude[0]))
 				let a = a = radLat1 - radLat2
-				let b = this.Rad(this.longitude) - this.Rad(Number(120.139))
+				let b = this.Rad(this.longitude) - this.Rad(Number(this.xyTude[1]))
 				let s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2) + Math.cos(radLat1) * Math.cos(radLat2) * Math
 					.pow(Math.sin(b / 2), 2)))
 				s = s * 6378.137
-				s = Math.round(s * 10000) / 10000
+				s = Math.round(s * 10000) / (this.radius * 100)
 				s = s.toFixed(2)
 				if (s * 1000 < Number(Number(100)) + 5) {
 					this.isClock = true
-					console.log("未超出范围：" + s * 1000)
+					console.log("未超出范围：" + s * 100)
 					return true
 				} else {
 					this.distanceFlag = true
-					console.log("超出范围：" + s * 1000)
+					console.log("超出范围：" + s)
 					return false
 				}
 			},
 			initTimer() {
 				//定时器定时获取用户位置信息
 				this.timer = setInterval(() => {
-					if (this.isClock == false) {
-						this.getDistance()
-					}
-					uni.getLocation({
-						altitude: true
-					}).then(res => {
-						console.log(res[1].latitude, res[1].longitude, '打卡用户位置信息')
-						if (res[1].latitude && res[1].longitude) {
-							this.xyTude = [res[1].latitude, res[1].longitude]
-						}
-					})
+					if (this.isClock == false) {}
+					this.getLocation()
 				}, 3000)
 			},
+			getLocation() {
+				uni.getLocation({
+					isHighAccuracy: true,
+					high: 'best',
+					geocode: true,
+					altitude: true,
+					type: 'gcj02',
+					success: (res) => {
+						if (res.latitude && res.longitude) {
+							this.xyTude = [res.latitude, res.longitude]
+							this.getDistance()
+						}
+					}
+				})
+			},
 			handelCount() {
-				uni.navigateTo({
-					url: '../clockcount/index'
-				});
+				this.$url('/pages/clockcount/index')
 			},
 			handelRule() {
-				uni.navigateTo({
-					url: '../clockrules/index'
-				});
+				this.$url('/pages/clockrules/index')
 			},
 			handelClocked() {
 				if (this.isClock == true) {
 					if (this.upClock == true && this.downClock == true) {
-						this.cloedValue = '更新'
+						this.cloedValue = '更新', this.clockEndvalue = this.$moment(new Date()).format("HH:mm")
 					} else {
-						this.upClock == true ? (this.downClock = true, this.cloedValue = '下班') : (this.upClock =
+						this.upClock == true ? (this.downClock = true, this.cloedValue = '下班', this.clockEndvalue = this
+							.$moment(new Date()).format("HH:mm")) : (this.upClock =
 							true, this
-							.cloedValue = '上班')
+							.cloedValue = '上班', this.clockStartvalue = this.$moment(new Date()).format("HH:mm"))
 					}
 					this.show = true
 					this.$forceUpdate()
@@ -222,7 +264,11 @@
 </script>
 
 <style lang="scss" scoped>
-	.clocked {
+	.container {
+		display: flex;
+		max-height: 100%;
+		flex-direction: column;
+
 		.clock-map {
 			margin: 8px;
 			width: calc(100% - 16px);
@@ -233,14 +279,12 @@
 				margin: 0 auto;
 				margin-top: 5px;
 				margin-bottom: 5px;
-				border-radius: 2px;
-				background-color: rgb(160, 160, 160);
-				width: 15px;
-				height: 3px;
+				border-radius: 4px;
+				background-color: rgb(180, 180, 180);
+				width: 20px;
+				height: 5px;
 			}
 		}
-
-
 
 		.ui-title {
 			font-size: 12px;
@@ -250,9 +294,6 @@
 			width: 24px;
 			height: 24px;
 		}
-
-		width:100%;
-		margin-bottom: 30px;
 
 		.clocked-bottom {
 			width: 100%;
@@ -358,7 +399,7 @@
 		}
 
 		.dialog {
-			width: 120px;
+			width: 130px;
 			height: 50px;
 			display: flex;
 			flex-direction: column;
@@ -443,7 +484,6 @@
 				background : linear-gradient(35deg, rgba(0, 104, 248, 0.7), rgb(0, 104, 248));
 			}
 
-			overflow: hidden;
 		}
 	}
 </style>

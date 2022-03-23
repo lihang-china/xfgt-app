@@ -1,7 +1,6 @@
-<template>
+<!-- <template>
 	<view class="container">
 		<view class="container-header">
-
 		</view>
 		<view class="app-container">
 			<component :is="activeName"></component>
@@ -71,14 +70,16 @@
 	}
 
 	.app-container {
-		max-height: calc(88%);
+		max-height: calc(100% - 60px);
 	}
 
 	::v-deep .u-tabbar {
+		flex: 0;
+
 		.u-tabbar__content__item-wrapper {
 			border: none !important;
-			// box-shadow: 0 0 0 0.5pt rgb(220, 220, 220);
 			background-color: rgb(241, 242, 243);
 		}
 	}
 </style>
+ -->

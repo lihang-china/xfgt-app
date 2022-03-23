@@ -1,33 +1,39 @@
 <template>
-	<view class="">
-		<ui-card v-for="(item,index) in orderList" :key="index" v-show="item[initData.type] == cardType || cardType == -1">
-			<view class="bottom-header">
-				<text>{{$moment(item.createTime).format('YYYY-MM-DD HH:mm:ss')}}</text>
-			</view>
-			<view class="bottom-center flex-between">
-				<view class="flex-flex">
-					<u-avatar :text="item[initData.name].split('').pop()" fontSize="18" randomBgColor></u-avatar>
-					<view class="flex-column">
-						<text>{{item[initData.name]}}</text>
-						<text
-							:class="[item[initData.phone] ? '' :'ui-undefined']">{{item[initData.phone] ?item[initData.phone] : '空'}}</text>
+	<view>
+		<uni-list>
+			<uni-list-item v-for="(item,index) in orderList" :key="index">
+				<ui-card slot="body" v-show="item[initData.type] == cardType || cardType == -1">
+					<view class="bottom-header">
+						<text>{{$moment(item.createTime).format('YYYY-MM-DD HH:mm:ss')}}</text>
 					</view>
-				</view>
-				<view class="center-tag">
-					<u-tag class="center-tag" :text=" initData.typeValue[Number(item[initData.type])]"
-						:type="item[initData.type] == 0 ?'primary':'error'"></u-tag>
-				</view>
-			</view>
-			<view class="block-bottom flex-between">
-				<view class="flex-flex">
-					<text>{{initData.bottomList[0].title}}：</text>
-					<text>{{item[initData.bottomList[0].field]}}</text>
-				</view>
-				<view>
-					<text @click="handleView(index)" class="text-btn">查看详情</text>
-				</view>
-			</view>
-		</ui-card>
+					<view class="bottom-center flex-between">
+						<view class="flex-flex">
+							<u-avatar :text="item[initData.name].split('').pop()" fontSize="18" randomBgColor>
+							</u-avatar>
+							<view class="flex-column">
+								<text>{{item[initData.name]}}</text>
+								<text
+									:class="[item[initData.phone] ? '' :'ui-undefined']">{{item[initData.phone] ?item[initData.phone] : '空'}}</text>
+							</view>
+						</view>
+						<view class="center-tag">
+							<u-tag class="center-tag" :text=" initData.typeValue[Number(item[initData.type])]"
+								:type="item[initData.type] == 0 ?'primary':'error'"></u-tag>
+						</view>
+					</view>
+					<view class="block-bottom flex-between">
+						<view class="flex-flex">
+							<text>{{initData.bottomList[0].title}}：</text>
+							<text>{{item[initData.bottomList[0].field]}}</text>
+						</view>
+						<view>
+							<text @click="handleView(index,item)" class="text-btn">查看详情</text>
+						</view>
+					</view>
+				</ui-card>
+			</uni-list-item>
+		</uni-list>
+
 		<order-detail-card :itemData="orderList[listIndex]" :listIndex="listIndex" @popupState="handleClose"
 			:open="isShow" />
 		<!-- handleClose 获取孙子组件对象 -->
@@ -36,6 +42,10 @@
 
 <script>
 	import {
+		uniList,
+		uniListItem,
+	} from '@dcloudio/uni-ui'
+	import {
 		orderList,
 		cardEdit
 	} from '../detail/defult.js'
@@ -43,12 +53,14 @@
 	export default {
 
 		components: {
-			OrderDetailCard
+			OrderDetailCard,
+			uniListItem,
+			uniList
 		},
-		props:{
-			cardType:{
-				type:Number,
-				default:-1	
+		props: {
+			cardType: {
+				type: Number,
+				default: -1
 			}
 		},
 		data() {
@@ -63,7 +75,7 @@
 			handleClose(data) {
 				this.isShow = data
 			},
-			handleView(index) {
+			handleView(index, item) {
 				this.listIndex = index
 				this.isShow = true
 			}
@@ -74,6 +86,10 @@
 <style lang="scss" scoped>
 	uni-text {
 		font-size: 9px;
+	}
+
+	.uni-list {
+		background-color: rgba(0, 0, 0, 0);
 	}
 
 	.block-bottom {
