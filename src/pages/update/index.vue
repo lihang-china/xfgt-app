@@ -27,9 +27,9 @@
 			}
 		},
 		created() {
-			this.show = true
 			//条件编译
 			// #ifdef APP
+			this.show = true 
 			// #endif
 		},
 		methods: {
