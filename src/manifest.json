@@ -16,7 +16,7 @@
         "devServer" : {
             "proxy" : {
                 "/dev-api" : {
-                    "target" : "http://8.136.204.163:8017",
+                    "target" : "http://115.29.201.75:8080",
                     "changeOrigin" : true,
                     "secure" : false,
                     "pathRewrite" : {

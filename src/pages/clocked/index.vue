@@ -21,9 +21,9 @@
 			</view>
 			<ui-card class="clocked-header">
 				<view class="flex-between">
-					<u-avatar text="北" fontSize="16" randomBgColor></u-avatar>
+					<u-avatar :src="imgSrc" fontSize="16" randomBgColor></u-avatar>
 					<view class="flex-column">
-						<text>Test User</text>
+						<text>{{userInfo.userName}}</text>
 						<text class="clocked-tips" @click="routerMap()">{{clockTips}}: {{clockPath}}</text>
 					</view>
 				</view>
@@ -65,7 +65,7 @@
 			</view> -->
 		</view>
 		<ui-tabbar />
-		<u-popup  :round="10" :closeOnClickOverlay="false" :closeable="true" :duration="350" :show="show"
+		<u-popup :round="10" :closeOnClickOverlay="false" :closeable="true" :duration="350" :show="show"
 			@close="show = false" mode="center">
 			<ui-card class="dialog">
 				<view class="dialog-header flex-center">
@@ -91,8 +91,11 @@
 </template>
 
 <script>
-	import wx from 'jweixin-module/lib/index.js';
-	import AMapLoader from '@amap/amap-jsapi-loader';
+	import {
+		clocked
+	} from '/src/api/class.js'
+	// import wx from 'jweixin-module/lib/index.js';
+	// import AMapLoader from '@amap/amap-jsapi-loader';
 	import {
 		clockPath
 	} from './default.js'
@@ -103,6 +106,7 @@
 		},
 		data() {
 			return {
+				userInfo: {},
 				map: undefined,
 				clockStartvalue: undefined,
 				clockEndvalue: undefined,
@@ -138,13 +142,15 @@
 				cloedValue: "上班",
 				show: false,
 				touchData: {},
+				imgSrc: undefined,
 			}
 		},
 		onHide() {
+
 			clearInterval(this.timer);
 		},
-		mounted() {
-			this.initMap()
+		onLoad() {
+			this.getUserinfo()
 		},
 		onShow() {
 			// this.getLocation()
@@ -155,29 +161,10 @@
 			}, 1000)
 		},
 		methods: {
-			initMap() {
-
-				AMap.plugin('AMap.Geolocation', function() {
-					var geolocation = new AMap.Geolocation({
-						// 是否使用高精度定位，默认：true
-						enableHighAccuracy: true,
-						// 设置定位超时时间，默认：无穷大
-						timeout: 10000,
-						// 定位按钮的停靠位置的偏移量
-						offset: [10, 20],
-						//  定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
-						zoomToAccuracy: true,
-						//  定位按钮的排放位置,  RB表示右下
-						position: 'RB'
-					})
-
-					geolocation.getCurrentPosition(function(status, result) {
-						if (status == 'complete') {
-							this.xyTude = [result.position.lat, result.position.lng]
-						} else {}
-					});
-
-				})
+			getUserinfo() {
+				var data = uni.getStorageSync('user_info')
+				this.userInfo = data.user.user
+				this.imgSrc = data.user.user.avatar
 			},
 			touchStar(e) {
 				this.touchData = e.changedTouches[0]
@@ -255,7 +242,15 @@
 							true, this
 							.cloedValue = '上班', this.clockStartvalue = this.$moment(new Date()).format("HH:mm"))
 					}
-					this.show = true
+					clocked({
+						attendanceId: 0,
+						teamId: 2,
+						checkTimeDay: this.$moment(new Date()).format("YYYY-MM-DD")
+					}).then(res => {
+						if (res.code == 200) {
+							this.show = true
+						}
+					})
 					this.$forceUpdate()
 				}
 			}

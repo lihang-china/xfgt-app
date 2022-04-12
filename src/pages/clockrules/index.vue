@@ -6,7 +6,7 @@
 	<view class="app-container">
 	
 		<ui-card class="container-header flex-flex">
-			<u-avatar text="北" fontSize="14px" randomBgColor />
+			<u-avatar :src="imgSrc" fontSize="14px" randomBgColor />
 			<view class="flex-column">
 				<text>{{username}}</text>
 				<text>{{clockPath}}</text>
@@ -45,7 +45,16 @@
 				}]
 			}
 		},
+		onLoad(){
+			this.getUserinfo()
+		},
 		methods: {
+		getUserinfo() {
+			var data = uni.getStorageSync('user_info')
+			this.userInfo = data.user.user
+			this.imgSrc = data.user.user.avatar
+			this.userInfo.deptName = data.user.user.dept.deptName
+			},
 			leftClick() {
 				uni.navigateBack({
 					delta: 1

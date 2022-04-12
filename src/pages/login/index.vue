@@ -43,6 +43,9 @@
 </template>
 <script>
 	import {
+		login,getInfo
+	} from '/src/api/login.js'
+	import {
 		setToken
 	} from '/src/request/token.js'
 	export default {
@@ -79,6 +82,7 @@
 			this.initForm()
 		},
 		methods: {
+
 			handleReg() {
 				this.$url('/pages/register/index')
 			},
@@ -90,25 +94,32 @@
 					this.radiovalue[0] = true
 				}
 			},
-			async getLogin() {
-				if (this.form.username == 'admin' && this.form.password == 'admin') {
-					setToken('test').then(() => {
-						let data = JSON.parse(JSON.stringify(this.form))
-						if (!this.radiovalue[0]) {
-							data.password = undefined
-						}
-						uni.setStorage({
-							key: 'user_info',
-							data: {
-								...data
+			getLogin() {
+				login(this.form.username, this.form.password).then(res => {
+					if(res.code !== 200){
+						uni.$u.toast(res.msg)
+					}else{
+						setToken(res.data.access_token).then(() => {
+							let data = JSON.parse(JSON.stringify(this.form))
+							if (!this.radiovalue[0]) {
+								data.password = undefined
 							}
-						});
-						this.$url('/pages/homepage/index', 1)
-
-					})
-				} else {
-					this.show = true
-				}
+							getInfo().then(info=>{
+								console.log(info.user,'12313')
+								uni.setStorage({
+									key: 'user_info',
+									data: {
+										...data,
+										user:{
+											...info.user
+										}
+									}
+								});
+							})
+						})
+						 this.$url('/pages/homepage/index', 1)
+					}
+				})
 			},
 			handelLogin() {
 				this.$refs.uForm.validate().then(res => {
@@ -127,7 +138,8 @@
 		height: 100%;
 		width: 100%;
 		min-height: 350px;
-position: relative;
+		position: relative;
+
 		.login-version {
 			width: 100%;
 			text-align: center;

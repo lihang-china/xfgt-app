@@ -7,7 +7,7 @@
 				<ui-card class="container-header">
 					<view class="flex-between">
 						<view class="flex-between">
-							<u-avatar text="北" fontSize="18" randomBgColor></u-avatar>
+							<u-avatar :src="imgSrc" fontSize="18" randomBgColor></u-avatar>
 							<view class="flex-column">
 								<text>{{username}}</text>
 								<text>考勤规则:{{rule}}</text>
@@ -67,9 +67,19 @@
 				itemList: clockList,
 				show: false,
 				date: Number(new Date()),
+				imgSrc: undefined,
 			}
 		},
+		onLoad() {
+			this.getUserinfo()
+		},
 		methods: {
+			getUserinfo() {
+				var data = uni.getStorageSync('user_info')
+				this.userInfo = data.user.user
+				this.imgSrc = data.user.user.avatar
+				this.userInfo.deptName = data.user.user.dept.deptName
+			},
 			leftClick() {
 				uni.navigateBack({
 					delta: 1
@@ -82,9 +92,16 @@
 <style lang="scss" scoped>
 	.app-container {
 		height: 100%;
+
 		.container {
 			max-height: 100%;
 			overflow: scroll;
+
+			.container-header {
+				.flex-between {
+					padding: 5px;
+				}
+			}
 		}
 
 		uni-text {

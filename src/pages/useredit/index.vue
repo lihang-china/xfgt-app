@@ -26,7 +26,7 @@
 			</u-cell-group>
 		</view>
 		<item-edit :formData="userInfo" :isShow="show" @popupStatus="handleClose" :cellValue="cellValue" />
-		<u-modal  width="250" showCancelButton :show="outShow" content='是否退出登录?' @confirm="handleOut()"
+		<u-modal width="250" showCancelButton :show="outShow" content='是否退出登录?' @confirm="handleOut()"
 			@cancel="outShow = false"></u-modal>
 		<ui-tabbar />
 	</view>
@@ -55,20 +55,27 @@
 		},
 		data() {
 			return {
+
 				imgSrc: undefined,
 				fileList: [],
 				outShow: false,
 				cellValue: undefined,
 				show: false,
-				userInfo: userInfo,
+				userInfo: {},
 				itemList: itemList,
 				clockPath: '浙江源创智能'
 			}
 		},
 		onLoad() {
-			this.imgSrc = userInfo.avatar
+			this.getUserinfo()
 		},
 		methods: {
+			getUserinfo() {
+				var data = uni.getStorageSync('user_info')
+				this.userInfo = data.user.user
+				this.imgSrc = data.user.user.avatar
+				this.userInfo.deptName = data.user.user.dept.deptName
+			},
 			deletePic(event) {
 				this.fileList.splice(event.index, 1)
 			},

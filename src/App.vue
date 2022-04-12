@@ -9,8 +9,6 @@
 		onShow: function() {
 			uni.hideTabBar()
 			this.uniInit()
-			console.log(process.env.VUE_APP_BASEURL, 'App Show')
-
 		},
 		onHide: function() {
 			console.log('App Hide')
