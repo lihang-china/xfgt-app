@@ -1,5 +1,6 @@
 <template>
 	<view class="container">
+
 		<view>
 			<ui-card class="container-top">
 				<u-grid :border="true" :col="2">
@@ -24,7 +25,7 @@
 			</view>
 		</view>
 		<view class="container-bottom">
-			<order-card :cardType="type" />
+			<order-card :cardType="type" @statusNum="getStatusNum" />
 			<select-popup :cardEdit="initData" :navList="navList" :open.sync="isShow" @open="handleSubmit" />
 		</view>
 	</view>
@@ -53,20 +54,24 @@
 				baseList: [{
 					title: '一般',
 					color: 'rgb(104, 156, 244)',
-					value: 22,
+					value: 0,
 					icon: "order",
 					type: 0,
 				}, {
 					title: '紧急',
 					color: 'rgb(251, 87, 84)',
-					value: 3,
+					value: 0,
 					icon: 'bell',
 					type: 1
 				}],
 			}
 		},
-		
+
 		methods: {
+			getStatusNum(val) {
+				this.baseList[0].value = val[0]
+				this.baseList[1].value = val[1]
+			},
 			hadnleChange(row) {
 				this.type = row.type
 			},
@@ -83,6 +88,9 @@
 		display: flex;
 		flex-direction: column;
 		padding: 0;
+		overflow: scroll;
+		position: fixed;
+		width: calc(100% - 16px) !important;
 
 		::v-deep .u-cell__title-text {
 			font-size: 10px;
@@ -113,7 +121,7 @@
 
 		.container-bottom {
 			margin-top: -4px;
-			padding-bottom: 20px;
+			padding-bottom: 120px;
 			flex-grow: 1;
 			overflow: scroll;
 		}

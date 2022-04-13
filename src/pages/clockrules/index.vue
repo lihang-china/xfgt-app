@@ -8,7 +8,7 @@
 		<ui-card class="container-header flex-flex">
 			<u-avatar :src="imgSrc" fontSize="14px" randomBgColor />
 			<view class="flex-column">
-				<text>{{username}}</text>
+				<text>{{userInfo.userName}}</text>
 				<text>{{clockPath}}</text>
 			</view>
 		</ui-card>
@@ -31,6 +31,7 @@
 		},
 		data() {
 			return {
+				userInfo:{},
 				username: '李航',
 				clockPath: '浙江源创智能',
 				itemList: [{

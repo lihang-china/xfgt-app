@@ -9,7 +9,7 @@
 						<view class="flex-between">
 							<u-avatar :src="imgSrc" fontSize="18" randomBgColor></u-avatar>
 							<view class="flex-column">
-								<text>{{username}}</text>
+								<text>{{userInfo.userName}}</text>
 								<text>考勤规则:{{rule}}</text>
 							</view>
 						</view>
@@ -37,7 +37,7 @@
 					</uni-collapse>
 				</ui-card>
 				<u-datetime-picker @close="show = false" :closeOnClickOverlay="true" @cancel="show = false" :show="show"
-					v-model="date" mode="date"></u-datetime-picker>
+					v-model="date" mode="year-month"></u-datetime-picker>
 			</view>
 		</view>
 	</view>
@@ -62,6 +62,7 @@
 		},
 		data() {
 			return {
+				userInfo:{},
 				rule: '标准考勤组',
 				username: '李航',
 				itemList: clockList,
