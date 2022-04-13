@@ -23,7 +23,7 @@
 	export default {
 		//itemList为slot内数据 itemList类型必须为数组
 		//listIndex为卡片默认打开索引
-		//open组件是否打卡
+		//open组件是否打开
 		props: {
 			itemList: {
 				type: Array,
@@ -43,6 +43,7 @@
 		},
 		data() {
 			return {
+				cardList: [],
 				list: [],
 				cardIndex: 0,
 				current: 0,
@@ -54,6 +55,9 @@
 			}
 		},
 		watch: {
+			itemList(val) {
+				this.cardList = val
+			},
 			open() {
 				//切换到执行滑块
 				this.current = this.listIndex
@@ -62,20 +66,21 @@
 				// this.$emit('cardData', this.info[this.cardIndex])
 			}
 		},
+
 		methods: {
 			initData() {
 				//防止长列表影响性能，数据默认为前后五个
 				let arr = []
 				let max = this.listIndex + 5
 				for (let i = this.listIndex; i <= max; i++) {
-					if (this.itemList[i] !== undefined) {
-						arr.push(this.itemList[i])
+					if (this.cardList[i] !== undefined) {
+						arr.push(this.cardList[i])
 					}
 					i + 1
 				}
 				for (let j = this.listIndex; j > 0; j--) {
-					if (this.itemList[j]) {
-						arr.unshift(this.itemList[j])
+					if (this.cardList[j]) {
+						arr.unshift(this.cardList[j])
 					}
 					j - 1
 				}

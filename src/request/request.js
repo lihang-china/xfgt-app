@@ -8,7 +8,6 @@ baseUrl = "http://xxx.xx.xxx.xx:8080"
 // #endif
 const uapi = function(Data) {
 	return new Promise((resolve, reject) => {
-		console.log(Data)
 		uni.request({
 			url: baseUrl + Data.url,
 			data: Data.data,

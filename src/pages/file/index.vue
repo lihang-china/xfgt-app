@@ -58,11 +58,9 @@
 			},
 			handleDate() {
 				let arr = this.dataList.filter(e => {
-					console.log(e.careateTime , this.$moment(this.searchDate).format('YYYY-MM-DD') )
 					return  e.careateTime == this.$moment(this.searchDate).format('YYYY-MM-DD') 
 				})
 				this.show = false
-				console.log(arr)
 				this.$lazyList(this.data, arr, 20)
 
 			},

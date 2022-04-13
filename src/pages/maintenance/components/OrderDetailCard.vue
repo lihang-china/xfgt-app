@@ -1,7 +1,8 @@
 <template>
 	<view class="">
-		<swiper-card :open="open" v-bind="$attrs" v-on="$listeners" :listIndex="listIndex" 
-			:itemList="orderList">
+		<swiper-card :open="open" v-bind="$attrs" v-on="$listeners" :listIndex="listIndex"
+	     :itemList="cardList"
+			>
 			<!-- 爷孙组件传参方式 v-bind="$attrs" v-on="$listeners" 绑定、监听子组件-->
 			<template v-slot:cards="{data}">
 				<!-- data:插槽传参 -->
@@ -37,12 +38,15 @@
 
 <script>
 	import {
-		orderList,
 		cardEdit
 	} from '../detail/defult.js'
 	import SwiperCard from '@/public/components/SwiperDard.vue'
 	export default {
 		props: {
+			itemData:{
+				type:Array,
+				default:()=>{}
+			},
 			listIndex: {
 				type: Number,
 				default: 0
@@ -55,18 +59,22 @@
 		components: {
 			SwiperCard
 		},
+		watch:{
+			itemData(val){
+				this.cardList = val
+			},
+		},
 		data() {
 			return {
+				cardList:[],
 				initData: cardEdit[this.$store.state.pageName],
-				orderList: orderList[this.$store.state.pageName],
-				// itemData:itemData,
-				info: [{}],
 				cardIndex: 0,
 				current: 0,
-				mode: 'round',
 			}
 		},
-
+    mounted(){
+		this.cardList = this.itemData
+	},
 		methods: {
 			change(data) {
 				this.cardIndex = data.detail.current

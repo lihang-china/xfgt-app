@@ -32,7 +32,7 @@ exports.install = function() {
 					lazyTimer = true
 					clearInterval(timer)
 				}
-			}, 800)
+			}, 1000)
 		} else {
 			// 不符合步长的之间返回搜索数组
 			obj.list = arr
