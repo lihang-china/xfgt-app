@@ -35,6 +35,7 @@
 </template>
 
 <script>
+	import {alarmList} from '/src/api/alarm.js'
 	import {
 		uniList,
 		uniListItem,
@@ -58,8 +59,8 @@
 				open: false,
 				listIndex: 0,
 				cardIndex: [],
-				alarmList: alarmData,
-				alarmData: alarmData,
+				alarmList: [],
+				alarmData: [],
 				list: ['全部告警', '未处理'],
 				current: 0,
 				chartData: {
@@ -67,7 +68,27 @@
 				}
 			}
 		},
+		onShow(){
+			 this.getAlarmList()
+		},
 		methods: {
+			getAlarmList(){
+				alarmList().then(res=>{
+					if(res.data){
+						this.alarmList = res.data
+						this.alarmData = res.data
+						// res.data.forEach(e=>{
+						// this.chartData.categories.includes(e) ?	this.chartData.categories.push(e.create):''	
+						// this.chartData.series.
+						// })
+						// res.data.forEach(e=>{
+						// 	this.chartData.categories.forEach(t=>{
+						// 		if(t.)
+						// 	})
+						// })
+					}
+				})
+			},
 			handleClose(val) {
 				this.open = val
 			},
@@ -105,6 +126,7 @@
 		.container-scroll {
 			max-height: calc(100% - 20px);
 			overflow: scroll;
+			padding-bottom: 20px;
 		}
 
 		.container-nav {

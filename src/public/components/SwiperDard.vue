@@ -1,6 +1,6 @@
 <template>
 	<!-- 需要配合模板使用 data 为当前卡片数据 ***** <template v-slot:cards="{data}"> *****-->
-	<u-popup class="container" :round="10" :show="open" @close="handleClose" mode="center">
+	<u-popup :round="10" :show="open" @close="handleClose" mode="center">
 		<uni-swiper-dot :info="itemList" field="content" mode="round">
 			<swiper :current="current" ref="swiper" class="swiper-box" @change="change">
 				<swiper-item v-for="(item,index) in list" :key="index">
@@ -59,31 +59,38 @@
 				this.cardList = val
 			},
 			open() {
-				//切换到执行滑块
-				this.current = this.listIndex
-				this.cardIndex = this.listIndex
 				this.initData()
-				// this.$emit('cardData', this.info[this.cardIndex])
 			}
 		},
-
+		mounted() {
+			this.cardList = this.itemList
+		},
 		methods: {
 			initData() {
-				//防止长列表影响性能，数据默认为前后五个
+				//防止长列表影响性能，数据默认为前后五个,'--------------'
+				this.cardList[this.listIndex].index = this.listIndex //标记当前数组位置
 				let arr = []
 				let max = this.listIndex + 5
-				for (let i = this.listIndex; i <= max; i++) {
+				let min = this.listIndex - 6
+				for (let i = this.listIndex + 1; i <= max; i++) {
 					if (this.cardList[i] !== undefined) {
 						arr.push(this.cardList[i])
 					}
 					i + 1
 				}
-				for (let j = this.listIndex; j > 0; j--) {
+				for (let j = this.listIndex; j > min; j--) {
 					if (this.cardList[j]) {
 						arr.unshift(this.cardList[j])
 					}
 					j - 1
 				}
+				//返回标记数组下标
+				this.current = arr.findIndex(val => {
+					return val.index == this.listIndex
+				})
+				this.cardIndex = arr.findIndex(val => {
+					return val.index == this.listIndex
+				})
 				this.list = arr
 			},
 			change(data) {

@@ -46,7 +46,6 @@
 			}
 		},
 		methods: {
-			
 			handleSubmit() {
 				let arr = []
 				this.navList.forEach(e => {

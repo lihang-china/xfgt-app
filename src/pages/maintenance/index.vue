@@ -1,21 +1,21 @@
 <template>
 	<view class="container">
-	<u-navbar class="app-navbar" :autoBack="true">
-	</u-navbar>	
-	<view class="app-container">
-		<view class="container-component">
-			<order-page v-if="isShow" />
-			<view v-else class="u-loading-icon flex-center">
-				<u-loadmore status="loading" />
+		<u-navbar class="app-navbar" :autoBack="true">
+		</u-navbar>
+		<view class="app-container">
+			<view class="container-component">
+				<order-page v-if="isShow" />
+				<view v-else class="u-loading-icon flex-center">
+					<u-loadmore status="loading" />
+				</view>
 			</view>
+			<u-tabbar :zIndex="0" :value="activeIndex" @change="changeBar" :fixed="true" :border="false" :placeholder="false"
+				inactiveColor="" :safeAreaInsetBottom="true">
+				<u-tabbar-item :text="item.title" :icon="item.icon" v-for="(item,index) in itemList" :key="index">
+				</u-tabbar-item>
+			</u-tabbar>
 		</view>
-		<u-tabbar :value="activeIndex" @change="changeBar" :fixed="true" :border="false" :placeholder="false"
-			inactiveColor="" :safeAreaInsetBottom="true">
-			<u-tabbar-item :text="item.title" :icon="item.icon" v-for="(item,index) in itemList" :key="index">
-			</u-tabbar-item>
-		</u-tabbar>
 	</view>
-		</view>
 </template>
 
 <script>
@@ -42,7 +42,7 @@
 				isShow: true,
 			}
 		},
-		created(){
+		created() {
 			this.$store.state.pageName = 'maintain'
 		},
 		methods: {
@@ -59,12 +59,13 @@
 </script>
 
 <style lang="scss" scoped>
-.container{
-	width: 100%;
-}
+	.container {
+		width: 100%;
+		overflow: hidden;
+	}
 
 	.app-container {
-	max-height: calc(88%);
+		max-height: calc(88%);
 	}
 
 	.u-loading-icon {

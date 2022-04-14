@@ -31,6 +31,14 @@ export function attendanceRecordList(data) {
 	data:data
   })
 }
+//根据员工id和日期查询日志列表
+export function attendanceRecordListId(data) {
+  return request({
+    url: '/eoms/base/attendance/record/listByDay',
+    method: 'get',
+	data:data
+  })
+}
 // 考勤统计
 export function clockCount(data) {
   return request({

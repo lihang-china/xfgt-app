@@ -1,6 +1,5 @@
 <template>
 	<view class="container">
-
 		<view>
 			<ui-card class="container-top">
 				<u-grid :border="true" :col="2">
@@ -84,12 +83,12 @@
 
 <style lang="scss" scoped>
 	.container {
-		height: 100%;
+		height: calc(100% - 70px);
 		display: flex;
 		flex-direction: column;
 		padding: 0;
 		overflow: scroll;
-		position: fixed;
+		position: absolute;
 		width: calc(100% - 16px) !important;
 
 		::v-deep .u-cell__title-text {
@@ -121,7 +120,7 @@
 
 		.container-bottom {
 			margin-top: -4px;
-			padding-bottom: 120px;
+			padding-bottom: 40px;
 			flex-grow: 1;
 			overflow: scroll;
 		}

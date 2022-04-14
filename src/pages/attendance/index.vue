@@ -127,7 +127,7 @@
 				show: false,
 				selectData: [],
 				pickerVal: null,
-				logDate:undefined,
+				logDate: undefined,
 			}
 		},
 		created() {
@@ -142,8 +142,8 @@
 				this.$forceUpdate()
 				this.pickerisSHow = false
 			},
-			attendanceRecordList(date) {
-				if (!(this.logDate && this.logDate == date)) {
+			attendanceRecordList(date, update) {
+				if (!(this.logDate && this.logDate == date && !update)) {
 					//判断日期是否相同，防止重复获取数据
 					this.logDate = date
 					this.logData = {}
@@ -172,7 +172,7 @@
 							title: '新建成功',
 							duration: 1000
 						});
-						this.attendanceRecordList(this.logDate)
+						this.attendanceRecordList(this.logDate, true)
 						this.logShow = false
 						this.show = false
 					} else {

@@ -1,5 +1,5 @@
 <template>
-	<view class="">
+	<view>
 		<swiper-card :open="open" v-bind="$attrs" v-on="$listeners" :listIndex="listIndex"
 	     :itemList="cardList"
 			>

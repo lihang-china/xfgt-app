@@ -1,5 +1,5 @@
 export const chartData = {
-	"categories": [
+	categories: [
 		"2016",
 		"2017",
 		"2018",
@@ -7,7 +7,7 @@ export const chartData = {
 		"2020",
 		"2021"
 	],
-	"series": [{
+series: [{
 			"name": "1级告警",
 			"data": [
 				35,
@@ -19,8 +19,8 @@ export const chartData = {
 			]
 		},
 		{
-			"name": "2级告警",
-			"data": [
+			name: "2级告警",
+			data: [
 				70,
 				40,
 				65,
@@ -30,8 +30,8 @@ export const chartData = {
 			]
 		},
 		{
-			"name": "3级告警",
-			"data": [
+			name: "3级告警",
+			data: [
 				100,
 				80,
 				95,
