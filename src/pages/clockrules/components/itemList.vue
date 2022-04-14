@@ -17,17 +17,25 @@
 	} from '../defult.js'
 	export default {
 		props: {
+			itemData: {
+				type: Array,
+				default: () => {}
+			},
 			type: {
 				type: String,
 				default: undefined
 			}
 		},
+		watch: {
+			itemData(val) {
+				this.itemList = val
+			}
+		},
 		data() {
 			return {
-				itemList: itemList,
+				itemList: itemList
 			}
-		}
-
+		},
 	}
 </script>
 

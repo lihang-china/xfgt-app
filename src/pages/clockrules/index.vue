@@ -15,7 +15,7 @@
 		<ui-card class="container-collapse">
 			<u-collapse @change="handleChange" accordion :value="0" :border="false">
 				<u-collapse-item :title="item.title" v-for="(item,index) in itemList" :key="index" :name="index">
-					<itme-list :type.sync="item.type" />
+					<itme-list :itemData="itemData" :type.sync="item.type" />
 				</u-collapse-item>
 			</u-collapse>
 		</ui-card>
@@ -24,6 +24,9 @@
 </template>
 
 <script>
+	import {
+		selectRule
+	} from '/src/api/rule.js'
 	import itmeList from './components/itemList.vue'
 	export default {
 		components: {
@@ -31,6 +34,7 @@
 		},
 		data() {
 			return {
+				itemData:[],
 				userInfo:{},
 				username: '李航',
 				clockPath: '浙江源创智能',
@@ -47,14 +51,48 @@
 			}
 		},
 		onLoad(){
+					this.getRules()
 			this.getUserinfo()
 		},
 		methods: {
+			getRules() {
+				selectRule().then(res => {
+					if (res.code == 200) {
+						this.itemData = [{
+							type: 'clock',
+							children: [{
+									title: '上下班时间',
+									value: [res.data[0].clockScope.workTime]
+								},
+								{
+									title: '弹性规则',
+									value: [res.data[0].clockScope.elasticRole]
+								}, {
+									title: '迟到规则',
+									value: [res.data[0].clockScope.lateRole]
+								}
+							]
+						}, {
+							type: 'rule',
+							children: [{
+								title: res.data[0].clockRole.roleOne.roleName,
+								value: [res.data[0].clockRole.roleOne.roleValue]
+							}]
+						}, {
+							type: 'path',
+							children: [{
+								title: res.data[0].clockSpace.spaceName,
+								value: [res.data[0].clockSpace.spaceValue]
+							}]
+						}]
+					}
+				})
+			},
 		getUserinfo() {
 			var data = uni.getStorageSync('user_info')
-			this.userInfo = data.user.user
-			this.imgSrc = data.user.user.avatar
-			this.userInfo.deptName = data.user.user.dept.deptName
+			this.userInfo = data.user
+			this.imgSrc = data.user.avatar
+			this.userInfo.deptName = data.user.dept.deptName
 			},
 			leftClick() {
 				uni.navigateBack({

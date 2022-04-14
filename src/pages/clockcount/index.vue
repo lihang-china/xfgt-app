@@ -44,6 +44,9 @@
 </template>
 
 <script>
+	import {
+		clockCount
+	} from '/src/api/class.js'
 	import colItem from "./components/collapseItem.vue"
 	import {
 		uniCollapse,
@@ -73,13 +76,18 @@
 		},
 		onLoad() {
 			this.getUserinfo()
+			this.getList()
 		},
 		methods: {
+			getList(){
+				clockCount().then(res=>{
+				})
+			},
 			getUserinfo() {
 				var data = uni.getStorageSync('user_info')
-				this.userInfo = data.user.user
-				this.imgSrc = data.user.user.avatar
-				this.userInfo.deptName = data.user.user.dept.deptName
+				this.userInfo = data.user
+				this.imgSrc = data.user.avatar
+				this.userInfo.deptName = data.user.dept.deptName
 			},
 			leftClick() {
 				uni.navigateBack({

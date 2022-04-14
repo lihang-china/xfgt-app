@@ -64,3 +64,17 @@ export const selectData = [{
 		}
 	}
 ]
+export const formItem = [{
+	title:'日志标题',
+	value:'logCaption',
+	icon:'bookmark'
+},{
+	title:'录入日期',
+	value:'journalDate',
+	icon:'clock'
+},
+{
+	title:'日志内容',
+	value:'noticeContent',
+	icon:'order'
+},]

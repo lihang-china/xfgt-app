@@ -6,11 +6,25 @@
 				<view class="bottom-top">
 					<text>{{date}}</text>
 				</view>
-				<view @click="createLog" v-if="Object.keys(fromData).length" class="bottom-center">
-					<u-icon size="24" name="file-text" color="rgb(200,200,200)" />
-					<text>点击新建日志</text>
+				<view v-if="Object.keys(fromData).length" class="bottom-center">
+					<u-form v-if="Object.keys(logData).length" class="log-form">
+						<u-form-item v-for="(item,index) in formItem" :key="index">
+							<view class="flex-column">
+								<view class="log-title flex-flex">
+									<u-icon size="18px" color="rgb(25, 122, 206)" :name="item.icon"></u-icon>
+									<view class="log-span">
+									</view> <text>{{item.title}}</text>
+								</view>
+								<text>{{logData[item.value]}}</text>
+							</view>
+						</u-form-item>
+					</u-form>
+					<view @click="createLog" v-else class="log-create flex-column-center">
+						<u-icon size="24" name="file-text" color="rgb(200,200,200)" />
+						<text>点击新建日志</text>
+					</view>
 				</view>
-				<view v-else class="bottom-center">
+				<view v-else class="bottom-none">
 					<text>今日暂无排班信息</text>
 				</view>
 			</view>
@@ -65,9 +79,7 @@
 						</u-form-item> -->
 
 						<u-form-item borderBottom>
-							<u-textarea v-model="fromData.desc"
-								prefixIconStyle="color:rgb(162, 224, 232);margin-right:2px;" prefixIcon="order"
-								placeholderStyle="fontSize:12px;" placeholder="请输入备注" border="none">
+							<u-textarea :maxlength="200" count v-model="fromData.desc" placeholder="请输入备注">
 							</u-textarea>
 						</u-form-item>
 						<u-form-item v-show="logShow" borderBottom>
@@ -85,14 +97,15 @@
 	import {
 		manualList,
 		attendanceRecord,
-		attendanceRecordList,
+		attendanceRecordListId,
 	} from '/src/api/class.js'
 	import {
 		uniCalendar,
 		uniSwiperDot
 	} from '@dcloudio/uni-ui'
 	import {
-		selectData
+		selectData,
+		formItem
 	} from './defualt.js'
 	export default {
 		components: {
@@ -101,6 +114,8 @@
 		},
 		data() {
 			return {
+				formItem: formItem,
+				logData: {},
 				timer: undefined,
 				logShow: false,
 				info: [{}],
@@ -112,11 +127,13 @@
 				show: false,
 				selectData: [],
 				pickerVal: null,
+				logDate:undefined,
 			}
 		},
 		created() {
 			this.getManualList()
 			this.initData()
+			this.attendanceRecordList(this.$moment(new Date()).format('YYYY-MM-DD'))
 		},
 		methods: {
 			pikerConfirm(val) {
@@ -126,17 +143,25 @@
 				this.pickerisSHow = false
 			},
 			attendanceRecordList(date) {
-				attendanceRecordList({
-					beginrepairDate: date,
-					endrepairDate: date,
-					pageNum: 1,
-					pageSize: 10
-				}).then(res => {})
+				if (!(this.logDate && this.logDate == date)) {
+					//判断日期是否相同，防止重复获取数据
+					this.logDate = date
+					this.logData = {}
+					attendanceRecordListId({
+						employeesId: uni.getStorageSync('user_info').user.userId,
+						journalDate: date,
+					}).then(res => {
+						if (res.rows[0]) {
+							this.logData = res.rows[0]
+						}
+					})
+				}
 			},
 			handelSubmit() {
 				let data = {
 					teamId: 2,
-					journalDate:this.fromData.date,
+					employeesId: uni.getStorageSync('user_info').user.userId,
+					journalDate: this.fromData.date,
 					logCaption: this.fromData.title,
 					noticeContent: this.fromData.desc
 				}
@@ -144,9 +169,12 @@
 					if (res.code == 200) {
 						uni.showToast({
 							icon: "success",
-							title: '新建日志成功成功',
+							title: '新建成功',
 							duration: 1000
 						});
+						this.attendanceRecordList(this.logDate)
+						this.logShow = false
+						this.show = false
 					} else {
 						uni.showToast({
 							icon: "none",
@@ -166,7 +194,7 @@
 			createLog() {
 				if (this.timer === undefined) {
 					this.fromData = {
-						date: this.$moment(new Date).format('YYYY-MM-DD')
+						date: this.$moment(new Date).format('YYYY-MM-DD'),
 					}
 					this.pickerVal = this.$moment(new Date).format('YYYY-MM-DD')
 					this.logShow = true

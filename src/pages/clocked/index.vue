@@ -146,7 +146,6 @@
 			}
 		},
 		onHide() {
-
 			clearInterval(this.timer);
 		},
 		onLoad() {
@@ -163,8 +162,8 @@
 		methods: {
 			getUserinfo() {
 				var data = uni.getStorageSync('user_info')
-				this.userInfo = data.user.user
-				this.imgSrc = data.user.user.avatar
+				this.userInfo = data.user
+				this.imgSrc = data.user.avatar
 			},
 			touchStar(e) {
 				this.touchData = e.changedTouches[0]
@@ -243,7 +242,7 @@
 							.cloedValue = '上班', this.clockStartvalue = this.$moment(new Date()).format("HH:mm"))
 					}
 					clocked({
-						attendanceId: 0,
+						employeesId:this.userInfo.userId,
 						teamId: 2,
 						checkTimeDay: this.$moment(new Date()).format("YYYY-MM-DD")
 					}).then(res => {

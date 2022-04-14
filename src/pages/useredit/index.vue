@@ -72,9 +72,9 @@
 		methods: {
 			getUserinfo() {
 				var data = uni.getStorageSync('user_info')
-				this.userInfo = data.user.user
-				this.imgSrc = data.user.user.avatar
-				this.userInfo.deptName = data.user.user.dept.deptName
+				this.userInfo = data.user
+				this.imgSrc = data.user.avatar
+				this.userInfo.deptName = data.user.dept.deptName
 			},
 			deletePic(event) {
 				this.fileList.splice(event.index, 1)
