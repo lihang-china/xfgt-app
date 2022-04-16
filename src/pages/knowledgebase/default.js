@@ -1,22 +1,22 @@
 export const itemData = [{
 		title: '标题',
-		value: 'title'
+		value: 'headline'
 	}, {
-		title: '类别',
-		value: 'type'
+		title: '分类',
+		value: 'knownledgeification'
 	}, {
 		title: '标签',
-		value: 'tag'
+		value: 'tally'
 	},
 	{
 		title: '时间',
 		value: 'createTime'
 	},{
 		title: '描述',
-		value: 'desc'
+		value: 'description'
 	}, {
 		title: '内容',
-		value: 'content'
+		value: 'noticeContent'
 	},
 	
 ]

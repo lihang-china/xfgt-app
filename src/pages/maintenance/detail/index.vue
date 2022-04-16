@@ -24,8 +24,9 @@
 			</view>
 		</view>
 		<view class="container-bottom">
-			<order-card :cardType="type" @statusNum="getStatusNum" />
-			<select-popup :cardEdit="initData" :navList="navList" :open.sync="isShow" @open="handleSubmit" />
+			<order-card :selData="selData" :cardType="type" @statusNum="getStatusNum" />
+			<select-popup @getData="getData" :cardEdit="initData" :navList="navList" :open.sync="isShow"
+				@open="handleSubmit" />
 		</view>
 	</view>
 </template>
@@ -34,7 +35,8 @@
 	import SelectPopup from '/src/public/components/SelectPopup.vue'
 	import OrderCard from '../components/OrderCard.vue'
 	import {
-		navList,
+		maintainNav,
+		inspection,
 		orderList,
 		cardEdit
 	} from './defult.js'
@@ -45,11 +47,12 @@
 		},
 		data() {
 			return {
+				selData: {},
 				type: undefined,
 				initData: cardEdit[this.$store.state.pageName],
 				orderList: orderList,
 				isShow: false,
-				navList: navList,
+				navList: maintainNav,
 				baseList: [{
 					title: '一般',
 					color: 'rgb(104, 156, 244)',
@@ -65,8 +68,19 @@
 				}],
 			}
 		},
-
+		mounted() {
+			if (this.$store.state.pageName == 'maintain') {
+				this.navList = maintainNav
+			} else if (this.$store.state.pageName == 'inspection') {
+				this.navList = inspection
+			}
+		},
 		methods: {
+			getData(data) {
+				this.selData = {
+					...data
+				}
+			},
 			getStatusNum(val) {
 				this.baseList[0].value = val[0]
 				this.baseList[1].value = val[1]

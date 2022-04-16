@@ -59,25 +59,25 @@ export const navList = [
 export const gridList = [{
 		title: '已打卡',
 		icon: 'error-circle',
-		value: '20',
+		value: 'workDay',
 		type: 'success'
 	},
 	{
 		title: '未打卡',
 		icon: 'error-circle',
-		value: '2',
+		value: 'lossCount',
 		type: 'error'
 	},
 	{
-		title: '请假',
+		title: '早退',
 		icon: 'error-circle',
-		value: '2',
+		value: 'beforeCount',
 		type: 'warning'
 	},
 	{
-		title: '缺勤',
+		title: '迟到',
 		icon: 'error-circle',
-		value: '1',
+		value: 'lateCount',
 		type: 'warning ',
 		color: 'red'
 	}

@@ -3,8 +3,8 @@
 		<u-navbar title="知识库管理" :autoBack="true">
 		</u-navbar>
 		<view class="flex-flex container-search">
-			<u-icon @click="show = true" name="calendar" size="26"></u-icon>
-			<u-search @custom="handleSearch" v-model="searchVal" placeholder="知识库分类"></u-search>
+			<!-- <u-icon @click="show = true" name="calendar" size="26"></u-icon> -->
+			<u-search @custom="handleSearch" v-model="searchVal" placeholder="请输入知识库标题"></u-search>
 		</view>
 		<view class="container-header">
 			<ui-card class="container-banner flex-between">
@@ -32,9 +32,7 @@
 </template>
 
 <script>
-	import {
-		fileList
-	} from './default.js'
+import {getknowList} from '/src/api/knowbase.js'
 	import itemCard from './components/itemCard.vue'
 	export default {
 		components: {
@@ -43,19 +41,29 @@
 		data() {
 			return {
 				searchVal:'',
-				fileData: fileList,
+				fileData: [],
 				show: false,
 				searchTime: Number(new Date()),
-				fileList: fileList,
+				fileList: [],
 				ascIcon: require('/src/images/asc.png'),
-				booksIcon: require('/src/images/books.png')
+				booksIcon: require('/src/images/books.png'),
+				queryData:{
+					pageNum:1,
+					pageSize:10000
+				},
 			}
 		},
+		mounted(){
+			this.getKnowList()
+		},
 		methods: {
-			handleSearch(){
-				this.fileList = this.fileData.filter(e => {
-					return this.searchVal !== '' ? e.tag == this.searchVal : e
+			getKnowList(){
+				getknowList(this.queryData).then(res=>{
+					this.fileList = res.rows
 				})
+			},
+			handleSearch(){
+				
 			},
 			handleReload() {
 				this.searchVal = ''
@@ -72,7 +80,7 @@
 			},
 			handleView(val) {
 				uni.navigateTo({
-					url: '/pages/knowledgebase/detail?title=' + val
+					url: '/pages/knowledgebase/detail?type=add'
 				})
 			}
 		}

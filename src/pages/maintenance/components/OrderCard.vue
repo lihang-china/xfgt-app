@@ -8,7 +8,8 @@
 					</view>
 					<view class="bottom-center flex-between">
 						<view class="flex-flex">
-							<u-avatar :text="item[initData.name] ? item[initData.name].split('')[0] :'空'" fontSize="18" randomBgColor>
+							<u-avatar :text="item[initData.name] ? item[initData.name].split('')[0] :'空'" fontSize="18"
+								randomBgColor>
 							</u-avatar>
 							<view class="flex-column">
 								<text>{{item[initData.name]}}</text>
@@ -59,19 +60,29 @@
 	} from '../detail/defult.js'
 	import OrderDetailCard from './OrderDetailCard.vue'
 	export default {
-
 		components: {
 			OrderDetailCard,
 			uniListItem,
 			uniList
 		},
 		props: {
+			selData: {
+				type: Object,
+				default: () => {}
+			},
 			cardType: {
 				type: Number,
 				default: -1
 			}
 		},
 		watch: {
+			selData(val) {
+				this.queryData = {
+					...this.defaultData,
+					...val
+				}
+				this.getList()
+			},
 			'orderList.list': function(val) {
 				this.itemList = val
 			},
@@ -79,6 +90,11 @@
 		data() {
 			return {
 				itemList: [],
+				defaultData: {
+					pageSize: 10000,
+					pageNum: 1,
+					teamId: 21
+				},
 				queryData: {
 					pageSize: 10000,
 					pageNum: 1,
@@ -93,26 +109,29 @@
 			}
 		},
 		created() {
-			this.getCardList().then(res => {
-				//长列表优化方法
-				if (res.code === 200) {
-					let max = 0
-					let min = 0
-					res.rows.forEach(e=>{
-						if(e.status == '0'){
-						max += 1
-						}else{
-						min += 1
-						}
-					})
-					this.$lazyList(this.orderList, res.rows, 10)
-					this.$emit('statusNum',[max,min])
-				} else {
-					uni.$u.toast(res.msg)
-				}
-			})
+			this.getList()
 		},
 		methods: {
+			getList() {
+				this.getCardList().then(res => {
+					//长列表优化方法
+					if (res.code === 200) {
+						let max = 0
+						let min = 0
+						res.rows.forEach(e => {
+							if (e.status == '0') {
+								max += 1
+							} else {
+								min += 1
+							}
+						})
+						this.$lazyList(this.orderList, res.rows, 10)
+						this.$emit('statusNum', [max, min])
+					} else {
+						uni.$u.toast(res.msg)
+					}
+				})
+			},
 			getCardList() {
 				let data = new Promise((resolve, reject) => {
 					if (this.$store.state.pageName === 'maintain') {

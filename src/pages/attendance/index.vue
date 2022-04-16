@@ -39,7 +39,7 @@
 					</view>
 					<u-form size="mini">
 						<u-form-item borderBottom>
-							<u-input v-model="fromData.title" placeholderStyle="fontSize:12px;" placeholder="标题"
+							<u-input disabledColor="rgb(255,255,255)" :disabled="!logShow" v-model="fromData.title" placeholderStyle="fontSize:12px;" placeholder="标题"
 								border="none" suffixIcon="info-circle-fill"
 								suffixIconStyle="color:rgb(162, 224, 232);margin-right:2px;">
 							</u-input>
@@ -56,7 +56,7 @@
 						<u-form-item v-show="!logShow" borderBottom>
 							<u-grid col="3">
 								<u-grid-item>
-									<u-input v-model="fromData.startDate"
+									<u-input disabledColor="rgb(255,255,255)" :disabled="!logShow" v-model="fromData.startDate"
 										prefixIconStyle="color:rgb(162, 224, 232);margin-right:2px;" prefixIcon="clock"
 										placeholderStyle="fontSize:12px;" placeholder="开始时间" border="none">
 									</u-input>
@@ -65,7 +65,7 @@
 									-
 								</u-grid-item>
 								<u-grid-item>
-									<u-input v-model="fromData.endDate" placeholderStyle="fontSize:12px;"
+									<u-input disabledColor="rgb(255,255,255)" :disabled="!logShow"  v-model="fromData.endDate" placeholderStyle="fontSize:12px;"
 										placeholder="结束时间" border="none">
 									</u-input>
 								</u-grid-item>
@@ -78,11 +78,11 @@
 							</u-input>
 						</u-form-item> -->
 
-						<u-form-item borderBottom>
-							<u-textarea :maxlength="200" count v-model="fromData.desc" placeholder="请输入备注">
+						<u-form-item >
+							<u-textarea  :disabled="!logShow" :maxlength="200" count v-model="fromData.desc" placeholder="请输入备注">
 							</u-textarea>
 						</u-form-item>
-						<u-form-item v-show="logShow" borderBottom>
+						<u-form-item v-show="logShow" >
 							<u-button @click="handelSubmit" color="rgb(118, 223, 220)" type="primary">提交</u-button>
 						</u-form-item>
 					</u-form>
@@ -95,7 +95,7 @@
 
 <script>
 	import {
-		manualList,
+		selClass,
 		attendanceRecord,
 		attendanceRecordListId,
 	} from '/src/api/class.js'
@@ -130,7 +130,7 @@
 				logDate: undefined,
 			}
 		},
-		created() {
+		onShow() {
 			this.getManualList()
 			this.initData()
 			this.attendanceRecordList(this.$moment(new Date()).format('YYYY-MM-DD'))
@@ -159,7 +159,7 @@
 			},
 			handelSubmit() {
 				let data = {
-					teamId: 2,
+					teamId: 59,
 					employeesId: uni.getStorageSync('user_info').user.userId,
 					journalDate: this.fromData.date,
 					logCaption: this.fromData.title,
@@ -204,12 +204,13 @@
 				}
 			},
 			getManualList() {
-				manualList({
-					teamId: 2,
+				selClass({
+					teamId: 59,
 					// endrepairDate: "2022-01-20",
 					// beginrepairDate: "2022-01-18"
 				}).then(res => {
-					res.data.forEach(e => {
+					console.log(res,'adasds')
+					res.data.daysOfList.forEach(e => {
 						this.selectData.push({
 							date: e.dateStr,
 							info: e.shiftName,

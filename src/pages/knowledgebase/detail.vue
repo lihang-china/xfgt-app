@@ -3,12 +3,11 @@
 		<u-navbar :title="title" :autoBack="true">
 		</u-navbar>
 		<ui-card class="app-container">
-			<u-form
-			 :labelStyle="{color:'rgb(150, 150, 150)'}">
-				<u-form-item labelWidth="50" :borderBottom="formBorder" :label="item.title" v-for="(item,index) in itemData"
-					:key="index">
+			<u-form :labelStyle="{color:'rgb(150, 150, 150)'}">
+				<u-form-item labelWidth="50" :borderBottom="formBorder" :label="item.title"
+					v-for="(item,index) in itemData" :key="index">
 					<view v-if=" item.value == 'tag'" class="flex-flex">
-						<view v-if="fileData[item.value]"  class="flex-flex">
+						<view v-if="fileData[item.value]" class="flex-flex">
 							<u-tag size="mini" :text="fileData[item.value]" plain :icon="tagIcon">
 							</u-tag>
 							<text class="ui-text-btn" @click="handelTagclose">删除</text>
@@ -16,9 +15,9 @@
 						<text v-if="!fileData[item.value]" class="ui-text-btn">添加</text>
 					</view>
 					<view class="from-time" v-if="item.value =='createTime'">
-						<text @click="show = true">{{fileData[item.value]}}</text>
-						<u-datetime-picker @change="timeChange"  @cancel="show = false" @confirm="handleTime(item.value)" :show="show"
-							v-model="time" mode="datetime"></u-datetime-picker>
+						<text>{{fileData[item.value]}}</text>
+						<!-- <u-datetime-picker @change="timeChange" @cancel="show = false" @confirm="handleTime(item.value)"
+							:show="show" v-model="time" mode="datetime"></u-datetime-picker> -->
 					</view>
 					<u-input border="none"
 						v-if="item.value !=='createTime' && item.value !== 'tag' && item.value !== 'content' && item.value !== 'desc'"
@@ -28,9 +27,17 @@
 				</u-form-item>
 				<u-form-item label="文件：" labelWidth="50">
 					<view class="flex-flex">
-						<u-icon color="rgb(180,180,180)" size="22" name="file-text"></u-icon>
-						<text>(*Filasnad)</text>
-						<text class="ui-text-btn">上传</text>
+						<view class="flex-flex" v-if="fileData.knownledgePath">
+							<u-icon color="rgb(180,180,180)" size="22" name="file-text"></u-icon>
+							<text>(*Filasnad)</text>
+							<text class="ui-text-btn" @click="handleDownload(fileData.knownledgePath)">下载</text>
+						</view>
+						<view v-else>
+							<u-upload :fileList="fileList" @afterRead="afterRead" @delete="deletePic" name="1"
+								:maxCount="1"></u-upload>
+							<!-- <text  class="ui-text-btn" @click="handleUpload">上传</text> -->
+						</view>
+
 					</view>
 				</u-form-item>
 			</u-form>
@@ -43,27 +50,83 @@
 
 <script>
 	import {
+		getknowList,
+		fileunLoad
+	} from '/src/api/knowbase.js'
+	import {
 		fileList,
 		itemData
 	} from './default.js'
+	import {
+		upLoad
+	} from '/src/public/js/upLoad.js'
 	export default {
 		data() {
 			return {
-				title:'文档详情',
+				title: '文档详情',
 				formBorder: false,
 				time: Number(new Date()),
 				show: false,
-				fileList: fileList,
 				fileData: {},
 				itemData: itemData,
-				tagIcon: require('/src/images/tag.png')
+				tagIcon: require('/src/images/tag.png'),
+				fileList: [],
+				fileUrl: undefined,
 			}
 		},
-
-		created() {
-			this.initData()
+		mounted() {
+			this.getKnowList()
+		},
+		onLoad: function(option) {
+			this.initData(option)
 		},
 		methods: {
+			// 删除图片
+			deletePic(event) {
+				this.fileList.splice(0)
+			},
+			afterRead(event) {
+				this.fileList.push(event.file)
+			},
+			handleSave() {
+				let data = {
+					url: '/eoms/base/file/upload',
+					path: this.fileList[0].url,
+					name: 'file'
+				}
+				upLoad(data).then(res => {
+					if (JSON.parse(res.data).code == 200) {
+						this.fileUrl = JSON.parse(res.data).fileUrl
+					}
+				})
+			},
+
+			handleDownload(url) {
+				//下载文件
+				uni.downloadFile({
+					url: url,
+					success: (res => {
+						uni.openDocument({
+							filePath: res.tempFilePath,
+							showMenu: true,
+							fail(err) {
+								// #ifdef APP
+								uni.$u.toast('未找到第三方应用')
+								// #endif
+								// #ifdef MP-WEIXIN
+								uni.$u.toast('请在浏览器中打开')
+								// #endif
+							}
+						});
+					}),
+				})
+			},
+
+			getKnowList() {
+				getknowList(this.queryData).then(res => {
+					this.fileData = res.rows[2]
+				})
+			},
 			timeChange(val) {
 				this.time = val.value
 			},
@@ -72,7 +135,7 @@
 					delta: 1
 				})
 			},
-			handleSave() {},
+
 			handleTime(val) {
 				this.fileData[val] = this.$moment(this.time).format('YYYY-MM-DD')
 				this.show = false
@@ -80,11 +143,15 @@
 			handelTagclose() {
 				this.fileData.tag = undefined
 			},
-			initData() {
-				this.title = '文档详情' 
-				getCurrentPages().pop().options.title ? this.fileData = this.fileList.filter(e => {
-					return e.title == getCurrentPages().pop().options.title
-				})[0]:( this.formBorder = true ,this.title = '新建文档')
+			initData(option) {
+				if (option.type == 'add') {
+					this.formBorder = true
+					this.title = '新建文档'
+				} else {
+					this.title = '文档详情'
+					this.formBorder = false
+				}
+
 			}
 		}
 	}
@@ -117,6 +184,6 @@
 			}
 		}
 
-		
+
 	}
 </style>

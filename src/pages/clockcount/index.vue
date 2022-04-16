@@ -22,28 +22,32 @@
 				<ui-card class="container-center">
 					<uni-collapse accordion>
 						<uni-collapse-item :show-arrow="true" title-border="none" :border="false"
-							:disabled="item.value == 0" v-for="(item,index) in itemList" :key="index">
+							:disabled="!(itemList[item.list] && itemList[item.list].length > 0)"
+							v-for="(item,index) in itemData" :key="index">
 							<template v-slot:title>
 								<view class="flex-between">
 									<text>{{item.title}}</text>
 									<text :style="item.value == 0 ?'color:rgb(200,200,200)' : 'color:'+ item.color"
-										class="u-page__item__title__slot-title">{{item.value}}{{item.type}}</text>
+										class="u-page__item__title__slot-title">{{itemList[item.value]}}</text>
 								</view>
 							</template>
 							<view>
-								<col-item :itemIndex="index" />
+								<col-item :itemList="itemList[item.list]" />
 							</view>
 						</uni-collapse-item>
 					</uni-collapse>
 				</ui-card>
 				<u-datetime-picker @close="show = false" :closeOnClickOverlay="true" @cancel="show = false" :show="show"
-					v-model="date" mode="year-month"></u-datetime-picker>
+					@confirm="handleSearch" v-model="date" mode="date"></u-datetime-picker>
 			</view>
 		</view>
 	</view>
 </template>
 
 <script>
+	import {
+		itemData
+	} from './default.js'
 	import {
 		clockCount
 	} from '/src/api/class.js'
@@ -53,9 +57,9 @@
 		uniCollapseItem,
 		uniIcons
 	} from '@dcloudio/uni-ui'
-	import {
-		clockList
-	} from "../../public/js/data.js"
+	// import {
+	// 	clockList
+	// } from "../../public/js/data.js"
 	export default {
 		components: {
 			uniIcons,
@@ -65,10 +69,11 @@
 		},
 		data() {
 			return {
-				userInfo:{},
+				itemData: itemData,
+				userInfo: {},
 				rule: '标准考勤组',
 				username: '李航',
-				itemList: clockList,
+				itemList: [],
 				show: false,
 				date: Number(new Date()),
 				imgSrc: undefined,
@@ -79,8 +84,20 @@
 			this.getList()
 		},
 		methods: {
-			getList(){
-				clockCount().then(res=>{
+
+			handleSearch(val) {
+				this.date = this.$moment(val.value).format('YYYY-MM-DD')
+				this.getList()
+				this.show = false
+			},
+			getList() {
+				console.log(this.$moment(this.date).format('YYYY-MM-DD'), 'asdsad')
+				clockCount({
+					beginrepairDate: this.$moment(this.date).format('YYYY-MM') + '-01',
+					endrepairDate: this.$moment(this.date).format('YYYY-MM-DD'),
+					employeesId: uni.getStorageSync('user_info').user.userId
+				}).then(res => {
+					this.itemList = res.data
 				})
 			},
 			getUserinfo() {

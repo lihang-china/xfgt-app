@@ -36,6 +36,88 @@ export const navList = [{
 		]
 	}
 ];
+export const maintainNav = [{
+		title: '保养任务编码',
+		type:'input',
+		prop:'taskCode'
+	}, {
+		title: '保养计划编码',
+		type:'input',
+		prop:'planCode'
+	},
+	{
+		title: '保养计划名称',
+		type:'input',
+		prop:'planName'
+	},
+	{
+		title: '保养时间',
+		type:'date',
+		startDate:{
+				title: '开始时间',
+				prop:'beginDate',
+				},
+			endDate:{
+				title: '结束时间',
+				prop:'endDate'
+			}
+			
+	},
+	{
+		title: '任务类型:',
+		children: [{
+				title: '自动创建',
+				prop:'type',
+				value:0
+			}, {
+				title: '手动创建',
+				prop:'type',
+				value:1
+			}
+		]
+	}
+];
+export const inspection = [{
+		title: '巡检任务编码',
+		type:'input',
+		prop:'taskCode'
+	}, {
+		title: '巡检计划编码',
+		type:'input',
+		prop:'planCode'
+	},
+	{
+		title: '巡检计划名称',
+		type:'input',
+		prop:'planName'
+	},
+	{
+		title: '巡检时间',
+		type:'date',
+		startDate:{
+				title: '开始时间',
+				prop:'beginDate',
+				},
+			endDate:{
+				title: '结束时间',
+				prop:'endDate'
+			}
+			
+	},
+	{
+		title: '任务类型:',
+		children: [{
+				title: '自动创建',
+				prop:'type',
+				value:0
+			}, {
+				title: '手动创建',
+				prop:'type',
+				value:1
+			}
+		]
+	}
+];
 // 默认数据
 export const orderList = {
 	repair:[	{

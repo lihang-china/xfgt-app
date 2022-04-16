@@ -15,12 +15,12 @@
 				</view>
 				<view class="clendarBg-bottom">
 					<u-grid col="4">
-						<u-grid-item @click="handleGrid(item)" v-for="(item,index) in gridList" :key="index">
+						<u-grid-item v-if="clockData && clockData[item.value] > 0" @click="handleGrid(item)" v-for="(item,index) in gridList" :key="index">
 							<u-icon color="#fff" size="20px" :name="item.icon"></u-icon>
 							<text>{{item.title}}
 							</text>
 							<u-badge :bgColor="item.color" :absolute="true" :offset="[10,2]" :type="item.type" max="99"
-								:value="item.value">
+								:value="clockData[item.value]">
 							</u-badge>
 						</u-grid-item>
 					</u-grid>
@@ -39,7 +39,7 @@
 				</view>
 				<view class="bottom-notice">
 					<u-notice-bar v-show="wordData.data" color="#0068f8" bgColor="#0068f801"
-						:text=" wordData.data ?  wordData.data.desc : '空'" speed="80">
+						:text="wordData.data ?  wordData.data.desc : '空'" speed="80">
 					</u-notice-bar>
 				</view>
 			</ui-card>
@@ -61,6 +61,9 @@
 
 </template>
 <script>
+	import {
+		clockCount
+	} from '/src/api/class.js'
 	import update from '../update/index.vue'
 	import {
 		msgList
@@ -81,6 +84,7 @@
 		},
 		data() {
 			return {
+				clockData:undefined,
 				msgList: msgList,
 				selectData: selectData,
 				wordData: {},
@@ -89,13 +93,26 @@
 				gridList: gridList
 			}
 		},
+	
 		onShow(){
 			uni.hideTabBar()
+				this.getClockCount()
 		},
 		onLoad() {
 			this.getWorkData()
+		
 		},
 		methods: {
+			getClockCount(){
+				clockCount({
+					beginrepairDate: this.$moment(this.date).format('YYYY-MM') + '-01',
+					endrepairDate: this.$moment(this.date).format('YYYY-MM-DD'),
+					employeesId: uni.getStorageSync('user_info').user.userId
+				}).then(res=>{
+					this.clockData = res.data
+					this.$forceUpdate()
+				})	
+			},
 			handleMsg() {
 				this.$url('/pages/message/index')
 			},

@@ -1,23 +1,23 @@
 <template>
 	<ui-card class="flex-column" v-if="fileData">
 		<view class="container-header flex-between">
-			<text>{{fileData.fileCode}}</text>
-			<u-icon @click="handleView" :name="selectIcon" size="22"></u-icon>
+			<text>{{fileData.documentId}}</text>
+			<!-- <u-icon @click="handleView(fileData.filePaper)" :name="selectIcon" size="22"> </u-icon> -->
 		</view>
 		<view class="flex-flex">
 			<u-avatar :icon="fileIcon" fontSize="18" randomBgColor></u-avatar>
 			<view class="flex-column container-center">
 				<text>{{fileData.fileName}}</text>
-				<text>{{fileData.desc}}</text>
+				<text>{{fileData.repairContacts}}</text>
 			</view>
 		</view>
 		<view class="flex-between container-bottom">
 			<view class="flex-flex">
-				<text>文档类型：</text><text>{{fileData.type}}</text>
+				<text>文档类型：</text><text>{{fileData.fileification}}</text>
 			</view>
 			<view class="flex-flex">
-				<text>{{fileData.careateTime}}</text>
-				<u-icon size="18" :name="downLoad" @click="handleDownload"></u-icon>
+				<text>{{fileData.repairDate}}</text>
+				<u-icon size="18" :name="downLoad" @click="handleDownload(fileData.filePaper)"></u-icon>
 			</view>
 		</view>
 	</ui-card>
@@ -39,28 +39,34 @@
 			}
 		},
 		methods: {
-			handleView() {
+			handleView(url) {
 				//打开文件
-				uni.openDocument({
-					filePath: 'www.baidu.com',
-					success: function(res) {
-						console.log('打开文档成功');
-					},
-					fail:(err=>{
-						console.log(err,'预览失败')
-					})
-				});
+				// // #ifdef APP
+				// 	uni.$u.toast('未找到第三方应用')
+				// window.open(url,"_blank")
+				// // #endif
+				plus.webview.open(url)
+				// plus.runtime.openURL( url )
+
 			},
-			handleDownload() {
-				//预览文件
+			handleDownload(url) {
+				//下载文件
 				uni.downloadFile({
-					url: 'www.baidu.com',
+					url: url,
 					success: (res => {
-						console.log('下载成功')
+						uni.openDocument({
+							filePath: res.tempFilePath,
+							showMenu: true,
+							fail(err) {
+								// #ifdef APP
+								uni.$u.toast('未找到第三方应用')
+								// #endif
+								// #ifdef MP-WEIXIN
+								uni.$u.toast('请在浏览器中打开')
+								// #endif
+							}
+						});
 					}),
-					fail: (error => {
-						console.log(error, '下载失败')
-					})
 				})
 			}
 		}

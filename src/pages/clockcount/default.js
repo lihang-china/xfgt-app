@@ -1,0 +1,36 @@
+export  const itemData = [{
+	title:'加班时长',
+	value:'overTime',
+	list:"overWorkDays"
+},
+{
+	title:'出勤天数',
+	value:'workDay',
+	list:"workDays"
+},
+{
+	title:'休息天数',
+	value:'relaxDay',
+	list:"relasDays"
+},
+{
+	title:'迟到次数',
+	value:'lateCount',
+	list:"lateDays"
+},
+{
+	title:'早退次数',
+	value:'beforeCount',
+	list:"beforDays"
+},
+{
+	title:'加班时长',
+	value:'overTime',
+	list:"overWorkDays"
+},
+{
+	title:'缺卡次数',
+	value:'lossCount',
+	list:"lossCardDays"
+}
+]

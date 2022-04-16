@@ -232,7 +232,7 @@
 				this.$url('/pages/clockrules/index')
 			},
 			handelClocked() {
-				if (this.isClock == true) {
+				// if (this.isClock == true) {
 					if (this.upClock == true && this.downClock == true) {
 						this.cloedValue = '更新', this.clockEndvalue = this.$moment(new Date()).format("HH:mm")
 					} else {
@@ -242,16 +242,16 @@
 							.cloedValue = '上班', this.clockStartvalue = this.$moment(new Date()).format("HH:mm"))
 					}
 					clocked({
-						employeesId:this.userInfo.userId,
-						teamId: 2,
-						checkTimeDay: this.$moment(new Date()).format("YYYY-MM-DD")
+						employeesId:uni.getStorageSync('user_info').user.userId,
+						teamId:3,
+						punchPlace:"中控科sda技园"
 					}).then(res => {
 						if (res.code == 200) {
 							this.show = true
 						}
 					})
 					this.$forceUpdate()
-				}
+				// }
 			}
 		}
 	}

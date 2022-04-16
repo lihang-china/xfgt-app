@@ -42,6 +42,7 @@
 	</view>
 </template>
 <script>
+	import {userDetail} from '/src/api/system.js'
 	import {
 		login,getInfo
 	} from '/src/api/login.js'
@@ -94,6 +95,11 @@
 					this.radiovalue[0] = true
 				}
 			},
+			getUserDetail(id){
+				userDetail(id).then(res=>{
+					console.log(res,'asidididididiidiasds')
+				})
+			},
 			getLogin() {
 				login(this.form.username, this.form.password).then(res => {
 					if(res.code !== 200){
@@ -105,7 +111,7 @@
 								data.password = undefined
 							}
 							getInfo().then(info=>{
-								console.log(info.user,'12313')
+							this.getUserDetail(info.user.userId)
 								uni.setStorage({
 									key: 'user_info',
 									data: {

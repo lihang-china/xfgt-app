@@ -4,10 +4,10 @@
 		</u-navbar>
 		<u-sticky class="container-header " :offsetTop="0">
 			<view class="flex-between">
-				<u-icon size="26" name="calendar" @click="show = true"></u-icon>
-				<u-search :showAction="false" v-model="searchVal" @change="handleSearch" placeholder="请输入文档分类名称">
+				<!-- <u-icon size="26" name="calendar" @click="show = true"></u-icon> -->
+				<u-search @clear="handleReload" :showAction="false" v-model="searchVal" showAction
+					@custom="handleSearch" placeholder="请输入文档分类名称">
 				</u-search>
-				<u-icon @click="handleReload" class="reload-icon" name="reload" size="26"></u-icon>
 			</view>
 		</u-sticky>
 		<view class="app-container">
@@ -17,12 +17,16 @@
 				</uni-list-item>
 			</uni-list>
 		</view>
-		<u-datetime-picker @change="dateChange" @cancel="show = false" @confirm="handleDate" :show="show" v-model="searchDate" mode="date">
-		</u-datetime-picker>
+	<!-- 	<u-datetime-picker @change="dateChange" @cancel="show = false" @confirm="handleDate" :show="show"
+			v-model="searchDate" mode="date">
+		</u-datetime-picker> -->
 	</view>
 </template>
 
 <script>
+	import {
+		documentList
+	} from '/src/api/document.js'
 	import {
 		uniList,
 		uniListItem,
@@ -40,6 +44,11 @@
 
 		data() {
 			return {
+				queryData: {
+					pageNum: 1,
+					pageSize: 10000,
+					fileName: undefined
+				},
 				data: {
 					list: []
 				},
@@ -50,29 +59,34 @@
 			}
 		},
 		mounted() {
-			this.$lazyList(this.data, this.dataList, 10)
+			this.getDocumentList()
+
 		},
 		methods: {
-			dateChange(val){
+			getDocumentList() {
+				documentList(this.queryData).then(res => {
+					this.$lazyList(this.data, res.rows, 10)
+				})
+			},
+			dateChange(val) {
 				this.searchDate = val.value
 			},
 			handleDate() {
 				let arr = this.dataList.filter(e => {
-					return  e.careateTime == this.$moment(this.searchDate).format('YYYY-MM-DD') 
+					return e.careateTime == this.$moment(this.searchDate).format('YYYY-MM-DD')
 				})
 				this.show = false
 				this.$lazyList(this.data, arr, 20)
 
 			},
 			handleReload() {
-				this.searchVal = undefined
-				this.$lazyList(this.data, this.dataList, 20)
+				this.queryData.fileName = undefined
+				this.getDocumentList()
 			},
 			handleSearch() {
-				let arr = this.dataList.filter(e => {
-					return this.searchVal ? e.type == this.searchVal : e
-				})
-				this.$lazyList(this.data, arr, 20)
+				this.queryData.fileName = this.searchVal
+				this.getDocumentList()
+
 			}
 		}
 	}
@@ -91,6 +105,9 @@
 		}
 
 		.app-container {
+			margin-top: 6px;
+			padding-bottom: 30px;
+
 			.nav-list {
 				margin-right: 21px;
 
