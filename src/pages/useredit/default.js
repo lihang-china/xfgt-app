@@ -14,6 +14,11 @@ export const itemList = [
 		icon:'phone-fill'
 	},
 	{
+		title: '邮箱',
+		value: 'email',
+		icon:'email-fill'
+	},
+	{
 		title: '所属部门',
 		value: 'deptName',
 		icon:'grid-fill'

@@ -51,6 +51,10 @@
 			},
 			handleDownload(url) {
 				//下载文件
+				// #ifndef H5 || APP-PLUS
+				uni.$u.toast('请在APP或者浏览器中打开')
+				// #endif 
+				// #ifdef H5 || APP-PLUS
 				uni.downloadFile({
 					url: url,
 					success: (res => {
@@ -58,16 +62,13 @@
 							filePath: res.tempFilePath,
 							showMenu: true,
 							fail(err) {
-								// #ifdef APP
-								uni.$u.toast('未找到第三方应用')
-								// #endif
-								// #ifdef MP-WEIXIN
-								uni.$u.toast('请在浏览器中打开')
-								// #endif
+								uni.$u.toast(err)
 							}
 						});
 					}),
 				})
+				// #endif
+
 			}
 		}
 	}

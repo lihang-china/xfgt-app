@@ -15,7 +15,8 @@
 				</view>
 				<view class="clendarBg-bottom">
 					<u-grid col="4">
-						<u-grid-item v-if="clockData && clockData[item.value] > 0" @click="handleGrid(item)" v-for="(item,index) in gridList" :key="index">
+						<u-grid-item v-if="clockData && clockData[item.value] > 0" @click="handleGrid(item)"
+							v-for="(item,index) in gridList" :key="index">
 							<u-icon color="#fff" size="20px" :name="item.icon"></u-icon>
 							<text>{{item.title}}
 							</text>
@@ -28,10 +29,12 @@
 			</ui-card>
 			<ui-card :title="'今日排班信息'">
 				<view class="center-bottom ">
-					<view class="bottom-icon">
-						<u-tag :text="wordData.info ? wordData.info :'休息' " shape="circle"></u-tag>
-						<text>{{wordData.data ? wordData.data.startDate + '——' :''}}
-						</text><text>{{wordData.data ? wordData.data.startDate :'今日暂无排班信息'}}</text>
+					<view v-if="wordData">
+						<view class="bottom-icon">
+							<u-tag :text="wordData.shiftName ? wordData.shiftName :'休息' " shape="circle"></u-tag>
+							<text>{{wordData.cautionTime ? wordData.cautionTime + '——' :''}}
+							</text><text>{{wordData.endTime ? wordData.endTime :'今日暂无排班信息'}}</text>
+						</view>
 					</view>
 					<view>
 						<u-icon color="rgb(60, 156, 255)" size="28px" name="clock-fill"></u-icon>
@@ -44,12 +47,13 @@
 				</view>
 			</ui-card>
 			<ui-card :title="'消息通知'">
-				<view>
-					<u-notice-bar icon="chat" bgColor="#0068f801" :text="msgList[0].title+'...'">
+				<view class="flex-center">
+					<u-notice-bar v-if="msgList[0]" icon="chat" bgColor="#0068f801" :text="msgList[0].noticeTitle +'...'">
 					</u-notice-bar>
+					<text v-else>暂无新通知</text>
 				</view>
 				<view class="flex-flex bottom-message">
-					<text @click="handleMsg" class=" ui-text-btn">更多</text>
+					<text @click="handleMsg" class=" ui-text-btn" v-if="msgList.length > 1">更多</text>
 					<u-icon color="rgb(0, 143, 253)" name="arrow-right-double"></u-icon>
 				</view>
 			</ui-card>
@@ -62,6 +66,7 @@
 </template>
 <script>
 	import {
+		selClass,
 		clockCount
 	} from '/src/api/class.js'
 	import update from '../update/index.vue'
@@ -77,6 +82,9 @@
 		navList,
 		gridList
 	} from './default.js'
+	import {
+		noticeList
+	} from '/src/api/system.js'
 	export default {
 		components: {
 			navCard,
@@ -84,8 +92,8 @@
 		},
 		data() {
 			return {
-				clockData:undefined,
-				msgList: msgList,
+				clockData: undefined,
+				msgList: [],
 				selectData: selectData,
 				wordData: {},
 				date: new Date(),
@@ -93,25 +101,32 @@
 				gridList: gridList
 			}
 		},
-	
-		onShow(){
-			uni.hideTabBar()
+		mounted(){
+			this.$nextTick(function(){
 				this.getClockCount()
+				this.getWorkData()
+				this.getNoticeList()
+			})
 		},
-		onLoad() {
-			this.getWorkData()
-		
+		onShow() {
+			uni.hideTabBar()
 		},
 		methods: {
-			getClockCount(){
+			getNoticeList() {
+				noticeList().then(res => {
+					this.msgList.splice(0)
+					this.msgList = res.rows 
+				})
+			},
+			getClockCount() {
 				clockCount({
 					beginrepairDate: this.$moment(this.date).format('YYYY-MM') + '-01',
 					endrepairDate: this.$moment(this.date).format('YYYY-MM-DD'),
 					employeesId: uni.getStorageSync('user_info').user.userId
-				}).then(res=>{
+				}).then(res => {
 					this.clockData = res.data
 					this.$forceUpdate()
-				})	
+				})
 			},
 			handleMsg() {
 				this.$url('/pages/message/index')
@@ -120,11 +135,18 @@
 				this.$url('/pages/clockcount/index')
 			},
 			getWorkData() {
-				this.selectData.forEach(e => {
-					if (e.date == this.$moment(new Date).format('YYYY-MM-DD')) {
-						this.wordData = e
-					}
+				this.$nextTick(function(){
+					selClass({
+						teamId: uni.getStorageSync('xfgt-user_team').teamId,
+						endrepairDate: this.$moment(new Date()).format('YYYY-MM-DD'),
+						beginrepairDate: this.$moment(new Date()).format('YYYY-MM-DD')
+					}).then(res => {
+						this.wordData = res.data.daysOfList[0]
+					
+					})
 				})
+					
+			
 			},
 		}
 	}

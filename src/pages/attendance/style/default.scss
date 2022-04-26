@@ -3,7 +3,13 @@
 			overflow: visible !important;
 		}
 
+::v-deep .uni-calendar__box{
+	span{
+		font-size: 9px;
+	}
+}
 		::v-deep uni-swiper .uni-swiper-wrapper {
+			
 			overflow: visible !important;
 		}
 

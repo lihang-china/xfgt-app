@@ -4,6 +4,7 @@
    二级黑色 rgb(72,72,72)
    背景蓝灰 rgb(241, 242, 243)
    */
+
 	::v-deep .u-textarea {
 		padding: 0 !important;
 	}
@@ -124,6 +125,7 @@
 	  display: flex;
 	  flex-direction: column;
   }
+
 	.app-container {
 		flex-grow: 1;
 		padding:0 8px;

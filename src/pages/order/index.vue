@@ -3,7 +3,8 @@
 		<u-navbar title="工单管理" :autoBack="true" />
 		<view class="app-container">
 			<ui-card>
-				<view class="banner">
+				<view class="banner flex-center">
+					<image src="../../images/order.png" mode=""></image>
 				</view>
 			</ui-card>
 			<u-sticky zIndex="999" class="search-sticky flex-column" customNavHeight="0" :offset-top="2">
@@ -22,7 +23,7 @@
 				</view>
 			</u-sticky>
 			<view class="container-card">
-				<order-card />
+				<order-card :selData="selData"/>
 			</view>
 			<select-popup :cardEdit="initData" :navList="navList" :open.sync="open" @getData="getData"
 				@open="handleSubmit" />
@@ -31,10 +32,11 @@
 </template>
 
 <script>
+
 	import SelectPopup from '/src/public/components/SelectPopup.vue'
 	import orderCard from '../maintenance/components/OrderCard.vue'
 	import {
-		navList,
+	repair,
 		cardEdit
 	} from '../maintenance/detail/defult.js'
 	export default {
@@ -46,13 +48,14 @@
 			return {
 				ascImg: require('../../images/sm.png'),
 				initData: cardEdit[this.$store.state.pageName],
-				navList: navList,
+				navList: repair,
 				iconSize: '22',
 				open: false,
-				search: undefined
+				search: undefined,
+				selData:undefined,
 			}
 		},
-		created() {
+		onShow() {
 			this.$store.state.pageName = 'repair'
 		},
 		methods: {
@@ -66,11 +69,7 @@
 				});
 			},
 			getData(data) {
-				let arr = []
-				data.forEach(e => {
-					arr.push(e.title)
-				})
-				this.search = String(arr)
+			this.selData = {...data}
 			},
 			handleSubmit(val) {
 				this.open = val
@@ -108,6 +107,10 @@
 		.ui-card {
 			.banner {
 				height: 100px;
+				uni-image{
+				      width: 70%;
+					  height: 100%;
+				}
 			}
 
 			margin-bottom: 20px;

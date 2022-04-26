@@ -66,7 +66,7 @@ export function clocked(data) {
 // 排班日历查询
 export function selClass(data) {
   return request({
-    url: 'eoms/base/attendance/list/schedules',
+    url: '/eoms/base/attendance/list/schedules',
     method: 'get',
 	data:data
   })

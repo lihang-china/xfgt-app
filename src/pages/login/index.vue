@@ -42,9 +42,12 @@
 	</view>
 </template>
 <script>
-	import {userDetail} from '/src/api/system.js'
 	import {
-		login,getInfo
+		userDetail
+	} from '/src/api/system.js'
+	import {
+		login,
+		getInfo
 	} from '/src/api/login.js'
 	import {
 		setToken
@@ -79,51 +82,70 @@
 				}
 			}
 		},
-		onLoad() {
+		onShow() {
 			this.initForm()
 		},
 		methods: {
-
 			handleReg() {
 				this.$url('/pages/register/index')
 			},
 			initForm() {
-				this.form = {
-					...uni.getStorageSync('user_info')
-				}
-				if (uni.getStorageSync('user_info').password) {
-					this.radiovalue[0] = true
+				if (uni.getStorageSync('xfgt-user')) {
+					this.form = {
+						...uni.getStorageSync('xfgt-user')
+					}
+					if (uni.getStorageSync('xfgt-user').password) {
+						this.radiovalue[0] = true
+					}
 				}
 			},
-			getUserDetail(id){
-				userDetail(id).then(res=>{
-					console.log(res,'asidididididiidiasds')
+			getUserDetail(id) {
+				userDetail(id).then(res => {
+					uni.setStorage({
+						key: 'xfgt-user_team',
+						data: {
+							...res.data[0]
+						},
+						success:()=> {
+							this.$url('/pages/homepage/index', 1)
+						}
+					});
 				})
 			},
 			getLogin() {
 				login(this.form.username, this.form.password).then(res => {
-					if(res.code !== 200){
+					if (res.code !== 200) {
 						uni.$u.toast(res.msg)
-					}else{
+					} else {
 						setToken(res.data.access_token).then(() => {
 							let data = JSON.parse(JSON.stringify(this.form))
 							if (!this.radiovalue[0]) {
 								data.password = undefined
 							}
-							getInfo().then(info=>{
-							this.getUserDetail(info.user.userId)
+							getInfo().then(info => {
 								uni.setStorage({
 									key: 'user_info',
 									data: {
 										...data,
-										user:{
+										user: {
 											...info.user
 										}
+									},
+									success:()=>{
+										if(info.user.userId){
+											this.getUserDetail(info.user.userId)
+										}
+									}
+								});
+								uni.setStorage({
+									key: 'xfgt-user',
+									data: {
+										...data,
 									}
 								});
 							})
 						})
-						 this.$url('/pages/homepage/index', 1)
+
 					}
 				})
 			},

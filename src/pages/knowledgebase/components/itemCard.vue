@@ -10,7 +10,7 @@
 		<text class="u-line-1">{{itemData.description}}</text>
 		<view class="container-bottom flex-between">
 			<text>存档日期:{{ $moment(itemData.createTime).format('YYYY-MM-DD')}}</text>
-			<u-icon @click="handleView(itemData.fullName)" color="rgb(200,200,200)" size="18" name="arrow-right">
+			<u-icon @click="handleView(itemData.headline)" color="rgb(200,200,200)" size="18" name="arrow-right">
 			</u-icon>
 		</view>
 	</view>

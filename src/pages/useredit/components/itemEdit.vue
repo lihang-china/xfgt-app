@@ -1,9 +1,5 @@
 <template>
 	<view>
-		<u-picker @cancel="handleClose" :show="isShow"
-			v-if="cellValue == 'deptName' && this.pickerData[this.pickerType]" ref="uPicker"
-			:columns="this.pickerData[this.pickerType].columns">
-		</u-picker>
 		<u-popup v-if="cellValue !== 'deptName'" round="8" mode="center" @close="handleClose" :show="isShow"
 			:closeOnClickOverlay="true" :closeable="true">
 			<view class="popup-card">
@@ -23,13 +19,25 @@
 					<u-form-item labelWidth="70" v-if="cellValue == 'phonenumber'" label="手机号码">
 						<u--input v-model="formData.phonenumber" border="surround"></u--input>
 					</u-form-item>
+					<u-form-item labelWidth="70" v-if="cellValue == 'email'" label="电子邮箱">
+						<u--input v-model="formData.email" border="surround"></u--input>
+					</u-form-item>
 				</u-form>
+				<view class="btn-group">
+					<text @click="handleClose">取消</text><text @click="handleSubmit">保存</text>
+				</view>
 			</view>
 		</u-popup>
 	</view>
 </template>
 
 <script>
+	import {
+		getInfo
+	} from '/src/api/login.js'
+	import {
+		profile
+	} from '/src/api/system.js'
 	import {
 		pickerData
 	} from '../default.js'
@@ -68,7 +76,31 @@
 			}
 		},
 		methods: {
-			
+			handleSubmit() {
+				profile(this.formData).then(res => {
+					if (res.code == 200) {
+						uni.showToast({
+							title: '修改成功'
+						})
+						getInfo().then(info=>{
+							uni.setStorage({
+								key: 'user_info',
+								data: {
+									user:{
+										...info.user
+									}
+								}
+							});
+						})
+						this.handleClose()
+					} else {
+						uni.showToast({
+							title: res.msg
+						})
+					}
+
+				})
+			},
 			handleClose() {
 				this.$emit('popupStatus', false)
 			}
@@ -79,5 +111,17 @@
 <style lang="scss" scoped>
 	.popup-card {
 		padding: 20px;
+	}
+
+	.btn-group {
+		margin-top: 8px;
+		width: 100%;
+		display: flex;
+		justify-content: space-around;
+
+		uni-text {
+			font-size: 9px;
+			color: rgb(0, 123, 255);
+		}
 	}
 </style>

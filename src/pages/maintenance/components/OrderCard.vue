@@ -185,7 +185,7 @@
 	}
 
 	.uni-list {
-		background-color: rgba(0, 0, 0, 0);
+		background-color: rgba(0, 0, 0, 0);	
 	}
 
 	.block-bottom {

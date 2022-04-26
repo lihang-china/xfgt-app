@@ -2,8 +2,8 @@
 	<u-steps :current="current" direction="column">
 		<view class="item-card" :class="[current == index ? '' :'unactive-card']" @click="handleClick(item,index)"
 			v-for="(item,index) in msgList" :key="index">
-			<u-steps-item :title="item.title" :class="[current == index ? 'active-style' :'defualt-style']"
-				:desc="item.date">
+			<u-steps-item :title="item.noticeTitle" :class="[current == index ? 'active-style' :'defualt-style']"
+				:desc="item.createTime">
 				<u-icon size="22" color="rgb(0, 115, 255)" slot="icon"
 					:name="current == index ? activeIcon :'bookmark-fill' "></u-icon>
 			</u-steps-item>
@@ -16,18 +16,25 @@
 	import {
 		msgList
 	} from '../default.js'
+	import {noticeList } from '/src/api/system.js'
 	export default {
 		data() {
 			return {
 				activeIcon: require('/src/images/tude.png'),
-				current: '1',
-				msgList: msgList
+				current: '0',
+				msgList: []
 			}
 		},
-		created() {
-			this.handleClick(this.msgList[Number(this.current)], this.current)
+		mounted() {
+			this.getNoticeList()
 		},
 		methods: {
+			getNoticeList(){
+				noticeList().then(res=>{
+					this.msgList = res.rows
+						this.handleClick(this.msgList[Number(this.current)], this.current)
+				})
+			},
 			handleClick(row, index) {
 				this.current = index
 				this.$emit('handleClick', row)

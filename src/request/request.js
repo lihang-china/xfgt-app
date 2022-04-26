@@ -4,7 +4,7 @@ import {
 var baseUrl = process.env.VUE_APP_BASEURL ? process.env.VUE_APP_BASEURL : '/'
 // #ifdef APP
 //以为app不存在跨域，所以不需要代理
-baseUrl = "http://xxx.xx.xxx.xx:8080"
+baseUrl = "http://115.29.201.75:8080"
 // #endif
 const uapi = function(Data) {
 	return new Promise((resolve, reject) => {
@@ -18,14 +18,23 @@ const uapi = function(Data) {
 				'Content-Type': 'application/json'
 			},
 			success(res) {
-				resolve(res.data)
+				if (res.data.code == 401) {
+					uni.redirectTo({
+						url: '/pages/login/index'
+					})
+				} else if (res.data.code == 500) {
+					uni.$u.toast('服务器错误，请稍后再试')
+				}
+				if (res.data.code == 200) {
+					resolve(res.data)
+				}
 			},
 			fail(err) {
 				reject(err.data)
 			}
 		})
-	}).catch(res => {
-		console.log(res, 'erro')
+	}).catch(err => {
+		uni.$u.toast('服务器连接超时，请稍后再试')
 	})
 
 }

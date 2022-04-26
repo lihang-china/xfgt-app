@@ -152,7 +152,7 @@
 			this.getUserinfo()
 		},
 		onShow() {
-			// this.getLocation()
+			this.getLocation()
 			//打卡页面定时刷新用户位置信息
 			this.initTimer()
 			setInterval(() => {
@@ -195,11 +195,11 @@
 				s = s.toFixed(2)
 				if (s * 1000 < Number(Number(100)) + 5) {
 					this.isClock = true
-					console.log("未超出范围：" + s * 100)
+					// console.log("未超出范围：" + s * 100)
 					return true
 				} else {
 					this.distanceFlag = true
-					console.log("超出范围：" + s)
+					// console.log("超出范围：" + s)
 					return false
 				}
 			},
@@ -232,26 +232,29 @@
 				this.$url('/pages/clockrules/index')
 			},
 			handelClocked() {
-				// if (this.isClock == true) {
-					if (this.upClock == true && this.downClock == true) {
-						this.cloedValue = '更新', this.clockEndvalue = this.$moment(new Date()).format("HH:mm")
-					} else {
-						this.upClock == true ? (this.downClock = true, this.cloedValue = '下班', this.clockEndvalue = this
-							.$moment(new Date()).format("HH:mm")) : (this.upClock =
-							true, this
-							.cloedValue = '上班', this.clockStartvalue = this.$moment(new Date()).format("HH:mm"))
-					}
+				if (this.isClock == true) {
 					clocked({
-						employeesId:uni.getStorageSync('user_info').user.userId,
-						teamId:3,
-						punchPlace:"中控科sda技园"
+						employeesId: uni.getStorageSync('user_info').user.userId,
+						teamId: 3,
+						punchPlace: "中控科技园"
 					}).then(res => {
 						if (res.code == 200) {
+							if (this.upClock == true && this.downClock == true) {
+								this.cloedValue = '更新', this.clockEndvalue = this.$moment(new Date()).format(
+									"HH:mm")
+							} else {
+								this.upClock == true ? (this.downClock = true, this.cloedValue = '下班', this
+									.clockEndvalue = this
+									.$moment(new Date()).format("HH:mm")) : (this.upClock =
+									true, this
+									.cloedValue = '上班', this.clockStartvalue = this.$moment(new Date()).format(
+										"HH:mm"))
+							}
 							this.show = true
 						}
 					})
 					this.$forceUpdate()
-				// }
+				}
 			}
 		}
 	}

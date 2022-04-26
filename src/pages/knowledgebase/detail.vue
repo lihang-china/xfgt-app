@@ -16,8 +16,6 @@
 					</view>
 					<view class="from-time" v-if="item.value =='createTime'">
 						<text>{{fileData[item.value]}}</text>
-						<!-- <u-datetime-picker @change="timeChange" @cancel="show = false" @confirm="handleTime(item.value)"
-							:show="show" v-model="time" mode="datetime"></u-datetime-picker> -->
 					</view>
 					<u-input border="none"
 						v-if="item.value !=='createTime' && item.value !== 'tag' && item.value !== 'content' && item.value !== 'desc'"
@@ -75,7 +73,7 @@
 			}
 		},
 		mounted() {
-			this.getKnowList()
+
 		},
 		onLoad: function(option) {
 			this.initData(option)
@@ -121,10 +119,9 @@
 					}),
 				})
 			},
-
-			getKnowList() {
-				getknowList(this.queryData).then(res => {
-					this.fileData = res.rows[2]
+			getKnowList(val) {
+				getknowList({headline:val}).then(res => {
+					this.fileData = res.rows[0]
 				})
 			},
 			timeChange(val) {
@@ -148,6 +145,7 @@
 					this.formBorder = true
 					this.title = '新建文档'
 				} else {
+					this.getKnowList(option.title)
 					this.title = '文档详情'
 					this.formBorder = false
 				}

@@ -62,20 +62,16 @@
 	.container {
 		width: 100%;
 		overflow: hidden;
+		display: flex;
+		flex-direction: column;
 	}
 
 	.app-container {
-		max-height: calc(88%);
+		flex-grow: 1;
 	}
 
 	.u-loading-icon {
 		margin-top: calc(70% - 15px);
-	}
-
-	.container-component {
-		overflow: scroll;
-		margin-top: 10px;
-		flex-grow: 1;
 	}
 
 	::v-deep .u-tabbar {

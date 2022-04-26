@@ -39,24 +39,30 @@
 					</view>
 					<u-form size="mini">
 						<u-form-item borderBottom>
-							<u-input disabledColor="rgb(255,255,255)" :disabled="!logShow" v-model="fromData.title" placeholderStyle="fontSize:12px;" placeholder="标题"
-								border="none" suffixIcon="info-circle-fill"
+							<u-input disabledColor="rgb(255,255,255)" :disabled="!logShow" v-model="fromData.title"
+								placeholderStyle="fontSize:12px;" placeholder="标题" border="none"
+								suffixIcon="info-circle-fill"
 								suffixIconStyle="color:rgb(162, 224, 232);margin-right:2px;">
 							</u-input>
 						</u-form-item>
 						<u-form-item v-show="logShow">
-							<u-input v-model="fromData.date"
-								prefixIconStyle="color:rgb(162, 224, 232);margin-right:2px;" prefixIcon="clock"
-								placeholderStyle="fontSize:12px;" @focus="handelTimePick()" placeholder="开始时间"
-								border="none">
-							</u-input>
+							<view @click="handelTimePick()">
+								<u-input
+								:readonly="true"
+								v-model="fromData.date"
+									prefixIconStyle="color:rgb(162, 224, 232);margin-right:2px;" prefixIcon="clock"
+									placeholderStyle="fontSize:12px;"  placeholder="开始时间"
+									border="none">
+								</u-input>
+							</view>
 							<u-datetime-picker @confirm="pikerConfirm" @close="pickerisSHow = false"
 								:show="pickerisSHow" v-model="pickerVal" mode="date"></u-datetime-picker>
 						</u-form-item>
 						<u-form-item v-show="!logShow" borderBottom>
 							<u-grid col="3">
 								<u-grid-item>
-									<u-input disabledColor="rgb(255,255,255)" :disabled="!logShow" v-model="fromData.startDate"
+									<u-input disabledColor="rgb(255,255,255)" :disabled="!logShow"
+										v-model="fromData.startDate"
 										prefixIconStyle="color:rgb(162, 224, 232);margin-right:2px;" prefixIcon="clock"
 										placeholderStyle="fontSize:12px;" placeholder="开始时间" border="none">
 									</u-input>
@@ -65,8 +71,9 @@
 									-
 								</u-grid-item>
 								<u-grid-item>
-									<u-input disabledColor="rgb(255,255,255)" :disabled="!logShow"  v-model="fromData.endDate" placeholderStyle="fontSize:12px;"
-										placeholder="结束时间" border="none">
+									<u-input disabledColor="rgb(255,255,255)" :disabled="!logShow"
+										v-model="fromData.endDate" placeholderStyle="fontSize:12px;" placeholder="结束时间"
+										border="none">
 									</u-input>
 								</u-grid-item>
 							</u-grid>
@@ -78,11 +85,12 @@
 							</u-input>
 						</u-form-item> -->
 
-						<u-form-item >
-							<u-textarea  :disabled="!logShow" :maxlength="200" count v-model="fromData.desc" placeholder="请输入备注">
+						<u-form-item>
+							<u-textarea :disabled="!logShow" :maxlength="200" count v-model="fromData.desc"
+								placeholder="请输入备注">
 							</u-textarea>
 						</u-form-item>
-						<u-form-item v-show="logShow" >
+						<u-form-item v-show="logShow">
 							<u-button @click="handelSubmit" color="rgb(118, 223, 220)" type="primary">提交</u-button>
 						</u-form-item>
 					</u-form>
@@ -128,14 +136,45 @@
 				selectData: [],
 				pickerVal: null,
 				logDate: undefined,
+				queryData: {
+					teamId: uni.getStorageSync('xfgt-user_team').teamId
+					// ,
+					// endrepairDate: this.$moment(new Date()).format('YYYY-MM') + '-' + String(new Date(new Date()
+					// 	.getFullYear(), new Date().getMonth() + 1, 0).getDate()),
+					// beginrepairDate: this.$moment(new Date()).format('YYYY-MM') + '-01'
+				}
 			}
 		},
 		onShow() {
 			this.getManualList()
-			this.initData()
 			this.attendanceRecordList(this.$moment(new Date()).format('YYYY-MM-DD'))
+			// this.$nextTick(()=>{
+				
+			// 	console.log(this.$refs.calendar,'calendarcalendarcalendar')
+			// 	setTimeout(()=>{
+			// 		var rightBtn = uni.createSelectorQuery().select('.uni-calendar--right')
+			// 		plus.push.addEventListener('click', () => {
+			// 			this.mounthChange()
+			// 		})
+			// 		var leftBtn = uni.createSelectorQuery().select('.uni-calendar--left')
+			// 		plus.push.addEventListener('click', () => {
+			// 			this.mounthChange()
+			// 		})
+			// 	},500)
+			// })
 		},
 		methods: {
+			// mounthChange() {
+			// 		let text = document.querySelector('.uni-calendar__header-text').innerText
+			// 		let date = new Date(this.$moment(text).format('YYYY-MM') + '-01')
+			// 		let year = text.split('/')[0]
+			// 		let month = date.getMonth()
+			// 		let startDay = this.$moment(text).format('YYYY-MM') + '-01'
+			// 		let endDay = this.$moment(new Date(year, month + 1, 0)).format('YYYY-MM-DD')
+			// 		this.queryData.endrepairDate = endDay
+			// 		this.queryData.beginrepairDate = startDay
+			// 		this.getManualList()
+			// },
 			pikerConfirm(val) {
 				this.pickerVal = val
 				this.fromData.date = this.$moment(val.value).format("YYYY-MM-DD")
@@ -159,7 +198,7 @@
 			},
 			handelSubmit() {
 				let data = {
-					teamId: 59,
+					teamId:uni.getStorageSync('xfgt-user_team').teamId,
 					employeesId: uni.getStorageSync('user_info').user.userId,
 					journalDate: this.fromData.date,
 					logCaption: this.fromData.title,
@@ -204,27 +243,23 @@
 				}
 			},
 			getManualList() {
-				selClass({
-					teamId: 59,
-					// endrepairDate: "2022-01-20",
-					// beginrepairDate: "2022-01-18"
-				}).then(res => {
-					console.log(res,'adasds')
-					res.data.daysOfList.forEach(e => {
-						this.selectData.push({
-							date: e.dateStr,
-							info: e.shiftName,
-							data: {
-								...e,
-								startDate: e.startTime,
-								endDate: e.endTime,
-								desc: e.remark,
-								tag: []
-							}
-
+				selClass(this.queryData).then(res => {
+					if (res.code == 200) {
+						res.data.daysOfList.forEach(e => {
+							this.selectData.push({
+								date: e.dateStr,
+								info: e.shiftName,
+								data: {
+									...e,
+									startDate: e.startTime,
+									endDate: e.endTime,
+									desc: e.remark,
+									tag: []
+								}
+							})
+							this.initData()
 						})
-					})
-
+					}
 				})
 			},
 			initData() {
@@ -257,6 +292,10 @@
 
 <style lang="scss" scoped>
 	@import "./style/default.scss";
+	::v-deep .uni-calendar__header-btn-box {
+		width: 10px;
+		margin: 0 3px;
+	}
 
 	::v-deep .u-picker {
 		background-color: #fff !important;

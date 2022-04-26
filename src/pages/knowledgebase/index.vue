@@ -4,7 +4,7 @@
 		</u-navbar>
 		<view class="flex-flex container-search">
 			<!-- <u-icon @click="show = true" name="calendar" size="26"></u-icon> -->
-			<u-search @custom="handleSearch" v-model="searchVal" placeholder="请输入知识库标题"></u-search>
+			<u-search @custom="handleSearch" @clear="handleReload" v-model="searchVal" placeholder="请输入知识库标题"></u-search>
 		</view>
 		<view class="container-header">
 			<ui-card class="container-banner flex-between">
@@ -49,7 +49,8 @@ import {getknowList} from '/src/api/knowbase.js'
 				booksIcon: require('/src/images/books.png'),
 				queryData:{
 					pageNum:1,
-					pageSize:10000
+					pageSize:10000,
+					headline:undefined
 				},
 			}
 		},
@@ -63,16 +64,16 @@ import {getknowList} from '/src/api/knowbase.js'
 				})
 			},
 			handleSearch(){
-				
+				this.queryData.headline = this.searchVal
+				this.getKnowList()
 			},
 			handleReload() {
 				this.searchVal = ''
-				this.fileList = this.fileData
+				this.queryData.headline = undefined
+				this.getKnowList()
 			},
 			handleSearchtime() {
-				this.fileList = this.fileData.filter(e => {
-					return e.createTime == this.$moment(this.searchTime).format('YYYY-MM-DD')
-				})
+				
 				this.show = false
 			},
 			timeChange(val) {

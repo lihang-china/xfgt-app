@@ -33,6 +33,15 @@
 </template>
 
 <script>
+	import {
+		profile
+	} from '/src/api/system.js'
+	import {
+		getInfo
+	} from '/src/api/login.js'
+	import {
+		upLoad
+	} from '/src/public/js/upLoad.js'
 	import itemEdit from './components/itemEdit.vue'
 	import {
 		itemList,
@@ -55,7 +64,6 @@
 		},
 		data() {
 			return {
-
 				imgSrc: undefined,
 				fileList: [],
 				outShow: false,
@@ -79,13 +87,40 @@
 			deletePic(event) {
 				this.fileList.splice(event.index, 1)
 			},
-			async afterRead(event) {
+			afterRead(event) {
 				this.imgSrc = event.file.url
-				// this.fileList.push({
-				// 	...event.file,
-				// 	// status: 'uploading',
-				// 	// message: '上传中'
-				// })
+				let blob = new Blob([event.file], {type: 'image/jpg'})
+				let data = {
+					url: '/system/user/profile/avatar',
+					path: event.file.url,
+					name: 'avatarfile'
+				}
+				upLoad(data).then(res => {
+					if(JSON.parse(res.data).code == 200){
+			       	this.userInfo.avatar = JSON.parse(res.data).imgUrl
+					this.editUserInfo()
+					}
+				})
+			},
+			editUserInfo(){
+				profile(this.userInfo).then(res => {
+					if (res.code == 200) {
+						getInfo().then(info=>{
+							uni.setStorage({
+								key: 'user_info',
+								data: {
+									user:{
+										...info.user
+									}
+								}
+							});
+						})
+					} else {
+						uni.showToast({
+							title: res.msg
+						})
+					}
+				})
 			},
 			handleOut() {
 				uni.removeStorage({
@@ -122,7 +157,8 @@
 
 		.container-header {
 			background-color: rgb(0, 104, 248);
-			height: 100px;
+			min-height: 100px;
+			max-height: 100px;
 			background-image: url(../../images/banner.png);
 			background-repeat: no-repeat;
 			background-size: 65%;
@@ -134,6 +170,7 @@
 				position: relative;
 
 				uni-image {
+					overflow: hidden;
 					width: 55px;
 					height: 55px;
 					max-width: 55px;

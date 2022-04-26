@@ -5,8 +5,10 @@
 	} from '/src/request/token.js'
 	export default {
 		onLaunch: function() {
+			console.log('onLaunch')
 		},
 		onShow: function() {
+				console.log('onShow')
 			uni.hideTabBar()
 			this.uniInit()
 		},
@@ -41,6 +43,8 @@
 	}
 </script>
 <style lang="scss">
+	@import "uview-ui/index.scss";
+	@import "./public/css/main.scss";
 	.uni-app--showleftwindow+.uni-tabbar-bottom {
 		display: none;
 	}
@@ -57,6 +61,5 @@
 	}
 
 	/* 注意要写在第一行，同时给style标签加入lang="scss"属性 */
-	@import "uview-ui/index.scss";
-	@import "./public/css/main.scss";
+
 </style>

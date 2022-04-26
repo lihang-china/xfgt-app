@@ -97,7 +97,7 @@
 
 <style lang="scss" scoped>
 	.container {
-		height: calc(100% - 70px);
+		height: calc(100% - 60px);
 		display: flex;
 		flex-direction: column;
 		padding: 0;
@@ -108,7 +108,6 @@
 		::v-deep .u-cell__title-text {
 			font-size: 10px;
 		}
-
 		.container-nav {
 			uni-text {
 				padding: 0 5px;

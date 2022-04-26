@@ -41,8 +41,8 @@
 </template>
 
 <script>
+	import { deviceList } from '/src/api/device' 
 	import {
-		deviceList,
 		mcontentList
 	} from '../default.js'
 	import {
@@ -79,10 +79,14 @@
 		},
 		data() {
 			return {
+				queryData:{
+					pageNum: 1,
+					pageSize: 10,
+					equCode: undefined
+				},
 				mcontentList: mcontentList,
 				mcontentItem: mcontentItem,
 				deviceData: {},
-				initList: deviceList,
 				itemList: itemList
 			}
 		},
@@ -91,9 +95,10 @@
 		},
 		methods: {
 			initData() {
-				this.deviceData = this.initList.filter(e => {
-					return e.equCode == getCurrentPages().pop().options.code //获取页面路由参数
-				})[0]
+				this.queryData.equCode = getCurrentPages().pop().options.code
+				deviceList(this.queryData).then(res=>{
+					this.deviceData = res.rows[0]
+				})
 			}
 		}
 	}
