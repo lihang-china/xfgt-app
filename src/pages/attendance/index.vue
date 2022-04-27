@@ -55,7 +55,7 @@
 									border="none">
 								</u-input>
 							</view>
-							<u-datetime-picker @confirm="pikerConfirm" @close="pickerisSHow = false"
+							<u-datetime-picker  @confirm="pikerConfirm" @cancel="pickerisSHow = false"
 								:show="pickerisSHow" v-model="pickerVal" mode="date"></u-datetime-picker>
 						</u-form-item>
 						<u-form-item v-show="!logShow" borderBottom>

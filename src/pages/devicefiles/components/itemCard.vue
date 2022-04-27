@@ -56,6 +56,7 @@
 		},
 		methods: {
 			handleView() {
+				console.log(this.cardData.equCode,'asdasdads')
 				this.$url('/pages/devicefiles/deviceDetail?code=' + this.cardData.equCode)
 			}
 		}

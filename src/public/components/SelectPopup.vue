@@ -20,14 +20,14 @@
 						</view>
 						<view v-if="item.type == 'date'" class="flex-flex sel-date">
 							<view @click="handleFocus(item.startDate.prop)">
-								<u-input :readonly="true" v-model="form[item.startDate.prop]" size="small" class="sel-input"
-									shape="circle" :placeholder="item.startDate.title">
+								<u-input :readonly="true" v-model="form[item.startDate.prop]" size="small"
+									class="sel-input" shape="circle" :placeholder="item.startDate.title">
 								</u-input>
 							</view>
 							<text class="date-text" v-if="item.endDate">至</text>
 							<view @click="handleFocus(item.endDate.prop)">
-								<u-input :readonly="true" v-model="form[item.endDate.prop]" class="sel-input" shape="circle"
-									:placeholder="item.endDate.title"></u-input>
+								<u-input :readonly="true" v-model="form[item.endDate.prop]" class="sel-input"
+									shape="circle" :placeholder="item.endDate.title"></u-input>
 							</view>
 						</view>
 						<view class="tree-list" v-if="item.type == 'tree'">
@@ -90,8 +90,7 @@
 			}
 		},
 		methods: {
-			onnodeclick(item) {
-			},
+			onnodeclick(item) {},
 			handleGetsel(val) {
 				this.form[this.selectVal] = val.value[0].value
 				this.select = false
@@ -130,6 +129,7 @@
 			handleSelect(index, idx) {
 				if (this.navList[index].children[idx].select == true) {
 					this.navList[index].children[idx].select = false
+					this.form[this.navList[index].prop] = undefined
 				} else {
 					this.navList[index].children.forEach(e => {
 						this.$set(e, 'select', false)
@@ -143,8 +143,9 @@
 </script>
 
 <style lang="scss" scoped>
-::v-deep * {
+	::v-deep * {
 		font-size: 9px !important;
+
 		.u-input {
 			height: 14px;
 		}

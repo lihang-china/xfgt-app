@@ -11,13 +11,15 @@
 			</view>
 		</u-sticky>
 		<view class="app-container">
-			<uni-list>
+			<uni-list v-if="data.list.length">
 				<uni-list-item v-for="(item,index) in data.list" :key="index">
 					<file-item :fileData="item" slot='body' />
 				</uni-list-item>
 			</uni-list>
+			<u-empty v-else iconColor="rgb(221,222,224)" mode="list">
+			</u-empty>
 		</view>
-	<!-- 	<u-datetime-picker @change="dateChange" @cancel="show = false" @confirm="handleDate" :show="show"
+		<!-- 	<u-datetime-picker @change="dateChange" @cancel="show = false" @confirm="handleDate" :show="show"
 			v-model="searchDate" mode="date">
 		</u-datetime-picker> -->
 	</view>
@@ -63,10 +65,16 @@
 
 		},
 		methods: {
-			getDocumentList() {
-				documentList(this.queryData).then(res => {
-					this.$lazyList(this.data, res.rows, 10)
+			async getDocumentList() {
+				uni.showLoading({
+					title: '加载中'
+				});
+				await documentList(this.queryData).then(res => {
+					if (res.code == 200) {
+						this.$lazyList(this.data, res.rows, 10)
+					}
 				})
+				uni.hideLoading();
 			},
 			dateChange(val) {
 				this.searchDate = val.value

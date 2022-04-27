@@ -16,13 +16,14 @@
 				<u-icon size="22" :name="require('../../images/freshen.png')"></u-icon>
 			</view>
 			<view class="container-scroll">
-				<uni-list>
+				<uni-list v-if="alarmData.length">
 					<uni-list-item  v-for="(item,index) in alarmData" :key="index">
 						<alarm-card slot="body" @cardIndex="getCardIndex" :cardData="item"
 							:listIndex="index" />
 					</uni-list-item>
 				</uni-list>
-				
+				<u-empty v-else iconColor="rgb(221,222,224)" mode="list">
+				</u-empty>
 			</view>
 		</view>
 		<swiper-card @popupState="handleClose" :open="open" :listIndex="listIndex" :listNum="3" :itemList="alarmData">

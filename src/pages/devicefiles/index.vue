@@ -7,11 +7,13 @@
 		</view>
 		<view class="app-container">
 			<view class="card-list">
-				<uni-list>
+				<uni-list v-if="deviceList.list.length">
 					<uni-list-item v-for="(item,index) in deviceList.list" :key="index">
 						<card-item :cardData="item" slot="body" />
 					</uni-list-item>
 				</uni-list>
+				<u-empty v-else iconColor="rgb(221,222,224)" mode="list">
+				</u-empty>
 			</view>
 		</view>
 	</view>
@@ -50,17 +52,22 @@
 		},
 		onShow() {
 			this.getDeviceList()
-			console.log('111show')
 		},
 		methods: {
 			handleReset() {
 				this.queryData.equName = undefined
 				this.getDeviceList()
 			},
-			getDeviceList() {
-				deviceList(this.queryData).then(res => {
-					this.$lazyList(this.deviceList, res.rows, 10)
+			async getDeviceList() {
+				uni.showLoading({
+					title: '加载中'
+				});
+				await deviceList(this.queryData).then(res => {
+					if (res.code == 200) {
+						this.$lazyList(this.deviceList, res.rows, 10)
+					}
 				})
+				uni.hideLoading();
 			},
 			handleSearch() {
 				this.queryData.equName = this.searchVal

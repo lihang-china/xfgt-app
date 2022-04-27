@@ -16,9 +16,11 @@
 		},
 		data() {
 			return {
-
 			}
-		}
+		},
+		onShow(option){
+			console.log(option,'adsa')
+		},
 	}
 </script>
 

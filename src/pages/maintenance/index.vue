@@ -9,8 +9,8 @@
 					<u-loadmore status="loading" />
 				</view>
 			</view>
-			<u-tabbar :zIndex="0" :value="activeIndex" @change="changeBar" :fixed="true" :border="false" :placeholder="false"
-				inactiveColor="" :safeAreaInsetBottom="true">
+			<u-tabbar :zIndex="0" :value="activeIndex" @change="changeBar" :fixed="true" :border="false"
+				:placeholder="false" inactiveColor="" :safeAreaInsetBottom="true">
 				<u-tabbar-item :text="item.title" :icon="item.icon" v-for="(item,index) in itemList" :key="index">
 				</u-tabbar-item>
 			</u-tabbar>
@@ -26,7 +26,7 @@
 		},
 		data() {
 			return {
-				pageName: undefined,
+				pageName: 'maintain',
 				itemList: [{
 						title: '保养',
 						icon: 'home',
@@ -42,8 +42,17 @@
 				isShow: true,
 			}
 		},
-		created() {
-			this.$store.state.pageName = 'maintain'
+		onLoad(option) {
+			if (option.title) {
+				this.$store.state.pageName = option.title
+				if (option.title == 'maintain') {
+					this.activeIndex = 0
+				} else {
+					this.activeIndex = 1
+				}
+			} else {
+				this.$store.state.pageName = 'maintain'
+			}
 		},
 		methods: {
 			changeBar(index) {

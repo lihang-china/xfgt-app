@@ -1,7 +1,7 @@
 <template>
 	<view>
-		<uni-list>
-			<uni-list-item v-for="(item,index) in orderList.list" :key="index">
+		<uni-list v-if="dataList.length">
+			<uni-list-item v-for="(item,index) in dataList" :key="index">
 				<ui-card slot="body" v-show="item[initData.type] == cardType || cardType == -1">
 					<view class="bottom-header">
 						<text>{{$moment(item.createTime).format('YYYY-MM-DD HH:mm:ss')}}</text>
@@ -34,7 +34,8 @@
 				</ui-card>
 			</uni-list-item>
 		</uni-list>
-
+		<u-empty v-else iconColor="rgb(221,222,224)" mode="list">
+		</u-empty>
 		<order-detail-card :itemData="itemList" :listIndex="listIndex" @popupState="handleClose" :open="isShow" />
 		<!-- handleClose 获取孙子组件对象 -->
 	</view>
@@ -42,20 +43,10 @@
 
 <script>
 	import {
-		listCard
-	} from '/src/api/repair.js'
-	import {
-		patrollistTask
-	} from '/src/api/patrol.js'
-	import {
-		listTask
-	} from '/src/api/maintain.js'
-	import {
 		uniList,
 		uniListItem,
 	} from '@dcloudio/uni-ui'
 	import {
-		orderList,
 		cardEdit
 	} from '../detail/defult.js'
 	import OrderDetailCard from './OrderDetailCard.vue'
@@ -66,6 +57,10 @@
 			uniList
 		},
 		props: {
+			dataList: {
+				type: Array,
+				default: () => {}
+			},
 			selData: {
 				type: Object,
 				default: () => {}
@@ -75,99 +70,15 @@
 				default: -1
 			}
 		},
-		watch: {
-			selData(val) {
-				this.queryData = {
-					...this.defaultData,
-					...val
-				}
-				this.getList()
-			},
-			'orderList.list': function(val) {
-				this.itemList = val
-			},
-		},
 		data() {
 			return {
 				itemList: [],
-				defaultData: {
-					pageSize: 10000,
-					pageNum: 1,
-					teamId: 21
-				},
-				queryData: {
-					pageSize: 10000,
-					pageNum: 1,
-					teamId: 21
-				},
 				initData: cardEdit[this.$store.state.pageName],
-				orderList: {
-					list: []
-				},
 				listIndex: 0,
 				isShow: false,
 			}
 		},
-		created() {
-			this.getList()
-		},
 		methods: {
-			getList() {
-				this.getCardList().then(res => {
-					//长列表优化方法
-					if (res.code === 200) {
-						let max = 0
-						let min = 0
-						res.rows.forEach(e => {
-							if (e.status == '0') {
-								max += 1
-							} else {
-								min += 1
-							}
-						})
-						this.$lazyList(this.orderList, res.rows, 10)
-						this.$emit('statusNum', [max, min])
-					} else {
-						uni.$u.toast(res.msg)
-					}
-				})
-			},
-			getCardList() {
-				let data = new Promise((resolve, reject) => {
-					if (this.$store.state.pageName === 'maintain') {
-						this.getMaintainlist().then(res => {
-							resolve(res)
-						})
-					} else if (this.$store.state.pageName === 'inspection') {
-						this.getPatrolList().then(res => {
-							resolve(res)
-						})
-					} else if (this.$store.state.pageName === 'repair') {
-						this.getRepairList().then(res => {
-							resolve(res)
-						})
-					}
-				})
-				return data
-			},
-			async getRepairList() {
-				let data = await listCard({
-					...this.queryData
-				})
-				return data
-			},
-			async getPatrolList() {
-				let data = await patrollistTask({
-					...this.queryData
-				})
-				return data
-			},
-			async getMaintainlist() {
-				let data = await listTask({
-					...this.queryData
-				})
-				return data
-			},
 			handleClose(data) {
 				this.isShow = data
 			},
@@ -180,12 +91,15 @@
 </script>
 
 <style lang="scss" scoped>
+	.u-empty{
+		height: 200px;
+	}
 	uni-text {
 		font-size: 9px;
 	}
 
 	.uni-list {
-		background-color: rgba(0, 0, 0, 0);	
+		background-color: rgba(0, 0, 0, 0);
 	}
 
 	.block-bottom {

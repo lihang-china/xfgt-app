@@ -48,7 +48,8 @@
 			</ui-card>
 			<ui-card :title="'消息通知'">
 				<view class="flex-center">
-					<u-notice-bar v-if="msgList[0]" icon="chat" bgColor="#0068f801" :text="msgList[0].noticeTitle +'...'">
+					<u-notice-bar v-if="msgList[0]" icon="chat" bgColor="#0068f801"
+						:text="msgList[0].noticeTitle +'...'">
 					</u-notice-bar>
 					<text v-else>暂无新通知</text>
 				</view>
@@ -101,8 +102,8 @@
 				gridList: gridList
 			}
 		},
-		mounted(){
-			this.$nextTick(function(){
+		mounted() {
+			this.$nextTick(function() {
 				this.getClockCount()
 				this.getWorkData()
 				this.getNoticeList()
@@ -115,7 +116,7 @@
 			getNoticeList() {
 				noticeList().then(res => {
 					this.msgList.splice(0)
-					this.msgList = res.rows 
+					this.msgList = res.rows
 				})
 			},
 			getClockCount() {
@@ -135,19 +136,17 @@
 				this.$url('/pages/clockcount/index')
 			},
 			getWorkData() {
-				this.$nextTick(function(){
+				this.$nextTick(function() {
 					selClass({
 						teamId: uni.getStorageSync('xfgt-user_team').teamId,
 						endrepairDate: this.$moment(new Date()).format('YYYY-MM-DD'),
 						beginrepairDate: this.$moment(new Date()).format('YYYY-MM-DD')
 					}).then(res => {
 						this.wordData = res.data.daysOfList[0]
-					
+
 					})
 				})
-					
-			
-			},
+			}
 		}
 	}
 </script>

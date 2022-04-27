@@ -23,7 +23,7 @@
 				</view>
 			</u-sticky>
 			<view class="container-card">
-				<order-card :selData="selData"/>
+				<order-card :dataList="dataList.list" />
 			</view>
 			<select-popup :cardEdit="initData" :navList="navList" :open.sync="open" @getData="getData"
 				@open="handleSubmit" />
@@ -32,11 +32,13 @@
 </template>
 
 <script>
-
+	import {
+		listCard
+	} from '/src/api/repair.js'
 	import SelectPopup from '/src/public/components/SelectPopup.vue'
 	import orderCard from '../maintenance/components/OrderCard.vue'
 	import {
-	repair,
+		repair,
 		cardEdit
 	} from '../maintenance/detail/defult.js'
 	export default {
@@ -46,19 +48,42 @@
 		},
 		data() {
 			return {
+				dataList: {
+					list: []
+				},
+				queryData: {
+					pageSize: 10000,
+					pageNum: 1,
+					teamId: uni.getStorageSync('xfgt-user_team').teamId
+				},
 				ascImg: require('../../images/sm.png'),
 				initData: cardEdit[this.$store.state.pageName],
 				navList: repair,
 				iconSize: '22',
 				open: false,
 				search: undefined,
-				selData:undefined,
+				selData: undefined,
 			}
 		},
 		onShow() {
 			this.$store.state.pageName = 'repair'
+			this.getRepairList()
 		},
 		methods: {
+			async getRepairList(data) {
+				uni.showLoading({
+					title: '加载中'
+				});
+				await listCard({
+					...this.queryData,
+					...data
+				}).then(res => {
+					if (res.code == 200) {
+						this.$lazyList(this.dataList, res.rows, 10)
+					}
+				})
+				uni.hideLoading();
+			},
 			handleImg() {
 				//uni扫码功能
 				uni.scanCode({
@@ -69,7 +94,7 @@
 				});
 			},
 			getData(data) {
-			this.selData = {...data}
+				this.getRepairList(data)
 			},
 			handleSubmit(val) {
 				this.open = val
@@ -107,9 +132,10 @@
 		.ui-card {
 			.banner {
 				height: 100px;
-				uni-image{
-				      width: 70%;
-					  height: 100%;
+
+				uni-image {
+					width: 70%;
+					height: 100%;
 				}
 			}
 

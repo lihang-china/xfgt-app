@@ -4,7 +4,8 @@
 		</u-navbar>
 		<view class="flex-flex container-search">
 			<!-- <u-icon @click="show = true" name="calendar" size="26"></u-icon> -->
-			<u-search @custom="handleSearch" @clear="handleReload" v-model="searchVal" placeholder="请输入知识库标题"></u-search>
+			<u-search @custom="handleSearch" @clear="handleReload" v-model="searchVal" placeholder="请输入知识库标题">
+			</u-search>
 		</view>
 		<view class="container-header">
 			<ui-card class="container-banner flex-between">
@@ -15,7 +16,7 @@
 					<view class="flex-flex ">
 						<u-icon @click="handleView" color="rgb(255,255,255)" size="60" name="plus-circle"></u-icon>
 					</view>
-					<text>数量：{{fileList.length}}</text>
+					<text>数量：{{fileList.list.length}}</text>
 				</view>
 			</ui-card>
 			<view class="container-icon flex-between">
@@ -24,7 +25,7 @@
 			</view>
 		</view>
 		<view class="app-container">
-			<item-card :itemData="item" v-for="(item,index) in fileList" :key="index"></item-card>
+			<item-card :itemData="item" v-for="(item,index) in fileList.list" :key="index"></item-card>
 		</view>
 		<u-datetime-picker @cancel="show = false" @change="timeChange" @confirm="handleSearchtime" :show="show"
 			v-model="searchTime" mode="date"></u-datetime-picker>
@@ -32,7 +33,9 @@
 </template>
 
 <script>
-import {getknowList} from '/src/api/knowbase.js'
+	import {
+		getknowList
+	} from '/src/api/knowbase.js'
 	import itemCard from './components/itemCard.vue'
 	export default {
 		components: {
@@ -40,30 +43,38 @@ import {getknowList} from '/src/api/knowbase.js'
 		},
 		data() {
 			return {
-				searchVal:'',
+				searchVal: '',
 				fileData: [],
 				show: false,
 				searchTime: Number(new Date()),
-				fileList: [],
+				fileList: {
+					list: []
+				},
 				ascIcon: require('/src/images/asc.png'),
 				booksIcon: require('/src/images/books.png'),
-				queryData:{
-					pageNum:1,
-					pageSize:10000,
-					headline:undefined
+				queryData: {
+					pageNum: 1,
+					pageSize: 10000,
+					headline: undefined
 				},
 			}
 		},
-		mounted(){
+		mounted() {
 			this.getKnowList()
 		},
 		methods: {
-			getKnowList(){
-				getknowList(this.queryData).then(res=>{
-					this.fileList = res.rows
+			async getKnowList() {
+				uni.showLoading({
+					title: '加载中'
+				});
+				await getknowList(this.queryData).then(res => {
+					if (res.code == 200) {
+						this.$lazyList(this.fileList, res.rows, 10)
+					}
 				})
+				uni.hideLoading();
 			},
-			handleSearch(){
+			handleSearch() {
 				this.queryData.headline = this.searchVal
 				this.getKnowList()
 			},
@@ -73,7 +84,7 @@ import {getknowList} from '/src/api/knowbase.js'
 				this.getKnowList()
 			},
 			handleSearchtime() {
-				
+
 				this.show = false
 			},
 			timeChange(val) {
@@ -103,7 +114,7 @@ import {getknowList} from '/src/api/knowbase.js'
 		}
 
 		.container-header {
-			padding:8px;
+			padding: 8px;
 
 			.banner-left {
 				border-right: 1px solid rgb(220, 220, 220);

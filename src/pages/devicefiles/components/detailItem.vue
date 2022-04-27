@@ -8,40 +8,17 @@
 			</view>
 		</ui-card>
 		<ui-card>
-			<u-collapse :border="false">
-				<u-collapse-item :border="false" title="保养记录" name="Docs guide">
-					<view class="item-scroll">
-						<view class="flex-column collapse-item" v-for="(data,idx) in mcontentList" :key="idx">
-							<view class="flex-between" v-for="(item,index) in mcontentItem" :key="index">
-								<text v-if="item.value !== 'createTime'">{{item.title}}：</text><text
-									v-if="item.value !== 'status'"
-									:class="[item.value == 'createTime' ? 'font-black' :'']">{{data[item.value]}}</text>
-								<u-tag :type="data[item.value] == 0 ? undefined : 'warning'" size="mini"
-									v-if="item.value == 'status'" :text="data[item.value] | monStatus"></u-tag>
-							</view>
-						</view>
-					</view>
-				</u-collapse-item>
-				<u-collapse-item title="维修记录" name="Variety components">
-					<view class="item-scroll">
-						<view class="flex-column collapse-item" v-for="(data,index) in mcontentList" :key="index">
-							<view class="flex-between" v-for="(item,idx) in mcontentItem" :key="idx">
-								<text v-if="item.value !== 'createTime'">{{item.title}}：</text><text
-									v-if="item.value !== 'status'"
-									:class="[item.value == 'createTime' ? 'font-black' :'']">{{data[item.value]}}</text>
-								<u-tag :type="data[item.value] == 0 ? undefined : 'warning'" size="mini"
-									v-if="item.value == 'status'" :text="data[item.value] | monStatus"></u-tag>
-							</view>
-						</view>
-					</view>
-				</u-collapse-item>
-			</u-collapse>
+			<u-cell-group :border="false">
+				<u-cell v-for="(item,index) in cellList" :key="index"  @click="handleSeldetail(item.value)" :border="false" :isLink="true" :title="item.title"></u-cell>
+			</u-cell-group>
 		</ui-card>
 	</view>
 </template>
 
 <script>
-	import { deviceList } from '/src/api/device' 
+	import {
+		deviceList
+	} from '/src/api/device'
 	import {
 		mcontentList
 	} from '../default.js'
@@ -79,7 +56,8 @@
 		},
 		data() {
 			return {
-				queryData:{
+				cellList:[{title:'保养记录',value:'maintain'},{title:'维修记录',value:'inspection'}],
+				queryData: {
 					pageNum: 1,
 					pageSize: 10,
 					equCode: undefined
@@ -90,14 +68,19 @@
 				itemList: itemList
 			}
 		},
-		created() {
+		
+		mounted() {
 			this.initData()
 		},
 		methods: {
+			handleSeldetail(val){
+				this.$url('/pages/maintenance/index?title=' + val + '&&value=' + this.queryData.equCode )
+			},
 			initData() {
 				this.queryData.equCode = getCurrentPages().pop().options.code
-				deviceList(this.queryData).then(res=>{
+				deviceList(this.queryData).then(res => {
 					this.deviceData = res.rows[0]
+					console.log(this.deviceData)
 				})
 			}
 		}
@@ -168,4 +151,5 @@
 			font-size: 10px;
 		}
 	}
+	
 </style>

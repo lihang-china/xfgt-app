@@ -24,7 +24,7 @@
 			</view>
 		</view>
 		<view class="container-bottom">
-			<order-card :selData="selData" :cardType="type" @statusNum="getStatusNum" />
+			<order-card :dataList="orderList.list" :selData="selData" :cardType="type" />
 			<select-popup @getData="getData" :cardEdit="initData" :navList="navList" :open.sync="isShow"
 				@open="handleSubmit" />
 		</view>
@@ -32,6 +32,12 @@
 </template>
 
 <script>
+	import {
+		patrollistTask
+	} from '/src/api/patrol.js'
+	import {
+		listTask
+	} from '/src/api/maintain.js'
 	import SelectPopup from '/src/public/components/SelectPopup.vue'
 	import OrderCard from '../components/OrderCard.vue'
 	import {
@@ -47,10 +53,17 @@
 		},
 		data() {
 			return {
+				queryData: {
+					pageSize: 10000,
+					pageNum: 1,
+					teamId: uni.getStorageSync('xfgt-user_team').teamId,
+				},
 				selData: {},
 				type: undefined,
 				initData: cardEdit[this.$store.state.pageName],
-				orderList: orderList,
+				orderList: {
+					list: []
+				},
 				isShow: false,
 				navList: maintainNav,
 				baseList: [{
@@ -74,17 +87,68 @@
 			} else if (this.$store.state.pageName == 'inspection') {
 				this.navList = inspection
 			}
+			this.getList()
 		},
 		methods: {
+			async getList() {
+				uni.showLoading({
+					title: '加载中'
+				});
+				await this.getCardList().then(res => {
+					//长列表优化方法
+					if (res.code === 200) {
+						let max = 0
+						let min = 0
+						res.rows.forEach(e => {
+							if (e.status == '0') {
+								max += 1
+							} else {
+								min += 1
+							}
+						})
+						this.$lazyList(this.orderList, res.rows, 10)
+						this.baseList[0].value = max
+						this.baseList[1].value = min
+					} else {
+						uni.$u.toast(res.msg)
+					}
+				})
+				uni.hideLoading();
+			},
+			getCardList() {
+				let data = new Promise((resolve, reject) => {
+					if (this.$store.state.pageName === 'maintain') {
+						this.getMaintainlist().then(res => {
+							resolve(res)
+						})
+					} else if (this.$store.state.pageName === 'inspection') {
+						this.getPatrolList().then(res => {
+							resolve(res)
+						})
+					}
+				})
+				return data
+			},
+			async getPatrolList() {
+				let data = await patrollistTask({
+					...this.queryData
+				})
+				return data
+			},
+			async getMaintainlist() {
+				let data = await listTask({
+					...this.queryData
+				})
+				return data
+			},
 			getData(data) {
-				this.selData = {
+				this.queryData = {
+					...this.queryData,
 					...data
 				}
+				this.getList()
 			},
-			getStatusNum(val) {
-				this.baseList[0].value = val[0]
-				this.baseList[1].value = val[1]
-			},
+
 			hadnleChange(row) {
 				this.type = row.type
 			},
@@ -108,6 +172,7 @@
 		::v-deep .u-cell__title-text {
 			font-size: 10px;
 		}
+
 		.container-nav {
 			uni-text {
 				padding: 0 5px;
