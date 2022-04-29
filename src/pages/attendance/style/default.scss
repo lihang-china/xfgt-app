@@ -37,9 +37,15 @@
 	justify-content: center;
 }
 			.bottom-center {
+				*{
+					font-size: 11px !important;
+				}
 				height: 100%;
 				.log-create{
 					height: 100%;
+					uni-text{
+						font-size: 9px !important;
+					}
 				}
 				.log-form{
             	width: 100%;
@@ -208,7 +214,7 @@
 				}
 
 				margin:2px;
-				height: 30px;
+				height: 32px;
 
 				uni-view{
 					height: 100%;

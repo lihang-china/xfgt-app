@@ -20,15 +20,14 @@
 						</u-form-item>
 					</u-form>
 					<view @click="createLog" v-else class="log-create flex-column-center">
-						<u-icon size="24" name="file-text" color="rgb(200,200,200)" />
-						<text>点击新建日志</text>
+						<u-icon size="28" name="file-text" color="rgb(200,200,200)" />
+						<text class="ui-h3">点击新建日志</text>
 					</view>
 				</view>
 				<view v-else class="bottom-none">
 					<text>今日暂无排班信息</text>
 				</view>
 			</view>
-
 		</view>
 		<u-popup :duration="200" :show="show" :round="10" mode="center" @close="popupClose">
 			<ui-card>
@@ -291,6 +290,7 @@
 </script>
 
 <style lang="scss" scoped>
+
 	@import "./style/default.scss";
 	::v-deep .uni-calendar__header-btn-box {
 		width: 10px;

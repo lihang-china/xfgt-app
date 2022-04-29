@@ -16,7 +16,7 @@
 					<view class="flex-flex ">
 						<u-icon @click="handleView" color="rgb(255,255,255)" size="60" name="plus-circle"></u-icon>
 					</view>
-					<text>数量：{{fileList.list.length}}</text>
+					<text>数量：{{fileList.length}}</text>
 				</view>
 			</ui-card>
 			<view class="container-icon flex-between">
@@ -25,7 +25,7 @@
 			</view>
 		</view>
 		<view class="app-container">
-			<item-card :itemData="item" v-for="(item,index) in fileList.list" :key="index"></item-card>
+			<item-card :itemData="item" v-for="(item,index) in fileList" :key="index"></item-card>
 		</view>
 		<u-datetime-picker @cancel="show = false" @change="timeChange" @confirm="handleSearchtime" :show="show"
 			v-model="searchTime" mode="date"></u-datetime-picker>
@@ -47,9 +47,7 @@
 				fileData: [],
 				show: false,
 				searchTime: Number(new Date()),
-				fileList: {
-					list: []
-				},
+				fileList:[],
 				ascIcon: require('/src/images/asc.png'),
 				booksIcon: require('/src/images/books.png'),
 				queryData: {

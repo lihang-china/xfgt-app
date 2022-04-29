@@ -84,14 +84,13 @@
 			this.getList()
 		},
 		methods: {
-
 			handleSearch(val) {
 				this.date = this.$moment(val.value).format('YYYY-MM-DD')
 				this.getList()
 				this.show = false
+				this.getList()
 			},
 			getList() {
-				console.log(this.$moment(this.date).format('YYYY-MM-DD'), 'asdsad')
 				clockCount({
 					beginrepairDate: this.$moment(this.date).format('YYYY-MM') + '-01',
 					endrepairDate: this.$moment(this.date).format('YYYY-MM-DD'),

@@ -24,7 +24,7 @@
 			</view>
 		</view>
 		<view class="container-bottom">
-			<order-card :dataList="orderList.list" :selData="selData" :cardType="type" />
+			<order-card :dataList="orderList" :selData="selData" :cardType="type" />
 			<select-popup @getData="getData" :cardEdit="initData" :navList="navList" :open.sync="isShow"
 				@open="handleSubmit" />
 		</view>
@@ -61,9 +61,7 @@
 				selData: {},
 				type: undefined,
 				initData: cardEdit[this.$store.state.pageName],
-				orderList: {
-					list: []
-				},
+				orderList:[],
 				isShow: false,
 				navList: maintainNav,
 				baseList: [{

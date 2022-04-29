@@ -89,7 +89,6 @@
 			},
 			afterRead(event) {
 				this.imgSrc = event.file.url
-				let blob = new Blob([event.file], {type: 'image/jpg'})
 				let data = {
 					url: '/system/user/profile/avatar',
 					path: event.file.url,
@@ -105,6 +104,9 @@
 			editUserInfo(){
 				profile(this.userInfo).then(res => {
 					if (res.code == 200) {
+						uni.showToast({
+							title:'修改成功'
+						})
 						getInfo().then(info=>{
 							uni.setStorage({
 								key: 'user_info',

@@ -3,39 +3,39 @@ import Vue from 'vue'
 var lazyTimer = true
 var timer = undefined
 exports.install = function() {
-	Vue.prototype.$lazyList = (obj, arr, num) => {
+	Vue.prototype.$lazyList = async (list, arr, num) => {
 		//num 不要太大，最好不要超过50根据设备性能修改
 		//针对长列表优化，每隔一秒加载num条数据,num为步长每次刷新数据条数
-		//obj为展示数据 参数必须为对象， arr必须为数组
+		//list为展示数据 参数必须为对象， list,arr必须为数组
 		//lazyTimer 判断定时器是否结束，如果没有结束则清空定时器重新开始 (防止数据未加载完成后搜索导致数据混乱)
 		//arr为原始数据
 		if (lazyTimer == false) {
 			clearInterval(timer)
 		}
 		if (arr && arr.length && arr.length > num) {
-			obj.list.splice(0)
+			list.splice(0)
 			let step = num
-			obj.list = arr.slice(obj.list.length, step) //初始步数数据，防止定时时数据为空
+			list.push.apply(list, arr.slice(0, step)) //初始步数数据，防止定时时数据为空
 			lazyTimer = false
 			timer = setInterval(() => {
-				if (arr.length - obj.list.length < step) {
-					step += (arr.length - obj.list.length)
-					obj.list.push.apply(obj.list, arr.slice(obj.list.length, step))
+				if (arr.length - list.length < step) {
+					step += (arr.length - list.length)
+					list.push.apply(list, arr.slice(list.length, step))
 					//拼接剩余数组长度
 					clearInterval(timer)
 				} else {
 					step += num
-					obj.list.push.apply(obj.list, arr.slice(obj.list.length, step))
+					list.push.apply(list, arr.slice(list.length, step))
 					//每次拼接步数长度的数组
 				}
-				if (arr.length == obj.list.length) {
+				if (arr.length == list.length) {
 					lazyTimer = true
 					clearInterval(timer)
 				}
 			}, 1000)
 		} else {
 			// 不符合步长的之间返回搜索数组
-			obj.list = arr
+			list.push.apply(list, arr) 
 		}
 
 	}

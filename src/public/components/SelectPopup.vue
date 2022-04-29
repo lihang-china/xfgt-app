@@ -144,10 +144,10 @@
 
 <style lang="scss" scoped>
 	::v-deep * {
-		font-size: 9px !important;
+		font-size: 10px !important;
 
 		.u-input {
-			height: 14px;
+			height: 18px;
 		}
 	}
 

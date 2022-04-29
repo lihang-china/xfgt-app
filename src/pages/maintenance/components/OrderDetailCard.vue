@@ -87,8 +87,9 @@
 </script>
 
 <style lang="scss" scoped>
+
 	.container {
-		uni-text {
+	* uni-text {
 			font-size: 10px;
 		}
 
@@ -107,7 +108,7 @@
 
 				uni-text {
 					&:nth-child(1) {
-						font-size: 9px;
+						font-size: 10px;
 						color: rgb(72, 72, 72);
 						white-space: nowrap;
 					}
@@ -115,7 +116,7 @@
 					&:nth-child(2) {
 						margin-left: 20px;
 						overflow: hidden;
-						font-size: 8px;
+						font-size: 9px;
 						color: rgb(142, 143, 144);
 						  white-space: nowrap;
 						    text-overflow: ellipsis

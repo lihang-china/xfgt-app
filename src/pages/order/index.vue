@@ -23,7 +23,7 @@
 				</view>
 			</u-sticky>
 			<view class="container-card">
-				<order-card :dataList="dataList.list" />
+				<order-card :dataList="dataList" />
 			</view>
 			<select-popup :cardEdit="initData" :navList="navList" :open.sync="open" @getData="getData"
 				@open="handleSubmit" />
@@ -48,9 +48,7 @@
 		},
 		data() {
 			return {
-				dataList: {
-					list: []
-				},
+				dataList: [],
 				queryData: {
 					pageSize: 10000,
 					pageNum: 1,
@@ -79,6 +77,8 @@
 					...data
 				}).then(res => {
 					if (res.code == 200) {
+						let list = []
+						this.dataList = []
 						this.$lazyList(this.dataList, res.rows, 10)
 					}
 				})
@@ -132,10 +132,12 @@
 		.ui-card {
 			.banner {
 				height: 100px;
+				min-height: 100px;
+				max-height: 100px;
 
 				uni-image {
-					width: 70%;
-					height: 100%;
+					width: 140px;
+					height: 100px;
 				}
 			}
 

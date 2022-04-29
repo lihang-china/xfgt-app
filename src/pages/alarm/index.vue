@@ -77,7 +77,7 @@
 				alarmList().then(res=>{
 					if(res.data){
 						this.alarmList = res.data
-						this.alarmData = res.data
+						this.$lazyList(this.alarmData ,res.data,10)
 						// res.data.forEach(e=>{
 						// this.chartData.categories.includes(e) ?	this.chartData.categories.push(e.create):''	
 						// this.chartData.series.

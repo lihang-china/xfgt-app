@@ -2,8 +2,8 @@
     "name" : "XFGT",
     "appid" : "__UNI__624DD6C",
     "description" : "",
-    "versionName" : "1.0.4",
-    "versionCode" : 105,
+    "versionName" : "1.0.7",
+    "versionCode" : 108,
     "transformPx" : false,
     "h5" : {
         "sdkConfigs" : {

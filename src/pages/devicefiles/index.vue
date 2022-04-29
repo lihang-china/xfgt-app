@@ -7,8 +7,8 @@
 		</view>
 		<view class="app-container">
 			<view class="card-list">
-				<uni-list v-if="deviceList.list.length">
-					<uni-list-item v-for="(item,index) in deviceList.list" :key="index">
+				<uni-list v-if="deviceList.length">
+					<uni-list-item v-for="(item,index) in deviceList" :key="index">
 						<card-item :cardData="item" slot="body" />
 					</uni-list-item>
 				</uni-list>
@@ -40,9 +40,7 @@
 		data() {
 			return {
 				searchVal: undefined,
-				deviceList: {
-					list: []
-				},
+				deviceList: [],
 				queryData: {
 					pageNum: 1,
 					pageSize: 1000000,

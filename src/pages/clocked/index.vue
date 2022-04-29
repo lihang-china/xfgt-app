@@ -21,7 +21,7 @@
 			</view>
 			<ui-card class="clocked-header">
 				<view class="flex-between">
-					<u-avatar :src="imgSrc" fontSize="16" randomBgColor></u-avatar>
+					<u-avatar size="50" :src="imgSrc" fontSize="20px" randomBgColor></u-avatar>
 					<view class="flex-column">
 						<text>{{userInfo.userName}}</text>
 						<text class="clocked-tips" @click="routerMap()">{{clockTips}}: {{clockPath}}</text>
@@ -148,10 +148,8 @@
 		onHide() {
 			clearInterval(this.timer);
 		},
-		onLoad() {
-			this.getUserinfo()
-		},
 		onShow() {
+			this.getUserinfo()
 			this.getLocation()
 			//打卡页面定时刷新用户位置信息
 			this.initTimer()
@@ -160,8 +158,8 @@
 			}, 1000)
 		},
 		methods: {
-			getUserinfo() {
-				var data = uni.getStorageSync('user_info')
+			getUserinfo() {	
+				let data = uni.getStorageSync('user_info')
 				this.userInfo = data.user
 				this.imgSrc = data.user.avatar
 			},

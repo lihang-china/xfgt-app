@@ -143,7 +143,6 @@
 						beginrepairDate: this.$moment(new Date()).format('YYYY-MM-DD')
 					}).then(res => {
 						this.wordData = res.data.daysOfList[0]
-
 					})
 				})
 			}
@@ -195,7 +194,7 @@
 				height: 30%;
 
 				uni-text {
-					font-size: 8px;
+					font-size: 9px;
 				}
 			}
 

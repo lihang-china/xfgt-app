@@ -8,9 +8,11 @@
 					<u-icon size="90px" :name="require('../../images/update.png')"></u-icon>
 				</view>
 			</view>
-			<text class="version">Version:0.5.5</text>
-			<u-button @click="handleUpdate()">{{btntext}}</u-button>
-			<u-line-progress v-if="isTrue" :percentage="speed" height="4" :showText="false"></u-line-progress>
+			<view class="bottom">
+				<text class="version">Version:0.5.5</text>
+				<u-button @click="handleUpdate()">{{btntext}}</u-button>
+				<u-line-progress v-if="isTrue" :percentage="speed" height="4" :showText="false"></u-line-progress>
+			</view>
 		</view>
 	</u-popup>
 </template>
@@ -29,7 +31,7 @@
 		created() {
 			//条件编译
 			// #ifdef APP
-			this.show = true 
+			this.show = true
 			// #endif
 		},
 		methods: {
@@ -43,7 +45,7 @@
 					success: downloadResult => { //下载成功
 						if (downloadResult.statusCode == 200) {
 							this.btntext = "正在安装..."
-								this.show = false
+							this.show = false
 							plus.runtime.install( //安装
 								downloadResult.tempFilePath, {
 									force: true
@@ -76,8 +78,8 @@
 		// background-image: url(../../images/update.png);
 		background-size: 50%;
 		background-repeat: no-repeat;
-		width: 70vw;
-		height: 40vh;
+		width: 180px;
+		height: 180px;
 		// background-color: rgb(0, 123, 255);
 		background: linear-gradient(rgb(0, 123, 255), rgb(64, 140, 255), rgb(90, 140, 255));
 		overflow: hidden;
@@ -88,11 +90,16 @@
 			bottom: 0px;
 		}
 
+		.bottom {
+			position: absolute;
+			bottom: 0;
+			width: 100%;
+		}
+
 		.u-button {
 			margin: 10px;
 			width: calc(100% - 20px);
-			position: absolute;
-			bottom: 0;
+
 			font-size: 10px;
 			color: rgb(0, 123, 255) !important;
 			font-weight: bold;
@@ -111,7 +118,6 @@
 
 		.popup-header {
 			padding-top: 20px;
-			height: 40%;
 
 			uni-text {
 				width: 100%;

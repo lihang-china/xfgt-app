@@ -11,8 +11,8 @@
 			</view>
 		</u-sticky>
 		<view class="app-container">
-			<uni-list v-if="data.list.length">
-				<uni-list-item v-for="(item,index) in data.list" :key="index">
+			<uni-list v-if="data.length">
+				<uni-list-item v-for="(item,index) in data" :key="index">
 					<file-item :fileData="item" slot='body' />
 				</uni-list-item>
 			</uni-list>
@@ -51,9 +51,7 @@
 					pageSize: 10000,
 					fileName: undefined
 				},
-				data: {
-					list: []
-				},
+				data: [],
 				searchVal: undefined,
 				dataList: fileList,
 				show: false,

@@ -63,5 +63,11 @@
 <style lang="scss" scoped>
 	::v-deep .u-tabbar__content {
 		background-color: rgb(241, 242, 243);
+		.u-tabbar-item__icon{
+			span{
+				font-size: 16px !important;
+			}
+			
+		}
 	}
 </style>

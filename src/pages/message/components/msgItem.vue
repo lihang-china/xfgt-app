@@ -16,7 +16,9 @@
 	import {
 		msgList
 	} from '../default.js'
-	import {noticeList } from '/src/api/system.js'
+	import {
+		noticeList
+	} from '/src/api/system.js'
 	export default {
 		data() {
 			return {
@@ -29,10 +31,10 @@
 			this.getNoticeList()
 		},
 		methods: {
-			getNoticeList(){
-				noticeList().then(res=>{
-					this.msgList = res.rows
-						this.handleClick(this.msgList[Number(this.current)], this.current)
+			getNoticeList() {
+				noticeList().then(res => {
+					this.$lazyList(this.msgList, res.rows, 10)
+					this.handleClick(this.msgList[Number(this.current)], this.current)
 				})
 			},
 			handleClick(row, index) {
@@ -46,40 +48,37 @@
 <style lang="scss" scoped>
 	::v-deep .defualt-style {
 		.u-steps-item__content {
-			
 			margin-left: 6px !important;
 		}
-
 		span {
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
 			max-width: 175px;
 		}
-
 		.u-text__value {
 			margin-bottom: 3px;
-
 			span {
-				font-size: 8px !important;
+				font-size: 9px !important;
 			}
 
 		}
 	}
 
 	.unactive-card {
-		transform: scale(0.95);
+		// transform: scale(0.95);
+		
 	}
 
 	.item-card {
 		box-shadow: 1px 1px 5px 1px rgb(220, 220, 220);
 		position: relative;
-		transition: all 0.2s;
 		padding: 6px 12px;
 		margin-bottom: 4px;
 		background-color: #fff;
 		border-radius: 6px;
-
+		min-height: 40px;
+		max-height: 40px;
 		.card-line {
 			background-color: rgb(0, 110, 255);
 			height: 1px;
@@ -96,21 +95,19 @@
 			margin-left: 6px !important;
 
 		}
-
 		.u-text__value {
 			margin-bottom: 3px;
-
 			span {
+				font-weight: bold;
+				transition:0.3s all;
 				white-space: nowrap;
 				overflow: hidden;
 				text-overflow: ellipsis;
-				font-size: 9px !important;
+				font-size: 10px !important;
 				color: rgb(0, 81, 255) !important;
 				max-width: 175px;
 			}
 		}
-
-
 
 	}
 </style>

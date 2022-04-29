@@ -112,7 +112,7 @@
 	}
 
 	.scale {
-		transform: scale(0.9, 0.9);
+		transform: scale(1, 0.9);
 	}
 
 	::v-deep .u-popup__content {

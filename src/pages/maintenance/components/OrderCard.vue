@@ -36,7 +36,7 @@
 		</uni-list>
 		<u-empty v-else iconColor="rgb(221,222,224)" mode="list">
 		</u-empty>
-		<order-detail-card :itemData="itemList" :listIndex="listIndex" @popupState="handleClose" :open="isShow" />
+		<order-detail-card :itemData="dataList" :listIndex="listIndex" @popupState="handleClose" :open="isShow" />
 		<!-- handleClose 获取孙子组件对象 -->
 	</view>
 </template>
@@ -72,7 +72,6 @@
 		},
 		data() {
 			return {
-				itemList: [],
 				initData: cardEdit[this.$store.state.pageName],
 				listIndex: 0,
 				isShow: false,
@@ -95,7 +94,7 @@
 		height: 200px;
 	}
 	uni-text {
-		font-size: 9px;
+		font-size: 10px;
 	}
 
 	.uni-list {

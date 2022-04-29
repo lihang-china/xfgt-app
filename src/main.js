@@ -8,7 +8,7 @@ import {
 	uniIcons
 } from '@dcloudio/uni-ui'
 import uiCard from './public/components/Card.vue'
-import  $lazyList from './public/js/base.js'
+import   $lazyList  from './public/js/base.js'
 import  { $url } from './router/index.js'
 import uiTabbar from './pages/tabbar/tabbar.vue'
 import setting from '../setting.js'

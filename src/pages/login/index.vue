@@ -123,6 +123,7 @@
 								data.password = undefined
 							}
 							getInfo().then(info => {
+								if(info.code == 200){
 								uni.setStorage({
 									key: 'user_info',
 									data: {
@@ -132,7 +133,7 @@
 										}
 									},
 									success:()=>{
-										if(info.user.userId){
+										if(info.user && info.user.userId){
 											this.getUserDetail(info.user.userId)
 										}
 									}
@@ -143,7 +144,7 @@
 										...data,
 									}
 								});
-							})
+							}})
 						})
 
 					}
