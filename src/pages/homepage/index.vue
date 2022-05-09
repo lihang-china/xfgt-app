@@ -15,9 +15,9 @@
 				</view>
 				<view class="clendarBg-bottom">
 					<u-grid col="4">
-						<u-grid-item v-if="clockData && clockData[item.value] > 0" @click="handleGrid(item)"
+						<u-grid-item  @click="handleGrid(item)"
 							v-for="(item,index) in gridList" :key="index">
-							<u-icon color="#fff" size="20px" :name="item.icon"></u-icon>
+							<u-icon color="#fff" size="22px" :name="item.icon"></u-icon>
 							<text>{{item.title}}
 							</text>
 							<u-badge :bgColor="item.color" :absolute="true" :offset="[10,2]" :type="item.type" max="99"
@@ -29,7 +29,7 @@
 			</ui-card>
 			<ui-card :title="'今日排班信息'">
 				<view class="center-bottom ">
-					<view v-if="wordData">
+					<view>
 						<view class="bottom-icon">
 							<u-tag :text="wordData.shiftName ? wordData.shiftName :'休息' " shape="circle"></u-tag>
 							<text>{{wordData.cautionTime ? wordData.cautionTime + '——' :''}}
@@ -40,11 +40,11 @@
 						<u-icon color="rgb(60, 156, 255)" size="28px" name="clock-fill"></u-icon>
 					</view>
 				</view>
-				<view class="bottom-notice">
-					<u-notice-bar v-show="wordData.data" color="#0068f8" bgColor="#0068f801"
+				<!-- <view class="bottom-notice">
+					<u-notice-bar v-show="false" color="#0068f8" bgColor="#0068f801"
 						:text="wordData.data ?  wordData.data.desc : '空'" speed="80">
 					</u-notice-bar>
-				</view>
+				</view> -->
 			</ui-card>
 			<ui-card :title="'消息通知'">
 				<view class="flex-center">
@@ -93,7 +93,7 @@
 		},
 		data() {
 			return {
-				clockData: undefined,
+				clockData: {},
 				msgList: [],
 				selectData: selectData,
 				wordData: {},
@@ -142,7 +142,9 @@
 						endrepairDate: this.$moment(new Date()).format('YYYY-MM-DD'),
 						beginrepairDate: this.$moment(new Date()).format('YYYY-MM-DD')
 					}).then(res => {
-						this.wordData = res.data.daysOfList[0]
+						if(res.data.daysOfList[0]){
+							this.wordData = res.data.daysOfList[0]
+						}
 					})
 				})
 			}
@@ -158,7 +160,7 @@
 
 		.clendarBg {
 			uni-text {
-				color: #FFF !important;
+				color: #FFF;
 			}
 
 			.clendarBg-top {
@@ -194,12 +196,12 @@
 				height: 30%;
 
 				uni-text {
+					margin-top: 4px;
 					font-size: 9px;
+					font-weight: bold;
 				}
 			}
-
 			background-color: rgb(0, 104, 248);
-
 		}
 
 		.bottom-notice {
@@ -219,7 +221,7 @@
 				align-items: center;
 				flex-wrap: nowrap;
 				color: #fff;
-
+               
 				uni-text {
 					display: inline-table;
 				}

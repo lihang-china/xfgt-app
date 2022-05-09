@@ -60,25 +60,29 @@ export const gridList = [{
 		title: '已打卡',
 		icon: 'error-circle',
 		value: 'workDay',
-		type: 'success'
+		type: 'success',
+		textColor:'rgb(13, 217, 61)'
 	},
 	{
 		title: '未打卡',
 		icon: 'error-circle',
 		value: 'lossCount',
-		type: 'error'
+		type: 'error',
+			textColor:'rgb(225, 210, 0)'
 	},
 	{
 		title: '早退',
 		icon: 'error-circle',
 		value: 'beforeCount',
-		type: 'warning'
+		type: 'warning',
+		textColor:'rgb(217, 217, 217)'
 	},
 	{
 		title: '迟到',
 		icon: 'error-circle',
 		value: 'lateCount',
 		type: 'warning ',
-		color: 'red'
+		color: 'red',
+		textColor:'rgb(255, 42, 0)'
 	}
 ]

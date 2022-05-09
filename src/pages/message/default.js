@@ -21,10 +21,6 @@ export const itemList = [
 	{
 		title: '创建时间',
 		value: 'createTime'
-	},{
-	title: '更新时间',
-	value: 'updateTime'
-},  {
-	title: '内容',
+	},  {
 	value: 'noticeTitle'
 }, ]

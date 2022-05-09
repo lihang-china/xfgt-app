@@ -7,19 +7,15 @@
 			<view class="flex-between">
 				<view class="flex-column">
 					<text>设备名称：<text>{{cardData.equName}}</text></text>
-					<text>设备分类：<text>{{cardData.className}}</text></text>
 				</view>
-				<view>
-					<u-tag :type="cardData.equStatus | tagType" :text="cardData.equStatus | tagStatus"></u-tag>
-				</view>
-			</view>
-			<text>所在区域：<text>{{cardData.areaName}}</text></text>
-			<view class="card-bottom flex-between">
-				<text>创建时间：</text>
-				<view class="flex-flex">
-					<text>{{cardData.createTime}}</text>
-					<u-icon @click="handleView" size="22" :name="require('../../../images/eyes.png')">
+					<u-icon color="rgb(150,150,150)" @click="handleView" size="26" name="arrow-right">
 					</u-icon>
+			</view>
+			<text>所在区域：<text class="font-nowarp">{{cardData.areaName}}</text></text>
+			<view class="card-bottom">
+				<view class="flex-between">
+					<text>{{cardData.createTime}}</text>
+					<u-tag :type="cardData.equStatus | tagType" :text="cardData.equStatus | tagStatus"></u-tag>
 				</view>
 			</view>
 		</view>
@@ -56,7 +52,7 @@
 		},
 		methods: {
 			handleView() {
-				console.log(this.cardData.equCode,'asdasdads')
+				console.log(this.cardData.equCode, 'asdasdads')
 				this.$url('/pages/devicefiles/deviceDetail?code=' + this.cardData.equCode)
 			}
 		}
@@ -78,24 +74,13 @@
 	}
 
 	.card-bottom {
-		margin-top: 3px;
-		padding-top: 3px;
+		margin-top: 5px;
+		padding-top: 5px;
 		border-top: 1px solid rgb(210, 210, 210);
-
-		.flex-flex {
-			uni-text {
-				font-size: 9px;
-				color: rgb(180, 180, 180);
-				margin-right: 3px;
-			}
-		}
-
+	
 		uni-text {
-			&:nth-child(2) {
 				font-size: 9px;
 				color: rgb(180, 180, 180);
-			}
-
 		}
 	}
 </style>

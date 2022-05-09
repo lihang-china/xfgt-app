@@ -27,14 +27,15 @@
 					</view>
 				</u-form-item>
 				<u-form-item>
-					<u-button type="primary" shape="circle" @click="handelLogin()">登录 / 注册</u-button>
+					<view class="flex-column-center w-100">
+						<u-button class="submit" type="primary" shape="circle" @click="handelLogin()">登录 / 注册</u-button>
+						<text class="login-desc">未注册用户会自动注册，注册成功自动登录</text>
+					</view>
+					
 				</u-form-item>
 				<!-- 		<u-form-item>
 				<u-button shape="circle" @click="handleReg">注册</u-button> 
 				</u-form-item> -->
-				<u-form-item>
-					<text class="login-desc">未注册用户会自动注册，注册成功自动登录</text>
-				</u-form-item>
 			</u-form>
 		</view>
 		<u-modal @confirm="show = false" width="250" :show="show" :title="title" :content="content"></u-modal>
@@ -197,10 +198,12 @@
 		}
 
 		.login-from {
+			h2{
+				font-size: 30px;
+			}
 			.radio-group {
 				width: 100%;
 			}
-
 			position: fixed;
 			width: 100%;
 			height: 100%;
@@ -217,6 +220,9 @@
 		top: 35%;
 
 		.login-desc {
+			margin-top:5px ;
+			width: 100%;
+			text-align: center;
 			letter-spacing: 2px;
 			font-size: 8px;
 			color: rgba(250, 250, 250, 0.8);

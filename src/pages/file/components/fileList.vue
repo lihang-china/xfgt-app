@@ -4,21 +4,23 @@
 			<text>{{fileData.documentId}}</text>
 			<!-- <u-icon @click="handleView(fileData.filePaper)" :name="selectIcon" size="22"> </u-icon> -->
 		</view>
-		<view class="flex-flex">
-			<u-avatar :icon="fileIcon" fontSize="18" randomBgColor></u-avatar>
-			<view class="flex-column container-center">
-				<text>{{fileData.fileName}}</text>
-				<text>{{fileData.repairContacts}}</text>
+		<view class="flex-between">
+			<view class="flex-flex">
+				<!-- <u-avatar icon="order" fontSize="30"  shape="square"></u-avatar> -->
+				<u-icon name="order" size="40" color="rgb(0, 0, 0)"></u-icon>
+				<view class="flex-column container-center">
+					<text>{{fileData.fileName}}</text>
+					<!-- <text>{{fileData.repairContacts}}</text> -->
+				</view>
 			</view>
+			<u-icon color="rgb(255, 255, 255)" class="download-icon" size="26" name="download"
+				@click="handleDownload(fileData.filePaper)"></u-icon>
 		</view>
 		<view class="flex-between container-bottom">
 			<view class="flex-flex">
 				<text>文档类型：</text><text>{{fileData.fileification}}</text>
 			</view>
-			<view class="flex-flex">
-				<text>{{fileData.repairDate}}</text>
-				<u-icon size="18" :name="downLoad" @click="handleDownload(fileData.filePaper)"></u-icon>
-			</view>
+			<text>{{fileData.repairDate}}</text>
 		</view>
 	</ui-card>
 </template>
@@ -49,13 +51,16 @@
 				// plus.runtime.openURL( url )
 
 			},
-			handleDownload(url) {
+			async handleDownload(url) {
 				//下载文件
 				// #ifndef H5 || APP-PLUS
 				uni.$u.toast('请在APP或者浏览器中打开')
 				// #endif 
 				// #ifdef H5 || APP-PLUS
-				uni.downloadFile({
+				uni.showLoading({
+					title: '正在打开文件'
+				});
+				await uni.downloadFile({
 					url: url,
 					success: (res => {
 						uni.openDocument({
@@ -67,6 +72,7 @@
 						});
 					}),
 				})
+				uni.hideLoading()
 				// #endif
 
 			}
@@ -81,7 +87,7 @@
 
 	.container-header {
 		uni-text {
-			color: rgb(72, 72, 72);
+			color: rgb(150, 150, 150);
 			font-weight: bold;
 			margin-bottom: 5px;
 		}
@@ -89,13 +95,12 @@
 
 	.container-center {
 		uni-text {
-			&:nth-child(2) {
-				color: rgb(180, 180, 180);
-				max-width: 160px;
-				overflow: hidden;
-				text-overflow: ellipsis;
-				white-space: nowrap
-			}
+			margin-left: 5px;
+			color: rgb(120, 120, 120);
+			max-width: 160px;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap
 		}
 	}
 
@@ -109,5 +114,12 @@
 				}
 			}
 		}
+	}
+
+	.download-icon {
+		// border: 2px solid rgb(62, 77, 129);
+		background-color: rgb(8, 127, 255);
+		border-radius: 50%;
+		padding: 3px;
 	}
 </style>

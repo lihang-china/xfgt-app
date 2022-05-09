@@ -1,13 +1,12 @@
 <template>
 	<u-steps :current="current" direction="column">
-		<view class="item-card" :class="[current == index ? '' :'unactive-card']" @click="handleClick(item,index)"
-			v-for="(item,index) in msgList" :key="index">
+		<view class="item-card" :class="[current == index ? 'unactive-card' :'item-card']"
+			@click="handleClick(item,index)" v-for="(item,index) in msgList" :key="index">
 			<u-steps-item :title="item.noticeTitle" :class="[current == index ? 'active-style' :'defualt-style']"
 				:desc="item.createTime">
-				<u-icon size="22" color="rgb(0, 115, 255)" slot="icon"
+				<u-icon size="26" color="rgb(0, 115, 255)" slot="icon"
 					:name="current == index ? activeIcon :'bookmark-fill' "></u-icon>
 			</u-steps-item>
-			<view class="card-line" v-show="current == index"></view>
 		</view>
 	</u-steps>
 </template>
@@ -46,28 +45,15 @@
 </script>
 
 <style lang="scss" scoped>
-	::v-deep .defualt-style {
-		.u-steps-item__content {
-			margin-left: 6px !important;
-		}
-		span {
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
-			max-width: 175px;
-		}
-		.u-text__value {
-			margin-bottom: 3px;
-			span {
-				font-size: 9px !important;
-			}
-
-		}
-	}
-
-	.unactive-card {
+	::v-deep .unactive-card {
 		// transform: scale(0.95);
-		
+		background-color: rgb(10, 96, 255) !important;
+
+		* {
+			background-color: rgb(10, 96, 255) !important;
+			color: #fff !important;
+			font-size: 9px;
+		}
 	}
 
 	.item-card {
@@ -79,35 +65,5 @@
 		border-radius: 6px;
 		min-height: 40px;
 		max-height: 40px;
-		.card-line {
-			background-color: rgb(0, 110, 255);
-			height: 1px;
-			position: absolute;
-			left: 0px;
-			top: calc(50% - 2px);
-			width: calc(100% - 12px);
-			margin: 0 6px;
-		}
-	}
-
-	::v-deep .active-style {
-		.u-steps-item__content {
-			margin-left: 6px !important;
-
-		}
-		.u-text__value {
-			margin-bottom: 3px;
-			span {
-				font-weight: bold;
-				transition:0.3s all;
-				white-space: nowrap;
-				overflow: hidden;
-				text-overflow: ellipsis;
-				font-size: 10px !important;
-				color: rgb(0, 81, 255) !important;
-				max-width: 175px;
-			}
-		}
-
 	}
 </style>

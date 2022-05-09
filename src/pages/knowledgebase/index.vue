@@ -27,8 +27,8 @@
 		<view class="app-container">
 			<item-card :itemData="item" v-for="(item,index) in fileList" :key="index"></item-card>
 		</view>
-		<u-datetime-picker @cancel="show = false" @change="timeChange" @confirm="handleSearchtime" :show="show"
-			v-model="searchTime" mode="date"></u-datetime-picker>
+	<!-- 	<u-datetime-picker @cancel="show = false" @change="timeChange" @confirm="handleSearchtime" :show="show"
+			v-model="searchTime" mode="date"></u-datetime-picker> -->
 	</view>
 </template>
 
@@ -128,6 +128,7 @@
 			}
 
 			.container-banner {
+				margin: 0;
 				align-items: flex-end;
 				background-color: rgb(0, 98, 255);
 				padding-top: 16px;

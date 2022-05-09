@@ -56,7 +56,8 @@
 				queryData: {
 					pageSize: 10000,
 					pageNum: 1,
-					teamId: uni.getStorageSync('xfgt-user_team').teamId,
+					// teamId: uni.getStorageSync('xfgt-user_team').teamId,
+					teamId: 2,
 				},
 				selData: {},
 				type: undefined,

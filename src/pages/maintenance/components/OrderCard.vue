@@ -28,7 +28,9 @@
 							<text>{{item[initData.bottomList[0].field]}}</text>
 						</view>
 						<view>
-							<text @click="handleView(index,item)" class="text-btn">查看详情</text>
+							<u-icon @click="handleView(index,item)" color="rgb(72, 72, 72)" size="24"
+								name="more-dot-fill"></u-icon>
+							<!-- <text  class="text-btn">查看详情</text> -->
 						</view>
 					</view>
 				</ui-card>
@@ -90,9 +92,10 @@
 </script>
 
 <style lang="scss" scoped>
-	.u-empty{
+	.u-empty {
 		height: 200px;
 	}
+
 	uni-text {
 		font-size: 10px;
 	}
@@ -111,6 +114,8 @@
 
 		uni-text {
 			white-space: nowrap;
+			font-size: 9px;
+			color: rgb(150, 150, 150);
 
 			&:nth-child(2) {
 				overflow: hidden;
@@ -123,6 +128,9 @@
 	.bottom-header {
 		border-bottom: 1px solid rgb(226, 226, 226);
 		padding-bottom: 5px;
+		uni-text{
+			color: rgb(72,72,72);
+		}
 	}
 
 	.bottom-center {
