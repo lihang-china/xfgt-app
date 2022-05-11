@@ -475,7 +475,6 @@
 				}
 
 				color: #ffff;
-				margin: 0px 0;
 				background : linear-gradient(35deg, rgba(0, 104, 248, 0.7), rgb(0, 104, 248));
 			}
 
