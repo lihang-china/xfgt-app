@@ -128,7 +128,6 @@
 			}
 
 			.container-banner {
-				margin: 0;
 				align-items: flex-end;
 				background-color: rgb(0, 98, 255);
 				padding-top: 16px;

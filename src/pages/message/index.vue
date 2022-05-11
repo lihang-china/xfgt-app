@@ -58,32 +58,36 @@
 	.container-header {
 		padding: 12px 8px 8px 12px;
 		overflow: scroll;
-		background: linear-gradient(125deg, rgb(0, 81, 255), rgb(20, 110, 255));
-		margin: 0 8px 8px 8px;
+		background-color: rgb(253, 253, 253);
+		box-shadow: 0 0px 5px 2px rgba(212, 212, 212, 0.5);
+		// background: linear-gradient(125deg, rgb(0, 81, 255), rgb(20, 110, 255));
+		margin: 8px;
 		border-radius: 6px;
 		min-height: 150px;
 		max-height: 150px;
-
+ 
 		.flex-between {
 			&:nth-last-child(1) {
 				margin-top: 10px;
-				border-top: 1px solid rgba(234, 234, 234, 0.5);
+				border-radius: 10px;
+				// border-top: 1px solid rgba(193, 193, 193, 0.5);
 				padding: 8px;
 				flex-direction: column;
 				align-items: flex-start;
 				height: 50px;
 				overflow-y: scroll;
+				background-color: rgb(241, 242, 243);
 
 				uni-text {
 					font-size: 9px;
 					font-weight: normal !important;
-					color: #e7e7e7;
+					color: #737373;
 				}
 			}
 
 			uni-text {
 				&:nth-child(1) {
-					// font-weight: bold;
+					font-weight: bold;
 					white-space: nowrap;
 				}
 
@@ -96,7 +100,7 @@
 		}
 
 		uni-text {
-			color: rgb(240, 240, 240);
+			color: rgb(75, 75, 75);
 			margin-bottom: 4px;
 		}
 	}

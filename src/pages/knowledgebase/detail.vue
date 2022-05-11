@@ -158,6 +158,8 @@
 <style lang="scss" scoped>
 	.app-container {
 		max-height: 100%;
+		margin: 0;
+		width: calc(100% - 24px);
 	}
 
 	.ui-card {

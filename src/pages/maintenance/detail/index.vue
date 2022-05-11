@@ -62,7 +62,7 @@
 				selData: {},
 				type: undefined,
 				initData: cardEdit[this.$store.state.pageName],
-				orderList:[],
+				orderList: [],
 				isShow: false,
 				navList: maintainNav,
 				baseList: [{

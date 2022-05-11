@@ -31,7 +31,7 @@
 						<u-button class="submit" type="primary" shape="circle" @click="handelLogin()">登录 / 注册</u-button>
 						<text class="login-desc">未注册用户会自动注册，注册成功自动登录</text>
 					</view>
-					
+
 				</u-form-item>
 				<!-- 		<u-form-item>
 				<u-button shape="circle" @click="handleReg">注册</u-button> 
@@ -107,7 +107,7 @@
 						data: {
 							...res.data[0]
 						},
-						success:()=> {
+						success: () => {
 							this.$url('/pages/homepage/index', 1)
 						}
 					});
@@ -124,28 +124,29 @@
 								data.password = undefined
 							}
 							getInfo().then(info => {
-								if(info.code == 200){
-								uni.setStorage({
-									key: 'user_info',
-									data: {
-										...data,
-										user: {
-											...info.user
+								if (info.code == 200) {
+									uni.setStorage({
+										key: 'user_info',
+										data: {
+											...data,
+											user: {
+												...info.user
+											}
+										},
+										success: () => {
+											if (info.user && info.user.userId) {
+												this.getUserDetail(info.user.userId)
+											}
 										}
-									},
-									success:()=>{
-										if(info.user && info.user.userId){
-											this.getUserDetail(info.user.userId)
+									});
+									uni.setStorage({
+										key: 'xfgt-user',
+										data: {
+											...data,
 										}
-									}
-								});
-								uni.setStorage({
-									key: 'xfgt-user',
-									data: {
-										...data,
-									}
-								});
-							}})
+									});
+								}
+							})
 						})
 
 					}
@@ -183,6 +184,7 @@
 			margin-top: 30%;
 			font-size: 80rpx;
 			color: #fff;
+			text-shadow: 10px 7px 5px rgba(35, 35, 35, 0.8);
 		}
 
 		uni-text {
@@ -198,16 +200,19 @@
 		}
 
 		.login-from {
-			h2{
-				font-size: 30px;
+			h2 {
+				letter-spacing: 6px;
+				font-size: 32px;
 			}
+
 			.radio-group {
 				width: 100%;
 			}
+
 			position: fixed;
 			width: 100%;
 			height: 100%;
-			backdrop-filter: saturate(100%) blur(6px);
+			backdrop-filter: saturate(100%) blur(3px);
 			display: flex;
 			justify-content: center;
 			background-color: rgba(200, 200, 200, 0.1);
@@ -220,7 +225,7 @@
 		top: 35%;
 
 		.login-desc {
-			margin-top:5px ;
+			margin-top: 5px;
 			width: 100%;
 			text-align: center;
 			letter-spacing: 2px;

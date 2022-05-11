@@ -88,6 +88,11 @@
 </script>
 
 <style lang="scss" scoped>
+	.ui-card{
+	     &:nth-child(1){
+			 	margin-top: 15px;
+		 }
+	}
 	.detail-header {
 		.item-text {
 			margin-bottom: 6px;

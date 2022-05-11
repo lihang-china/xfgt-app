@@ -7,13 +7,13 @@
 		<view class="flex-between">
 			<view class="flex-flex">
 				<!-- <u-avatar icon="order" fontSize="30"  shape="square"></u-avatar> -->
-				<u-icon name="order" size="40" color="rgb(0, 0, 0)"></u-icon>
+				<u-icon name="order" size="40" color="rgb(107, 107, 107)"></u-icon>
 				<view class="flex-column container-center">
 					<text>{{fileData.fileName}}</text>
 					<!-- <text>{{fileData.repairContacts}}</text> -->
 				</view>
 			</view>
-			<u-icon color="rgb(255, 255, 255)" class="download-icon" size="26" name="download"
+			<u-icon color="rgb(57, 153, 255)" class="download-icon" size="26" name="download"
 				@click="handleDownload(fileData.filePaper)"></u-icon>
 		</view>
 		<view class="flex-between container-bottom">
@@ -118,7 +118,8 @@
 
 	.download-icon {
 		// border: 2px solid rgb(62, 77, 129);
-		background-color: rgb(8, 127, 255);
+		background-color: rgb(255, 255, 255);
+		box-shadow: 0 0 4px 0px rgba(166, 166, 166, 0.6);
 		border-radius: 50%;
 		padding: 3px;
 	}
